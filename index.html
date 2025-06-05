@@ -54,116 +54,50 @@
             height: 100%;
         }
 
-        /* New general neon glow animation for a single color - GLOW DECREASED FURTHER */
-        @keyframes neonGlow {
-            from {
-                text-shadow:
-                    0 0 0.2px var(--neon-blue),
-                    0 0 0.5px var(--neon-blue),
-                    0 0 1px var(--neon-blue),
-                    0 0 2px var(--neon-blue);
-            }
-            to {
-                text-shadow:
-                    0 0 0.5px var(--neon-blue),
-                    0 0 1px var(--neon-blue),
-                    0 0 1.5px var(--neon-blue),
-                    0 0 2.5px var(--neon-blue);
-            }
-        }
 
-        /* Neon glow animation for purple - GLOW DECREASED FURTHER */
-        @keyframes neonGlowPurple {
-            from {
-                text-shadow:
-                    0 0 0.2px var(--neon-purple),
-                    0 0 0.5px var(--neon-purple),
-                    0 0 1px var(--neon-purple),
-                    0 0 2px var(--neon-purple);
-            }
-            to {
-                text-shadow:
-                    0 0 0.5px var(--neon-purple),
-                    0 0 1px var(--neon-purple),
-                    0 0 1.5px var(--neon-purple),
-                    0 0 2.5px var(--neon-purple);
-            }
-        }
-
-        /* Neon glow animation for orange - GLOW DECREASED FURTHER */
-        @keyframes neonGlowOrange {
-            from {
-                text-shadow:
-                    0 0 0.2px var(--neon-orange),
-                    0 0 0.5px var(--neon-orange),
-                    0 0 1px var(--neon-orange),
-                    0 0 2px var(--neon-orange);
-            }
-            to {
-                text-shadow:
-                    0 0 0.5px var(--neon-orange),
-                    0 0 1px var(--neon-orange),
-                    0 0 1.5px var(--neon-orange),
-                    0 0 2.5px var(--neon-orange);
-            }
-        }
-
-        /* Neon glow animation for white base (for RGB text) - GLOW DECREASED FURTHER */
-        @keyframes neonGlowRgb {
-            from {
-                text-shadow:
-                    0 0 0.5px rgba(255, 255, 255, 0.3),
-                    0 0 1px rgba(255, 255, 255, 0.3),
-                    0 0 2px rgba(255, 255, 255, 0.3),
-                    0 0 4px rgba(255, 255, 255, 0.3);
-            }
-            to {
-                text-shadow:
-                    0 0 1px rgba(255, 255, 255, 0.5),
-                    0 0 2px rgba(255, 255, 255, 0.5),
-                    0 0 3px rgba(255, 255, 255, 0.5),
-                    0 0 5px rgba(255, 255, 255, 0.5);
-            }
-        }
-
-        /* Neon text effect - primary blue, now with new glow */
+        /* Neon text effect - primary blue, subtle glow */
         .neon-text {
-            background: none; /* Removed gradient background */
-            color: var(--neon-blue);
-            animation: neonGlow 2s ease-in-out infinite alternate;
+            background: linear-gradient(90deg, var(--text-gradient-start-blue), var(--text-gradient-end-blue));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow:
+                0 0 2px var(--glow-color-blue),
+                0 0 4px var(--glow-color-blue),
+                0 0 8px rgba(0, 240, 255, 0.2),
+                0 0 15px rgba(0, 240, 255, 0.1);
         }
 
         /* Neon text effect - secondary purple */
         .neon-text-purple {
-            background: none; /* Removed gradient background */
-            color: var(--neon-purple);
-            animation: neonGlowPurple 2s ease-in-out infinite alternate;
+            background: linear-gradient(90deg, var(--text-gradient-start-purple), var(--text-gradient-end-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow:
+                0 0 2px var(--glow-color-purple),
+                0 0 4px var(--glow-color-purple),
+                0 0 8px rgba(138, 43, 226, 0.2),
+                0 0 15px rgba(138, 43, 226, 0.1);
         }
 
         /* Neon text effect - tertiary orange */
         .neon-text-orange {
-            background: none; /* Removed gradient background */
-            color: var(--neon-orange);
-            animation: neonGlowOrange 2s ease-in-out infinite alternate;
+            background: linear-gradient(90deg, var(--text-gradient-start-orange), var(--text-gradient-end-orange));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow:
+                0 0 2px var(--glow-color-orange),
+                0 0 4px var(--glow-color-orange),
+                0 0 8px rgba(255, 127, 0, 0.2),
+                0 0 15px rgba(255, 127, 0, 0.1);
         }
 
-        /* Enhanced glow for "COMING IN 2026" text and "Fusion TT Club" - now with gradient text */
-        .rgb-animated-text {
-            background: linear-gradient(90deg, var(--text-gradient-start-blue), var(--text-gradient-end-purple), var(--text-gradient-start-orange)); /* Gradient background */
-            -webkit-background-clip: text; /* Clip background to text shape */
-            -webkit-text-fill-color: transparent; /* Make text transparent to show background */
-            animation: rgbCycle 10s linear infinite, neonGlowRgb 2s ease-in-out infinite alternate;
-            /* Base color is not strictly needed for fill, but good for fallback */
-            color: white;
-        }
-
-        /* Neon border effect - primary blue, subtle glow - NO CHANGE TO THIS GLOW */
+        /* Neon border effect - primary blue, subtle glow */
         .neon-border {
             border: 1px solid var(--neon-blue);
             box-shadow:
-                0 0 1px var(--neon-blue),
                 0 0 2px var(--neon-blue),
-                0 0 4px rgba(0, 240, 255, 0.1);
+                0 0 4px var(--neon-blue),
+                0 0 8px rgba(0, 240, 255, 0.2);
         }
 
         /* Section transitions for page-like behavior */
@@ -192,8 +126,8 @@
         nav {
             background: linear-gradient(90deg, rgba(0,0,0,0.8), rgba(10, 25, 47, 0.9), rgba(0,0,0,0.8));
             border-bottom: 1px solid rgba(0, 240, 255, 0.2);
-            box-shadow: 0 0 8px rgba(0, 240, 255, 0.05); /* GLOW DECREASED FURTHER */
-            backdrop-filter: blur(4px); /* BLUR DECREASED FURTHER */
+            box-shadow: 0 5px 15px rgba(0, 240, 255, 0.1);
+            backdrop-filter: blur(5px); /* Added blur to nav */
         }
 
         /* Calendar styles */
@@ -201,11 +135,12 @@
             display: grid;
             grid-template-columns: repeat(7, 1fr);
             gap: 4px;
-            background-color: rgba(10, 25, 47, 0.4); /* Darker blue, more transparent */
+            /* Updated for more glassy effect */
+            background-color: rgba(10, 25, 47, 0.4); /* More transparent */
             padding: 8px;
             border-radius: 8px;
-            box-shadow: 0 0 2px rgba(0, 240, 255, 0.05); /* GLOW DECREASED FURTHER */
-            backdrop-filter: blur(5px); /* BLUR DECREASED FURTHER */
+            box-shadow: 0 0 8px rgba(0, 240, 255, 0.1);
+            backdrop-filter: blur(15px); /* Increased blur */
         }
 
         .calendar-day, .calendar-header {
@@ -216,20 +151,20 @@
         }
 
         .calendar-header {
-            background-color: rgba(0, 240, 255, 0.08); /* GLOW DECREASED FURTHER */
+            background-color: rgba(0, 240, 255, 0.1);
             font-weight: 600;
             color: var(--neon-blue);
         }
 
         .calendar-day {
-            background-color: rgba(10, 25, 47, 0.4); /* Darker blue, more transparent */
+            background-color: rgba(10, 25, 47, 0.4); /* More transparent */
             color: white;
             cursor: pointer;
             transition: background-color 0.2s ease;
         }
 
         .calendar-day:hover {
-            background-color: rgba(0, 240, 255, 0.06); /* GLOW DECREASED FURTHER */
+            background-color: rgba(0, 240, 255, 0.08);
         }
 
         .calendar-day.selected {
@@ -239,12 +174,12 @@
         }
 
         .event-dot {
-            width: 4px; /* DECREASED SIZE */
-            height: 4px; /* DECREASED SIZE */
+            width: 5px;
+            height: 5px;
             background-color: var(--neon-orange);
             border-radius: 50%;
             margin: 3px auto 0;
-            box-shadow: 0 0 0.5px var(--neon-orange); /* GLOW DECREASED FURTHER */
+            box-shadow: 0 0 2px var(--neon-orange);
         }
 
         /* Modal styles */
@@ -257,25 +192,25 @@
             width: 100%;
             height: 100%;
             overflow: auto;
-            background-color: rgba(0, 0, 0, 0.4); /* Slightly more opaque for blur */
-            backdrop-filter: blur(5px); /* BLUR DECREASED FURTHER */
+            background-color: rgba(0, 0, 0, 0.7); /* Slightly more opaque for blur */
+            backdrop-filter: blur(10px); /* Increased blur */
             justify-content: center;
             align-items: center;
         }
 
         .modal-content {
             /* Updated for more glassy effect */
-            background: linear-gradient(135deg, rgba(10, 25, 47, 0.15), rgba(20, 35, 60, 0.15)); /* More transparent overall - DECREASED */
+            background: linear-gradient(135deg, rgba(10, 25, 47, 0.4), rgba(20, 35, 60, 0.4)); /* More transparent overall */
             margin: auto;
             padding: 30px;
             border-radius: 15px;
             width: 90%;
             max-width: 500px;
-            box-shadow: 0 0 3px rgba(0, 240, 255, 0.08), inset 0 0 1px rgba(0, 240, 255, 0.03); /* GLOW DECREASED FURTHER */
+            box-shadow: 0 0 20px rgba(0, 240, 255, 0.4), inset 0 0 10px rgba(0, 240, 255, 0.2); /* Enhanced outer and inner glow */
             position: relative;
             animation: fadeIn 0.8s ease-out; /* Slower fade in */
-            border: 1px solid rgba(0, 240, 255, 0.2); /* More subtle border */
-            backdrop-filter: blur(8px); /* BLUR DECREASED FURTHER */
+            border: 2px solid var(--neon-blue); /* More prominent border */
+            backdrop-filter: blur(20px); /* Increased blur significantly for glassy look */
             overflow: hidden; /* Ensure content stays within rounded corners */
         }
 
@@ -286,7 +221,7 @@
             left: -50%;
             width: 200%;
             height: 200%;
-            background: radial-gradient(circle at center, rgba(138, 43, 226, 0.02), transparent 70%); /* DECREASED OPACITY */
+            background: radial-gradient(circle at center, rgba(138, 43, 226, 0.1), transparent 70%);
             animation: rotateGlow 35s linear infinite; /* Slower rotation */
             z-index: -1;
         }
@@ -323,18 +258,18 @@
         }
 
         ::-webkit-scrollbar-track {
-            background: rgba(0, 0, 0, 0.1); /* DECREASED OPACITY */
+            background: rgba(0, 0, 0, 0.2);
             border-radius: 10px;
         }
 
         ::-webkit-scrollbar-thumb {
             background: linear-gradient(to bottom, var(--neon-blue), var(--neon-purple), var(--neon-orange));
             border-radius: 10px;
-            box-shadow: 0 0 0.5px var(--neon-blue); /* GLOW DECREASED FURTHER */
+            box-shadow: 0 0 2px var(--neon-blue);
         }
 
         ::-webkit-scrollbar-thumb:hover {
-            background: linear-gradient(to bottom, rgba(0, 240, 255, 0.6), rgba(138, 43, 226, 0.6), rgba(255, 127, 0, 0.6)); /* DECREASED OPACITY */
+            background: linear-gradient(to bottom, rgba(0, 240, 255, 0.8), rgba(138, 43, 226, 0.8), rgba(255, 127, 0, 0.8));
         }
 
         /* Bar chart styling */
@@ -343,16 +278,16 @@
             width: 100%;
             height: 200px;
             /* Updated for more glassy effect */
-            background-color: rgba(10, 25, 47, 0.25); /* More transparent - DECREASED */
+            background-color: rgba(10, 25, 47, 0.4); /* More transparent */
             border-radius: 12px;
             padding: 20px;
-            box-shadow: 0 0 1.5px rgba(0, 240, 255, 0.03); /* GLOW DECREASED FURTHER */
+            box-shadow: 0 0 8px rgba(0, 240, 255, 0.1);
             overflow: hidden;
             display: flex;
             align-items: flex-end; /* Bars grow from bottom */
             justify-content: space-around;
             padding-bottom: 30px; /* Space for labels */
-            backdrop-filter: blur(6px); /* BLUR DECREASED FURTHER */
+            backdrop-filter: blur(15px); /* Increased blur for glassy look */
         }
 
         .bar-chart-bar {
@@ -360,7 +295,7 @@
             background: linear-gradient(to top, var(--neon-blue), var(--neon-purple));
             margin: 0 5px;
             border-radius: 3px 3px 0 0;
-            box-shadow: 0 0 0.5px var(--neon-blue); /* GLOW DECREASED FURTHER */
+            box-shadow: 0 0 5px var(--neon-blue);
             transform-origin: bottom;
             transform: scaleY(0); /* Start scaled to 0 for animation */
             animation: barGrow 3.5s ease-out forwards; /* Slower animation */
@@ -385,21 +320,22 @@
         /* New animations */
         @keyframes pulseScaleGlow {
             0% {
-                text-shadow: 0 0 0.5px rgba(0, 240, 255, 0.1), 0 0 1px rgba(138, 43, 226, 0.1), 0 0 1.5px rgba(255, 127, 0, 0.1); /* GLOW DECREASED FURTHER */
+                text-shadow: 0 0 5px rgba(0, 240, 255, 0.5), 0 0 10px rgba(138, 43, 226, 0.5), 0 0 15px rgba(255, 127, 0, 0.5);
                 transform: scale(1) skewX(0deg);
             }
             50% {
-                text-shadow: 0 0 1px rgba(0, 240, 255, 0.2), 0 0 2px rgba(138, 43, 226, 0.2), 0 0 3px rgba(255, 127, 0, 0.2); /* GLOW DECREASED FURTHER */
-                transform: scale(1.01) skewX(0.1deg); /* SLIGHTLY DECREASED SCALE */
+                text-shadow: 0 0 10px rgba(0, 240, 255, 0.8), 0 0 20px rgba(138, 43, 226, 0.8), 0 0 30px rgba(255, 127, 0, 0.8);
+                transform: scale(1.05) skewX(1deg);
             }
             100% {
-                text-shadow: 0 0 0.5px rgba(0, 240, 255, 0.1), 0 0 1px rgba(138, 43, 226, 0.1), 0 0 1.5px rgba(255, 127, 0, 0.1); /* GLOW DECREASED FURTHER */
+                text-shadow: 0 0 5px rgba(0, 240, 255, 0.5), 0 0 10px rgba(138, 43, 226, 0.5), 0 0 15px rgba(255, 127, 0, 0.5);
                 transform: scale(1) skewX(0deg);
             }
         }
-        .animate-pulse-scale {
-            animation: pulseScaleGlow 5s ease-in-out infinite alternate; /* Slower animation */
-        }
+        /* Removed animate-pulse-scale from panels as requested */
+        /* .animate-pulse-scale {
+            animation: pulseScaleGlow 5s ease-in-out infinite alternate;
+        } */
 
         .animated-card {
             opacity: 0;
@@ -416,42 +352,63 @@
             transition: all 0.3s ease-in-out;
             background: linear-gradient(90deg, var(--neon-blue), var(--neon-purple));
             color: black;
+            position: relative; /* For shining effect */
+            overflow: hidden; /* For shining effect */
+            z-index: 1; /* For shining effect */
         }
         .button-hover-glow:hover {
-            box-shadow: 0 0 1px var(--neon-purple), 0 0 2px rgba(138, 43, 226, 0.05); /* GLOW DECREASED FURTHER */
-            transform: translateY(-0.5px) scale(1.005); /* SLIGHTLY DECREASED SCALE */
+            box-shadow: 0 0 8px var(--neon-purple), 0 0 15px rgba(138, 43, 226, 0.4);
+            transform: translateY(-2px) scale(1.02);
             background: linear-gradient(90deg, var(--neon-purple), var(--neon-orange));
         }
         .button-click-effect {
             animation: buttonPress 0.4s ease-out; /* Slower and more pronounced */
         }
         @keyframes buttonPress {
-            0% { transform: scale(1); box-shadow: 0 0 0.5px var(--neon-blue); } /* GLOW DECREASED FURTHER */
-            50% { transform: scale(0.99); box-shadow: 0 0 2.5px var(--neon-purple), 0 0 5px rgba(138, 43, 226, 0.1); } /* GLOW DECREASED FURTHER */
-            100% { transform: scale(1); box-shadow: 0 0 1px var(--neon-purple), 0 0 2px rgba(138, 43, 226, 0.05); } /* GLOW DECREASED FURTHER */
+            0% { transform: scale(1); box-shadow: 0 0 5px var(--neon-blue); }
+            50% { transform: scale(0.92); box-shadow: 0 0 25px var(--neon-purple), 0 0 50px rgba(138, 43, 226, 1.0); } /* More intense glow */
+            100% { transform: scale(1); box-shadow: 0 0 8px var(--neon-purple), 0 0 15px rgba(138, 43, 226, 0.4); }
         }
+
+        /* Shining effect for buttons - reduced opacity */
+        .button-shimmer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 30%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.1); /* Reduced opacity for less extreme shine */
+            transform: skewX(-20deg);
+            animation: shimmer 2s infinite; /* Slower shimmer */
+        }
+
+        @keyframes shimmer {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+
 
         /* Hover effect for panels/boxes */
         .panel-hover-effect {
             transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out, border-color 0.3s ease-in-out;
             border: 1px solid rgba(0, 240, 255, 0.2);
             /* Updated for more glassy effect */
-            background: linear-gradient(135deg, rgba(10, 25, 47, 0.15), rgba(0, 0, 0, 0.15)); /* More transparent background - DECREASED */
-            backdrop-filter: blur(7px); /* BLUR DECREASED FURTHER */
-            /* Removed floatAnimation */
+            background: linear-gradient(135deg, rgba(10, 25, 47, 0.3), rgba(0, 0, 0, 0.3)); /* Even more transparent background */
+            backdrop-filter: blur(20px); /* Increased blur for glassy look */
         }
 
         .panel-hover-effect:hover {
-            transform: scale(1.002); /* SLIGHTLY DECREASED SCALE FURTHER */
-            box-shadow: 0 0 8px var(--neon-purple), 0 0 15px rgba(138, 43, 226, 0.2); /* GLOW KEPT AS IS (from previous update) */
+            transform: scale(1.02); /* Removed rotateZ */
+            box-shadow: 0 0 15px var(--neon-purple), 0 0 30px rgba(138, 43, 226, 0.5);
             border-color: var(--neon-orange);
         }
 
-        /* Leaderboard tab active state with purple - GLOW DECREASED FURTHER */
+        /* Leaderboard tab active state with purple */
         .leaderboard-tab.active-tab {
             background-color: var(--neon-purple) !important;
             color: black !important;
-            box-shadow: 0 0 0.5px var(--neon-purple), 0 0 1px rgba(138, 43, 226, 0.05);
+            box-shadow: 0 0 5px var(--neon-purple), 0 0 10px rgba(138, 43, 226, 0.5);
         }
 
         /* Style for clickable team names */
@@ -472,11 +429,11 @@
         }
 
         .ripple {
-            background-color: rgba(255, 255, 255, 0.1); /* SLIGHTLY LESS VISIBLE */
+            background-color: rgba(255, 255, 255, 0.3);
             position: absolute;
             border-radius: 50%;
             transform: scale(0);
-            animation: createRipple 0.7s linear; /* SLIGHTLY FASTER RIPPLE */
+            animation: createRipple 1.2s linear; /* Slower ripple */
             pointer-events: none;
         }
 
@@ -507,16 +464,18 @@
             .navbar-menu .nav-link .neon-text {
                 display: none; /* Hide text for desktop icons */
             }
-            /* Active state for desktop icons - FIX APPLIED HERE - GLOW DECREASED FURTHER */
+            /* Active state for desktop icons */
             .navbar-menu .nav-link.active .fas {
-                color: var(--neon-blue); /* Solid color for icon */
+                background: linear-gradient(90deg, var(--neon-blue), var(--neon-purple));
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
                 text-shadow:
-                    0 0 0.5px var(--neon-blue),
-                    0 0 1px var(--neon-purple); /* Added glow */
+                    0 0 5px var(--neon-blue),
+                    0 0 10px var(--neon-purple); /* Added glow */
             }
             .navbar-menu .nav-link:hover .fas {
                 color: var(--neon-orange); /* Icon color change on hover */
-                text-shadow: 0 0 0.5px var(--neon-orange); /* GLOW DECREASED FURTHER */
+                text-shadow: 0 0 5px var(--neon-orange);
             }
         }
 
@@ -527,14 +486,14 @@
             justify-content: center;
             height: 192px; /* h-48 */
             /* Updated for more glassy effect */
-            background-color: rgba(10, 25, 47, 0.25); /* More transparent */
+            background-color: rgba(10, 25, 47, 0.4); /* More transparent */
             border-radius: 0.375rem; /* rounded-md */
-            color: rgba(255, 255, 255, 0.3); /* DECREASED OPACITY */
+            color: rgba(255, 255, 255, 0.5);
             font-size: 0.875rem;
             text-align: center;
             position: relative;
             overflow: hidden;
-            backdrop-filter: blur(8px); /* BLUR DECREASED FURTHER */
+            backdrop-filter: blur(15px); /* Increased blur */
         }
         .merch-image-placeholder img {
             position: absolute;
@@ -550,7 +509,7 @@
             opacity: 1;
         }
         .merch-image-spinner {
-            border: 4px solid rgba(0, 240, 255, 0.05); /* GLOW DECREASED FURTHER */
+            border: 4px solid rgba(0, 240, 255, 0.3);
             border-top: 4px solid var(--neon-blue);
             border-radius: 50%;
             width: 40px;
@@ -568,7 +527,76 @@
             100% { filter: hue-rotate(360deg); }
         }
 
-        /* Mobile Menu Overlay (now serves as the main menu for all sizes when opened) */
+        .rgb-animated-text {
+            animation: rgbCycle 10s linear infinite;
+            background: linear-gradient(90deg, var(--neon-blue), var(--neon-purple), var(--neon-orange));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow:
+                0 0 5px rgba(0, 240, 255, 0.5),
+                0 0 10px rgba(138, 43, 226, 0.5),
+                0 0 15px rgba(255, 127, 0, 0.5);
+        }
+        /* Apply pulseScaleGlow to rgb-animated-text for "COMING IN 2026" */
+        .rgb-animated-text.animate-pulse-scale {
+            animation: rgbCycle 10s linear infinite, pulseScaleGlow 5s ease-in-out infinite alternate;
+        }
+
+        /* Outline for JOIN NOW button */
+        .join-now-button-outline {
+            border: 2px solid var(--neon-blue);
+            box-shadow:
+                0 0 5px var(--neon-blue),
+                0 0 15px var(--neon-purple),
+                0 0 30px var(--neon-orange),
+                inset 0 0 8px var(--neon-blue);
+        }
+
+        /* About page specific improvements - REMOVED DOODLES */
+        .about-section-content {
+            position: relative;
+            z-index: 1; /* Ensure content is above background doodles */
+            max-width: 4xl;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .about-section-content > div {
+            position: relative;
+            z-index: 1;
+        }
+
+        /* New animated border glow */
+        @keyframes borderGlow {
+            0% {
+                box-shadow: 0 0 5px var(--neon-blue), inset 0 0 2px var(--neon-blue);
+                border-color: rgba(0, 240, 255, 0.2);
+            }
+            50% {
+                box-shadow: 0 0 15px var(--neon-purple), inset 0 0 5px var(--neon-purple);
+                border-color: var(--neon-purple);
+            }
+            100% {
+                box-shadow: 0 0 5px var(--neon-blue), inset 0 0 2px var(--neon-blue);
+                border-color: rgba(0, 240, 255, 0.2);
+            }
+        }
+
+        .animate-border-glow {
+            animation: borderGlow 4s ease-in-out infinite alternate; /* Slower, subtle glow */
+        }
+
+        /* Merch image hover effect */
+        .merch-item-hover-effect {
+            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+        }
+
+        .merch-item-hover-effect:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 20px var(--neon-orange), 0 0 40px rgba(255, 127, 0, 0.4);
+        }
+
+        /* Mobile Menu Overlay (Now serves as the main menu for all screen sizes when opened) */
         .mobile-menu-overlay {
             position: fixed;
             top: 0;
@@ -576,8 +604,8 @@
             width: 100%;
             height: 100%;
             /* Updated for more glassy effect */
-            background-color: rgba(10, 25, 47, 0.5); /* Slightly less opaque for more blur - DECREASED */
-            backdrop-filter: blur(12px); /* BLUR DECREASED FURTHER */
+            background-color: rgba(10, 25, 47, 0.8); /* Slightly less opaque for more blur */
+            backdrop-filter: blur(25px); /* Increased blur significantly for stronger effect */
             justify-content: center;
             align-items: center;
             opacity: 0;
@@ -614,7 +642,7 @@
         .mobile-menu-overlay .nav-link:nth-child(6) { animation-delay: 0.6s; }
         .mobile-menu-overlay .nav-link:nth-child(7) { animation-delay: 0.7s; }
         .mobile-menu-overlay .nav-link:nth-child(8) { animation-delay: 0.8s; }
-        .mobile-menu-overlay .nav-link:nth-child(9) { animation-delay: 0.9s; } /* New delay for Membership link */
+        .mobile-menu-overlay .nav-link:nth-child(9) { animation-delay: 0.9s; } /* New membership link */
 
 
         @keyframes slideInLink {
@@ -657,19 +685,19 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             text-shadow:
-                0 0 0.2px var(--glow-color-blue); /* GLOW DECREASED FURTHER */
+                0 0 2px var(--glow-color-blue);
             transition: all 0.3s ease;
         }
 
         /* Hover effect for menu items */
         .mobile-menu-overlay .nav-link:hover {
-            background-color: rgba(138, 43, 226, 0.03); /* Subtle background on hover - DECREASED */
-            box-shadow: 0 0 1px rgba(138, 43, 226, 0.05); /* GLOW DECREASED FURTHER */
+            background-color: rgba(138, 43, 226, 0.1); /* Subtle background on hover */
+            box-shadow: 0 0 10px rgba(138, 43, 226, 0.4); /* Glow on hover */
         }
 
         .mobile-menu-overlay .nav-link:hover .fas {
             color: var(--neon-orange); /* Icon color change on hover */
-            text-shadow: 0 0 0.5px var(--neon-orange); /* GLOW DECREASED FURTHER */
+            text-shadow: 0 0 5px var(--neon-orange);
         }
 
         .mobile-menu-overlay .nav-link:hover .neon-text {
@@ -677,15 +705,15 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             text-shadow:
-                0 0 0.2px var(--glow-color-purple), /* GLOW DECREASED FURTHER */
-                0 0 0.5px var(--glow-color-orange); /* GLOW DECREASED FURTHER */
+                0 0 2px var(--glow-color-purple),
+                0 0 4px var(--glow-color-orange);
         }
 
         /* Active state for the selected page icon/name */
         .mobile-menu-overlay .nav-link.active {
-            background-color: rgba(0, 240, 255, 0.05); /* More prominent background for active - DECREASED */
-            box-shadow: 0 0 2px rgba(0, 240, 255, 0.1); /* GLOW DECREASED FURTHER */
-            border: 1px solid rgba(0, 240, 255, 0.2); /* Border for active */
+            background-color: rgba(0, 240, 255, 0.15); /* More prominent background for active */
+            box-shadow: 0 0 15px rgba(0, 240, 255, 0.6); /* Stronger glow for active */
+            border: 1px solid var(--neon-blue); /* Border for active */
         }
 
         .mobile-menu-overlay .nav-link.active .fas {
@@ -693,8 +721,8 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             text-shadow:
-                0 0 0.5px var(--neon-blue), /* GLOW DECREASED FURTHER */
-                0 0 1px var(--neon-purple); /* GLOW DECREASED FURTHER */
+                0 0 5px var(--neon-blue),
+                0 0 10px var(--neon-purple);
         }
 
         .mobile-menu-overlay .nav-link.active .neon-text {
@@ -702,8 +730,8 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             text-shadow:
-                0 0 0.5px var(--glow-color-blue), /* GLOW DECREASED FURTHER */
-                0 0 1px var(--glow-color-purple); /* GLOW DECREASED FURTHER */
+                0 0 5px var(--glow-color-blue),
+                0 0 10px var(--glow-color-purple);
         }
 
         /* Remove the old nav-link::after underline effect */
@@ -728,7 +756,7 @@
             font-size: 2.25rem; /* Default for mobile */
             font-weight: bold;
             letter-spacing: -0.02em;
-            filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.05)); /* GLOW DECREASED FURTHER */
+            filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.1));
             animation: scrollText 30s linear infinite; /* Slower scroll */
         }
 
@@ -753,93 +781,45 @@
             }
         }
 
-        /* Player search history dropdown styles */
-        #player-search-history {
-            position: absolute;
-            top: 100%;
-            left: 0;
-            right: 0;
-            background-color: rgba(10, 25, 47, 0.8); /* DECREASED OPACITY */
-            border-radius: 0 0 8px 8px;
-            box-shadow: 0 5px 10px rgba(0, 240, 255, 0.05); /* GLOW DECREASED FURTHER */
-            backdrop-filter: blur(6px); /* BLUR DECREASED FURTHER */
-            max-height: 200px;
-            overflow-y: auto;
-            z-index: 50;
-            display: none; /* Hidden by default */
+
+        /* Minimalist Bat Bouncing Ball Animation */
+        @keyframes bounceBall {
+            0% { transform: translateY(0); }
+            25% { transform: translateY(-20px); }
+            50% { transform: translateY(0); }
+            75% { transform: translateY(-10px); }
+            100% { transform: translateY(0); }
+        }
+        @keyframes batSwing {
+            0%, 100% { transform: rotate(0deg); }
+            25% { transform: rotate(-15deg); }
+            50% { transform: rotate(0deg); }
+            75% { transform: rotate(-8deg); }
         }
 
-        #player-search-history-list div {
-            padding: 8px 12px;
+        .bouncing-bat-ball {
+            width: 64px;
+            height: 64px;
+            overflow: visible;
+        }
+
+        .bouncing-bat-ball .ball {
+            animation: bounceBall 1.5s ease-in-out infinite;
+            transform-origin: center;
+        }
+        .bouncing-bat-ball .bat {
+            animation: batSwing 1.5s ease-in-out infinite;
+            transform-origin: 50px 50px;
+        }
+
+        /* Style for clickable team names */
+        .team-name-clickable {
             cursor: pointer;
-            transition: background-color 0.2s ease;
-            color: #ccc;
+            text-decoration: underline;
+            transition: color 0.2s ease;
         }
-
-        #player-search-history-list div:hover {
-            background-color: rgba(0, 240, 255, 0.08); /* GLOW DECREASED FURTHER */
-            color: white;
-        }
-
-        /* About Section Club Milestones */
-        .milestone-item {
-            opacity: 0;
-            transform: translateY(20px);
-            transition: opacity 1s ease-out, transform 1s ease-out;
-        }
-        .milestone-item.is-visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-        .milestone-item:nth-child(1) { animation-delay: 0.1s; }
-        .milestone-item:nth-child(2) { animation-delay: 0.3s; }
-        .milestone-item:nth-child(3) { animation-delay: 0.5s; }
-        .milestone-item:nth-child(4) { animation-delay: 0.7s; }
-
-        /* New: Input focus glow */
-        input[type="date"],
-        input[type="time"],
-        input[type="text"],
-        select {
-            transition: border-color 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        input[type="date"]:focus,
-        input[type="time"]:focus,
-        input[type="text"]:focus,
-        select:focus {
-            outline: none;
-            border-color: var(--neon-orange) !important;
-            box-shadow: 0 0 0 2px rgba(255, 127, 0, 0.25), 0 0 8px var(--neon-orange); /* DECREASED GLOW FURTHER */
-        }
-
-        /* New: Icon hover effect for list items (e.g., membership checkmarks) */
-        .fa-check-circle, .fa-minus-circle {
-            transition: transform 0.2s ease, color 0.2s ease;
-        }
-
-        .fa-check-circle:hover {
-            transform: scale(1.1);
-            color: var(--neon-blue); /* Blue glow on hover */
-        }
-        .fa-minus-circle:hover {
-            transform: scale(1.1);
-            color: var(--neon-orange); /* Orange glow on hover */
-        }
-
-        /* New: Pro Tip text fade-in animation */
-        @keyframes tipFadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        #quote-text {
-            animation: tipFadeIn 0.8s ease-out forwards;
-        }
-
-        /* New: Section H2 heading entrance animation */
-        .section h2.animated-card {
-            /* Inherits animated-card styles for initial opacity and transform */
-            transition: opacity 1.5s ease-out, transform 1.5s ease-out;
+        .team-name-clickable:hover {
+            color: var(--neon-orange);
         }
     </style>
 </head>
@@ -877,7 +857,7 @@
                 <i class="fas fa-shirt text-2xl"></i>
             </a>
             <a href="#membership" class="nav-link text-lg font-medium hover:text-white transition-colors duration-300 ripple-container flex items-center" onclick="activateSection('membership'); return false;">
-                <i class="fas fa-user-plus text-2xl"></i>
+                <i class="fas fa-users text-2xl"></i>
             </a>
             <a href="#about" class="nav-link text-lg font-medium hover:text-white transition-colors duration-300 ripple-container flex items-center" onclick="activateSection('about'); return false;">
                 <i class="fas fa-circle-info text-2xl"></i>
@@ -900,7 +880,7 @@
             <a href="#club-league" class="nav-link text-lg font-medium hover:text-white transition-colors duration-300 mobile-nav-link ripple-container" onclick="activateSection('club-league'); return false;"><i class="fas fa-medal mr-2"></i><span class="neon-text">Club League</span></a>
             <a href="#club-leaderboard" class="nav-link text-lg font-medium hover:text-white transition-colors duration-300 mobile-nav-link ripple-container" onclick="activateSection('club-leaderboard'); return false;"><i class="fas fa-chart-line mr-2"></i><span class="neon-text">Club Leaderboard</span></a>
             <a href="#merch" class="nav-link text-lg font-medium hover:text-white transition-colors duration-300 mobile-nav-link ripple-container" onclick="activateSection('merch'); return false;"><i class="fas fa-shirt mr-2"></i><span class="neon-text">Merch</span></a>
-            <a href="#membership" class="nav-link text-lg font-medium hover:text-white transition-colors duration-300 mobile-nav-link ripple-container" onclick="activateSection('membership'); return false;"><i class="fas fa-user-plus mr-2"></i><span class="neon-text">Membership</span></a>
+            <a href="#membership" class="nav-link text-lg font-medium hover:text-white transition-colors duration-300 mobile-nav-link ripple-container" onclick="activateSection('membership'); return false;"><i class="fas fa-users mr-2"></i><span class="neon-text">Membership</span></a>
             <a href="#about" class="nav-link text-lg font-medium hover:text-white transition-colors duration-300 mobile-nav-link ripple-container" onclick="activateSection('about'); return false;"><i class="fas fa-circle-info mr-2"></i><span class="neon-text">About</span></a>
         </div>
     </div>
@@ -910,6 +890,8 @@
 
         <!-- Home Section -->
         <section id="home" class="section active flex-col items-center justify-center text-center py-16 relative">
+            <!-- Table Tennis Doodles - REMOVED -->
+
             <div class="parallax">
                 <div class="scroller">
                     <!-- Text now uses rgb-animated-text for gradient, glow, and color change -->
@@ -924,8 +906,8 @@
             </p>
 
             <!-- Membership Increase Bar Chart -->
-            <div class="w-full max-w-4xl mb-16 animated-card panel-hover-effect animate-border-glow">
-                <h2 class="text-3xl font-semibold mb-6 neon-text animated-card">Anticipated Monthly Membership Increase</h2>
+            <div class="w-full max-w-4xl mb-16 animated-card panel-hover-effect">
+                <h2 class="text-3xl font-semibold mb-6 neon-text">Anticipated Monthly Membership Increase</h2>
                 <div id="bar-chart-container" class="bar-chart-container">
                     <!-- Bar chart elements will be generated here by JS -->
                 </div>
@@ -947,41 +929,40 @@
             </div>
 
             <!-- Motivating Quote Button & Display -->
-            <button id="quote-button" class="mt-8 py-3 px-8 rounded-md button-hover-glow text-lg font-bold ripple-container animated-card">
+            <button id="quote-button" class="mt-8 py-3 px-8 rounded-md button-hover-glow button-shimmer ripple-container animated-card">
                 Get a ✨Pro Tip!
             </button>
-            <div id="quote-display" class="mt-6 p-6 rounded-xl neon-border bg-gradient-to-br from-gray-900 to-black shadow-lg max-w-2xl mx-auto animated-card animate-border-glow" style="display: none;">
+            <div id="quote-display" class="mt-6 p-6 rounded-xl neon-border bg-gradient-to-br from-gray-900 to-black shadow-lg max-w-2xl mx-auto animated-card panel-hover-effect" style="display: none;">
                 <p id="quote-text" class="text-xl italic neon-text-orange"></p>
                 <p class="text-right mt-4 text-gray-400">- <span id="quote-player" class="neon-text-purple"></span></p>
-                <!-- Spinner no longer needed as API call is removed -->
             </div>
 
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mt-12">
-                <div class="p-8 rounded-xl neon-border bg-gradient-to-br from-gray-900 to-black shadow-lg animated-card panel-hover-effect animate-border-glow">
-                    <h3 class="text-3xl font-semibold mb-4 neon-text animated-card">Unleash Your Inner Pro!</h3>
+                <div class="p-8 rounded-xl neon-border bg-gradient-to-br from-gray-900 to-black shadow-lg animated-card panel-hover-effect">
+                    <h3 class="text-3xl font-semibold mb-4 neon-text">Unleash Your Inner Pro!</h3>
                     <p class="text-lg text-gray-300">
                         Whether you're a seasoned pro or just picking up a paddle, Fusion TT Club is your spot.
                         Top-tier coaching, epic social play, and a community that vibes together.
                     </p>
                 </div>
-                <div class="p-8 rounded-xl neon-border bg-gradient-to-br from-gray-900 to-black shadow-lg animated-card panel-hover-effect animate-border-glow">
-                    <h3 class="text-3xl font-semibold mb-4 neon-text animated-card">Beyond the Table!</h3>
+                <div class="p-8 rounded-xl neon-border bg-gradient-to-br from-gray-900 to-black shadow-lg animated-card panel-hover-effect">
+                    <h3 class="text-3xl font-semibold mb-4 neon-text">Beyond the Table!</h3>
                     <p class="text-lg text-gray-300">
                         It's not just about the game. Our chill lounge, exclusive merch, and vibrant atmosphere make
                         Fusion TT Club the ultimate hangout. Get ready for something truly special.
                     </p>
                 </div>
                 <!-- New Hype Block 1 -->
-                <div class="p-8 rounded-xl neon-border bg-gradient-to-br from-gray-900 to-black shadow-lg animated-card panel-hover-effect animate-border-glow">
-                    <h3 class="text-3xl font-semibold mb-4 neon-text-orange animated-card">Level Up Your Game!</h3>
+                <div class="p-8 rounded-xl neon-border bg-gradient-to-br from-gray-900 to-black shadow-lg animated-card panel-hover-effect">
+                    <h3 class="text-3xl font-semibold mb-4 neon-text-orange">Level Up Your Game!</h3>
                     <p class="text-lg text-gray-300">
                         From beginner basics to advanced tactics, our expert coaches are here to help you smash your goals. Personalized training plans and cutting-edge facilities await!
                     </p>
                 </div>
                 <!-- New Hype Block 2 -->
-                <div class="p-8 rounded-xl neon-border bg-gradient-to-br from-gray-900 to-black shadow-lg animated-card panel-hover-effect animate-border-glow">
-                    <h3 class="text-3xl font-semibold mb-4 neon-text-purple animated-card">Connect & Compete!</h3>
+                <div class="p-8 rounded-xl neon-border bg-gradient-to-br from-gray-900 to-black shadow-lg animated-card panel-hover-effect">
+                    <h3 class="text-3xl font-semibold mb-4 neon-text-purple">Connect & Compete!</h3>
                     <p class="text-lg text-gray-300">
                         Join a thriving community of table tennis enthusiasts. Participate in thrilling tournaments, friendly matches, and social events that bring everyone together.
                     </p>
@@ -989,18 +970,18 @@
             </div>
 
             <!-- JOIN NOW Button -->
-            <button class="mt-16 py-6 px-12 text-4xl font-bold rounded-full button-hover-glow-lg ripple-container rgb-animated-text animate-pulse-scale" onclick="showModal('Ready to join the Fusion TT Club? Contact us at join@fusiontt.club to sign up and start your table tennis journey!')">
+            <button class="mt-16 py-6 px-12 text-4xl font-bold rounded-full button-hover-glow button-shimmer ripple-container rgb-animated-text animate-pulse-scale join-now-button-outline" onclick="activateSection('membership')">
                 JOIN NOW!
             </button>
         </section>
 
         <!-- Book Training Section -->
         <section id="book-training" class="section flex-col py-16">
-            <h2 class="text-5xl font-bold mb-12 text-center neon-text animated-card">Book Your Training Session</h2>
+            <h2 class="text-5xl font-bold mb-12 text-center neon-text">Book Your Training Session</h2>
             <div class="max-w-5xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12">
                 <!-- Booking Form -->
-                <div class="p-8 rounded-xl neon-border bg-gradient-to-br from-gray-900 to-black shadow-lg animated-card panel-hover-effect animate-border-glow">
-                    <h3 class="text-3xl font-semibold mb-6 neon-text animated-card">Schedule a Coaching Session</h3>
+                <div class="p-8 rounded-xl neon-border bg-gradient-to-br from-gray-900 to-black shadow-lg animated-card panel-hover-effect">
+                    <h3 class="text-3xl font-semibold mb-6 neon-text">Schedule a Coaching Session</h3>
                     <form id="training-booking-form" class="space-y-6">
                         <div>
                             <label for="coach-select" class="block text-lg font-medium text-gray-300 mb-2">Select Coach:</label>
@@ -1031,26 +1012,25 @@
                                 <option value="120">2 hours</option>
                             </select>
                         </div>
-                        <button type="submit" class="w-full py-3 px-6 rounded-md button-hover-glow ripple-container">
+                        <button type="submit" class="w-full py-3 px-6 rounded-md button-hover-glow button-shimmer ripple-container">
                             Book Session
                         </button>
-                        <button type="button" id="suggest-drills-button" class="w-full py-3 px-6 rounded-md button-hover-glow ripple-container mt-4">
+                        <button type="button" id="suggest-drills-button" class="w-full py-3 px-6 rounded-md button-hover-glow button-shimmer ripple-container mt-4">
                             Get ✨Training Drills!
                         </button>
                     </form>
-                    <div id="drill-suggestions" class="mt-6 p-4 rounded-md neon-border bg-gray-900 animate-border-glow" style="display: none;">
+                    <div id="drill-suggestions" class="mt-6 p-4 rounded-md neon-border bg-gray-900 panel-hover-effect" style="display: none;">
                         <p class="text-gray-400 text-center" id="drill-suggestions-message">Drill suggestions will appear here.</p>
-                        <div id="drills-loading-spinner" class="merch-image-spinner mx-auto mt-4" style="display: none;"></div>
                     </div>
                 </div>
 
                 <!-- Calendar of Booked Sessions -->
-                <div class="p-8 rounded-xl neon-border bg-gradient-to-br from-gray-900 to-black shadow-lg animated-card panel-hover-effect animate-border-glow">
-                    <h3 class="text-3xl font-semibold mb-6 neon-text animated-card">Your Booked Coaching Sessions</h3>
+                <div class="p-8 rounded-xl neon-border bg-gradient-to-br from-gray-900 to-black shadow-lg animated-card panel-hover-effect">
+                    <h3 class="text-3xl font-semibold mb-6 neon-text">Your Booked Coaching Sessions</h3>
                     <div class="flex justify-between items-center mb-4">
-                        <button id="prev-month-training" class="text-neon-blue hover:text-white transition-colors duration-200 ripple-container"><i class="fas fa-chevron-left"></i></button>
+                        <button id="prev-month-training" class="text-neon-blue hover:text-white transition-colors duration-200 ripple-container button-shimmer"><i class="fas fa-chevron-left"></i></button>
                         <span id="current-month-training" class="text-xl font-semibold neon-text"></span>
-                        <button id="next-month-training" class="text-neon-blue hover:text-white transition-colors duration-200 ripple-container"><i class="fas fa-chevron-right"></i></button>
+                        <button id="next-month-training" class="text-neon-blue hover:text-white transition-colors duration-200 ripple-container button-shimmer"><i class="fas fa-chevron-right"></i></button>
                     </div>
                     <div id="training-calendar" class="calendar-grid">
                         <!-- Calendar days will be generated here by JS -->
@@ -1065,18 +1045,18 @@
 
         <!-- Social Tournaments Section -->
         <section id="social-tournaments" class="section flex-col py-16">
-            <h2 class="text-5xl font-bold mb-8 neon-text text-center animated-card">Social Tournaments</h2>
+            <h2 class="text-5xl font-bold mb-8 neon-text text-center">Social Tournaments</h2>
             <p class="text-xl text-gray-300 max-w-3xl mb-12 text-center animated-card">
                 Ready to show off your skills in a friendly, competitive environment? Our social tournaments are the perfect way to connect with other players and have a blast!
             </p>
 
             <!-- Calendar of Social Tournaments (Moved to top) -->
-            <div class="p-8 rounded-xl neon-border bg-gradient-to-br from-gray-900 to-black shadow-lg w-full max-w-2xl mt-12 animated-card panel-hover-effect animate-border-glow">
-                <h3 class="text-3xl font-semibold mb-6 neon-text animated-card">Tournament Calendar</h3>
+            <div class="p-8 rounded-xl neon-border bg-gradient-to-br from-gray-900 to-black shadow-lg w-full max-w-2xl mt-12 animated-card panel-hover-effect">
+                <h3 class="text-3xl font-semibold mb-6 neon-text">Tournament Calendar</h3>
                 <div class="flex justify-between items-center mb-4">
-                    <button id="prev-month-social" class="text-neon-blue hover:text-white transition-colors duration-200 ripple-container"><i class="fas fa-chevron-left"></i></button>
+                    <button id="prev-month-social" class="text-neon-blue hover:text-white transition-colors duration-200 ripple-container button-shimmer"><i class="fas fa-chevron-left"></i></button>
                     <span id="current-month-social" class="text-xl font-semibold neon-text"></span>
-                    <button id="next-month-social" class="text-neon-blue hover:text-white transition-colors duration-200 ripple-container"><i class="fas fa-chevron-right"></i></button>
+                    <button id="next-month-social" class="text-neon-blue hover:text-white transition-colors duration-200 ripple-container button-shimmer"><i class="fas fa-chevron-right"></i></button>
                 </div>
                 <div id="social-calendar" class="calendar-grid">
                     <!-- Calendar days will be generated here by JS -->
@@ -1089,57 +1069,57 @@
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl w-full mt-12">
                 <!-- Tournament 1 Block -->
-                <div class="p-8 rounded-xl neon-border bg-gradient-to-br from-gray-900 to-black shadow-lg animated-card panel-hover-effect animate-border-glow">
-                    <h3 class="text-3xl font-semibold mb-4 neon-text-purple animated-card">Spring Open - Mixed Doubles</h3>
+                <div class="p-8 rounded-xl neon-border bg-gradient-to-br from-gray-900 to-black shadow-lg animated-card panel-hover-effect">
+                    <h3 class="text-3xl font-semibold mb-4 neon-text-purple">Spring Open - Mixed Doubles</h3>
                     <p class="text-lg text-gray-300 mb-2"><span class="neon-text">Date:</span> March 10, 2026</p>
                     <p class="text-lg text-gray-300 mb-2"><span class="neon-text">Time:</span> 6:00 PM - 9:00 PM</p>
                     <p class="text-lg text-gray-300 mb-2"><span class="neon-text">Format:</span> Round Robin + Knockout</p>
                     <p class="text-lg text-gray-300 mb-4">
                         Team up with a partner and conquer the Spring Open! Open to all skill levels, this mixed doubles tournament is all about fun, teamwork, and smashing good times. Prizes for top 3 teams!
                     </p>
-                    <button class="py-2 px-6 rounded-md button-hover-glow ripple-container">
+                    <button class="py-2 px-6 rounded-md button-hover-glow button-shimmer ripple-container">
                         <span class="neon-text">Register Now!</span>
                     </button>
                 </div>
 
                 <!-- Tournament 2 Block -->
-                <div class="p-8 rounded-xl neon-border bg-gradient-to-br from-gray-900 to-black shadow-lg animated-card panel-hover-effect animate-border-glow">
-                    <h3 class="text-3xl font-semibold mb-4 neon-text-purple animated-card">Rookie Rumble - Singles</h3>
+                <div class="p-8 rounded-xl neon-border bg-gradient-to-br from-gray-900 to-black shadow-lg animated-card panel-hover-effect">
+                    <h3 class="text-3xl font-semibold mb-4 neon-text-purple">Rookie Rumble - Singles</h3>
                     <p class="text-lg text-gray-300 mb-2"><span class="neon-text">Date:</span> April 5, 2026</p>
                     <p class="text-lg text-gray-300 mb-2"><span class="neon-text">Time:</span> 2:00 PM - 5:00 PM</p>
                     <p class="text-lg text-gray-300 mb-2"><span class="neon-text">Format:</span> Group Stage + Finals</p>
                     <p class="text-lg text-gray-300 mb-4">
                         New to the game or just looking for a friendly challenge? The Rookie Rumble is designed for beginners and intermediate players to gain tournament experience in a supportive atmosphere.
                     </p>
-                    <button class="py-2 px-6 rounded-md button-hover-glow ripple-container">
+                    <button class="py-2 px-6 rounded-md button-hover-glow button-shimmer ripple-container">
                         <span class="neon-text">Register Now!</span>
                     </button>
                 </div>
 
                 <!-- Tournament 3 Block -->
-                <div class="p-8 rounded-xl neon-border bg-gradient-to-br from-gray-900 to-black shadow-lg animated-card panel-hover-effect animate-border-glow">
-                    <h3 class="text-3xl font-semibold mb-4 neon-text-purple animated-card">Neon Night Challenge - Fast Paced Singles</h3>
+                <div class="p-8 rounded-xl neon-border bg-gradient-to-br from-gray-900 to-black shadow-lg animated-card panel-hover-effect">
+                    <h3 class="text-3xl font-semibold mb-4 neon-text-purple">Neon Night Challenge - Fast Paced Singles</h3>
                     <p class="text-lg text-gray-300 mb-2"><span class="neon-text">Date:</span> May 20, 2026</p>
                     <p class="text-lg text-gray-300 mb-2"><span class="neon-text">Time:</span> 7:00 PM - 10:00 PM</p>
                     <p class="text-lg text-gray-300 mb-2"><span class="neon-text">Format:</span> Best of 3 sets, sudden death</p>
                     <p class="text-lg text-gray-300 mb-4">
                         Experience the thrill of fast-paced table tennis under the neon lights! This singles tournament emphasizes quick reflexes and aggressive play. Limited spots available, so sign up fast!
                     </p>
-                    <button class="py-2 px-6 rounded-md button-hover-glow ripple-container">
+                    <button class="py-2 px-6 rounded-md button-hover-glow button-shimmer ripple-container">
                         <span class="neon-text">Register Now!</span>
                     </button>
                 </div>
 
                 <!-- Tournament 4 Block -->
-                <div class="p-8 rounded-xl neon-border bg-gradient-to-br from-gray-900 to-black shadow-lg animated-card panel-hover-effect animate-border-glow">
-                    <h3 class="text-3xl font-semibold mb-4 neon-text-purple animated-card">Summer Smash - Team Event</h3>
+                <div class="p-8 rounded-xl neon-border bg-gradient-to-br from-gray-900 to-black shadow-lg animated-card panel-hover-effect">
+                    <h3 class="text-3xl font-semibold mb-4 neon-text-purple">Summer Smash - Team Event</h3>
                     <p class="text-lg text-gray-300 mb-2"><span class="neon-text">Date:</span> June 15, 2026</p>
                     <p class="text-lg text-gray-300 mb-2"><span class="neon-text">Time:</span> 10:00 AM - 4:00 PM</p>
                     <p class="text-lg text-gray-300 mb-2"><span class="neon-text">Format:</span> Team vs Team, multiple matches</p>
                     <p class="text-lg text-gray-300 mb-4">
                         Gather your squad for the ultimate team showdown! Compete in singles and doubles matches to earn points for your team. Great prizes and bragging rights up for grabs!
                     </p>
-                    <button class="py-2 px-6 rounded-md button-hover-glow ripple-container">
+                    <button class="py-2 px-6 rounded-md button-hover-glow button-shimmer ripple-container">
                         <span class="neon-text">Register Now!</span>
                     </button>
                 </div>
@@ -1148,11 +1128,11 @@
 
         <!-- Table Booking Section -->
         <section id="table-booking" class="section flex-col py-16">
-            <h2 class="text-5xl font-bold mb-12 text-center neon-text animated-card">Book a Table</h2>
+            <h2 class="text-5xl font-bold mb-12 text-center neon-text">Book a Table</h2>
             <div class="max-w-5xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12">
                 <!-- Booking Form -->
-                <div class="p-8 rounded-xl neon-border bg-gradient-to-br from-gray-900 to-black shadow-lg animated-card panel-hover-effect animate-border-glow">
-                    <h3 class="text-3xl font-semibold mb-6 neon-text animated-card">Reserve Your Table Time</h3>
+                <div class="p-8 rounded-xl neon-border bg-gradient-to-br from-gray-900 to-black shadow-lg animated-card panel-hover-effect">
+                    <h3 class="text-3xl font-semibold mb-6 neon-text">Reserve Your Table Time</h3>
                     <form id="table-booking-form" class="space-y-6">
                         <div>
                             <label for="table-activity" class="block text-lg font-medium text-gray-300 mb-2">Activity Type:</label>
@@ -1181,19 +1161,19 @@
                                 <option value="120">2 hours</option>
                             </select>
                         </div>
-                        <button type="submit" class="w-full py-3 px-6 rounded-md button-hover-glow ripple-container">
+                        <button type="submit" class="w-full py-3 px-6 rounded-md button-hover-glow button-shimmer ripple-container">
                             Book Table
                         </button>
                     </form>
                 </div>
 
                 <!-- Calendar of Booked Tables -->
-                <div class="p-8 rounded-xl neon-border bg-gradient-to-br from-gray-900 to-black shadow-lg animated-card panel-hover-effect animate-border-glow">
-                    <h3 class="text-3xl font-semibold mb-6 neon-text animated-card">Your Booked Table Sessions</h3>
+                <div class="p-8 rounded-xl neon-border bg-gradient-to-br from-gray-900 to-black shadow-lg animated-card panel-hover-effect">
+                    <h3 class="text-3xl font-semibold mb-6 neon-text">Your Booked Table Sessions</h3>
                     <div class="flex justify-between items-center mb-4">
-                        <button id="prev-month-table" class="text-neon-blue hover:text-white transition-colors duration-200 ripple-container"><i class="fas fa-chevron-left"></i></button>
+                        <button id="prev-month-table" class="text-neon-blue hover:text-white transition-colors duration-200 ripple-container button-shimmer"><i class="fas fa-chevron-left"></i></button>
                         <span id="current-month-table" class="text-xl font-semibold neon-text"></span>
-                        <button id="next-month-table" class="text-neon-blue hover:text-white transition-colors duration-200 ripple-container"><i class="fas fa-chevron-right"></i></button>
+                        <button id="next-month-table" class="text-neon-blue hover:text-white transition-colors duration-200 ripple-container button-shimmer"><i class="fas fa-chevron-right"></i></button>
                     </div>
                     <div id="table-calendar" class="calendar-grid">
                         <!-- Calendar days will be generated here by JS -->
@@ -1208,11 +1188,11 @@
 
         <!-- Club League Section -->
         <section id="club-league" class="section flex-col py-16">
-            <h2 class="text-5xl font-bold mb-12 text-center neon-text animated-card">Club League</h2>
+            <h2 class="text-5xl font-bold mb-12 text-center neon-text">Club League</h2>
             <div class="max-w-5xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12">
                 <!-- Club Teams -->
-                <div class="p-8 rounded-xl neon-border bg-gradient-to-br from-gray-900 to-black shadow-lg animated-card panel-hover-effect animate-border-glow">
-                    <h3 class="text-3xl font-semibold mb-6 neon-text animated-card">Our League Teams</h3>
+                <div class="p-8 rounded-xl neon-border bg-gradient-to-br from-gray-900 to-black shadow-lg animated-card panel-hover-effect">
+                    <h3 class="text-3xl font-semibold mb-6 neon-text">Our League Teams</h3>
                     <div class="grid grid-cols-2 gap-4 text-lg text-gray-300">
                         <p><span class="neon-text-purple font-semibold team-name-clickable" data-team-id="team-a">Team A:</span> The Aces</p>
                         <p><span class="neon-text-purple font-semibold team-name-clickable" data-team-id="team-b">Team B:</span> Blue Blasters</p>
@@ -1230,8 +1210,8 @@
                 </div>
 
                 <!-- Upcoming Games & Calendar -->
-                <div class="p-8 rounded-xl neon-border bg-gradient-to-br from-gray-900 to-black shadow-lg animated-card panel-hover-effect animate-border-glow">
-                    <h3 class="text-3xl font-semibold mb-6 neon-text animated-card">Upcoming League Games</h3>
+                <div class="p-8 rounded-xl neon-border bg-gradient-to-br from-gray-900 to-black shadow-lg animated-card panel-hover-effect">
+                    <h3 class="text-3xl font-semibold mb-6 neon-text">Upcoming League Games</h3>
                     <ul class="list-disc list-inside text-left space-y-3 text-lg text-gray-300 mb-6">
                         <li><span class="neon-text">March 12, 2026:</span> Team A vs Team D (7:00 PM)</li>
                         <li><span class="neon-text">March 15, 2026:</span> Team B vs Team F (6:30 PM)</li>
@@ -1239,9 +1219,9 @@
                         <li><span class="neon-text">March 22, 2026:</span> Team G vs Team H (8:00 PM)</li>
                     </ul>
                     <div class="flex justify-between items-center mb-4">
-                        <button id="prev-month-league" class="text-neon-blue hover:text-white transition-colors duration-200 ripple-container"><i class="fas fa-chevron-left"></i></button>
+                        <button id="prev-month-league" class="text-neon-blue hover:text-white transition-colors duration-200 ripple-container button-shimmer"><i class="fas fa-chevron-left"></i></button>
                         <span id="current-month-league" class="text-xl font-semibold neon-text"></span>
-                        <button id="next-month-league" class="text-neon-blue hover:text-white transition-colors duration-200 ripple-container"><i class="fas fa-chevron-right"></i></button>
+                        <button id="next-month-league" class="text-neon-blue hover:text-white transition-colors duration-200 ripple-container button-shimmer"><i class="fas fa-chevron-right"></i></button>
                     </div>
                     <div id="league-calendar" class="calendar-grid">
                         <!-- Calendar days will be generated here by JS -->
@@ -1256,29 +1236,23 @@
 
         <!-- Club Leaderboard Section -->
         <section id="club-leaderboard" class="section flex-col py-16">
-            <h2 class="text-5xl font-bold mb-12 text-center neon-text animated-card">Club Leaderboard</h2>
-            <div class="max-w-4xl mx-auto p-8 rounded-xl neon-border bg-gradient-to-br from-gray-900 to-black shadow-lg animated-card panel-hover-effect animate-border-glow">
-                <h3 class="text-3xl font-semibold mb-6 neon-text animated-card">Top Players by Category</h3>
+            <h2 class="text-5xl font-bold mb-12 text-center neon-text">Club Leaderboard</h2>
+            <div class="max-w-4xl mx-auto p-8 rounded-xl neon-border bg-gradient-to-br from-gray-900 to-black shadow-lg animated-card panel-hover-effect">
+                <h3 class="text-3xl font-semibold mb-6 neon-text">Top Players by Category</h3>
 
                 <!-- Category Tabs -->
                 <div class="flex justify-center space-x-4 mb-8 flex-wrap">
-                    <button class="leaderboard-tab py-2 px-4 rounded-full bg-gray-800 text-gray-300 hover:bg-neon-purple hover:text-black transition-all duration-200 active-tab ripple-container" data-category="seniors">Seniors</button>
-                    <button class="leaderboard-tab py-2 px-4 rounded-full bg-gray-800 text-gray-300 hover:bg-neon-purple hover:text-black transition-all duration-200 ripple-container" data-category="vets">Vets</button>
-                    <button class="leaderboard-tab py-2 px-4 rounded-full bg-gray-800 text-gray-300 hover:bg-neon-purple hover:text-black transition-all duration-200 ripple-container" data-category="u19">Under 19</button>
-                    <button class="leaderboard-tab py-2 px-4 rounded-full bg-gray-800 text-gray-300 hover:bg-neon-purple hover:text-black transition-all duration-200 ripple-container" data-category="u15">Under 15</button>
-                    <button class="leaderboard-tab py-2 px-4 rounded-full bg-gray-800 text-gray-300 hover:bg-neon-purple hover:text-black transition-all duration-200 ripple-container" data-category="u13">Under 13</button>
-                    <button class="leaderboard-tab py-2 px-4 rounded-full bg-gray-800 text-gray-300 hover:bg-neon-purple hover:text-black transition-all duration-200 ripple-container" data-category="u11">Under 11</button>
+                    <button class="leaderboard-tab py-2 px-4 rounded-full bg-gray-800 text-gray-300 hover:bg-neon-purple hover:text-black transition-all duration-200 active-tab ripple-container button-shimmer" data-category="seniors">Seniors</button>
+                    <button class="leaderboard-tab py-2 px-4 rounded-full bg-gray-800 text-gray-300 hover:bg-neon-purple hover:text-black transition-all duration-200 ripple-container button-shimmer" data-category="vets">Vets</button>
+                    <button class="leaderboard-tab py-2 px-4 rounded-full bg-gray-800 text-gray-300 hover:bg-neon-purple hover:text-black transition-all duration-200 ripple-container button-shimmer" data-category="u19">Under 19</button>
+                    <button class="leaderboard-tab py-2 px-4 rounded-full bg-gray-800 text-gray-300 hover:bg-neon-purple hover:text-black transition-all duration-200 ripple-container button-shimmer" data-category="u15">Under 15</button>
+                    <button class="leaderboard-tab py-2 px-4 rounded-full bg-gray-800 text-gray-300 hover:bg-neon-purple hover:text-black transition-all duration-200 ripple-container button-shimmer" data-category="u13">Under 13</button>
+                    <button class="leaderboard-tab py-2 px-4 rounded-full bg-gray-800 text-gray-300 hover:bg-neon-purple hover:text-black transition-all duration-200 ripple-container button-shimmer" data-category="u11">Under 11</button>
                 </div>
 
                 <!-- Search Bar -->
-                <div class="mb-6 relative">
+                <div class="mb-6">
                     <input type="text" id="player-search" placeholder="Search player by name..." class="w-full p-3 rounded-md bg-gray-800 border border-gray-700 focus:border-neon-blue focus:ring focus:ring-neon-blue focus:ring-opacity-50 transition-all duration-200">
-                    <!-- Player Search History Dropdown -->
-                    <div id="player-search-history" class="absolute w-full mt-1 rounded-md shadow-lg bg-opacity-90 z-10 hidden">
-                        <div id="player-search-history-list">
-                            <!-- History items will be dynamically added here -->
-                        </div>
-                    </div>
                 </div>
 
                 <!-- Leaderboard Table -->
@@ -1302,125 +1276,127 @@
 
         <!-- Merch Section -->
         <section id="merch" class="section flex-col py-16">
-            <h2 class="text-5xl font-bold mb-12 text-center neon-text animated-card">Official Fusion TT Merch</h2>
+            <h2 class="text-5xl font-bold mb-12 text-center neon-text">Official Fusion TT Merch</h2>
             <p class="text-xl text-gray-300 max-w-3xl mb-12 text-center animated-card">
                 Rep the club in style! Check out our exclusive range of Fusion TT Club merchandise.
             </p>
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl w-full">
                 <!-- Match Shirts -->
-                <div class="p-8 rounded-xl neon-border bg-gradient-to-br from-gray-900 to-black shadow-lg animated-card panel-hover-effect animate-border-glow">
+                <div class="p-8 rounded-xl neon-border bg-gradient-to-br from-gray-900 to-black shadow-lg animated-card panel-hover-effect merch-item-hover-effect">
                     <div id="merch-image-match-shirts" class="merch-image-placeholder mb-4 rounded-md neon-border">
                         <div class="merch-image-spinner"></div>
                         <span class="mt-2">Generating image...</span>
                         <img src="" alt="Match Shirts" class="w-full h-full object-contain">
                     </div>
-                    <h3 class="text-3xl font-semibold mb-2 neon-text-purple animated-card">Match Shirts</h3>
+                    <h3 class="text-3xl font-semibold mb-2 neon-text-purple">Match Shirts</h3>
                     <p class="text-lg text-gray-300 mb-2">For tournament players representing Fusion and other sponsors.</p>
                     <p class="text-xl font-bold neon-text mb-4">R280 - R350</p>
-                    <button class="w-full py-3 px-6 rounded-md button-hover-glow ripple-container" onclick="showModal('You are interested in Match Shirts! Please contact us at merch@fusiontt.club to order.')">
+                    <button class="w-full py-3 px-6 rounded-md button-hover-glow button-shimmer ripple-container" onclick="showModal('You are interested in Match Shirts! Please contact us at merch@fusiontt.club to order.')">
                         <span class="neon-text">Order Now!</span>
                     </button>
                 </div>
 
                 <!-- Shorts -->
-                <div class="p-8 rounded-xl neon-border bg-gradient-to-br from-gray-900 to-black shadow-lg animated-card panel-hover-effect animate-border-glow">
+                <div class="p-8 rounded-xl neon-border bg-gradient-to-br from-gray-900 to-black shadow-lg animated-card panel-hover-effect merch-item-hover-effect">
                     <div id="merch-image-shorts" class="merch-image-placeholder mb-4 rounded-md neon-border">
                         <div class="merch-image-spinner"></div>
                         <span class="mt-2">Generating image...</span>
                         <img src="" alt="Shorts" class="w-full h-full object-contain">
                     </div>
-                    <h3 class="text-3xl font-semibold mb-2 neon-text-purple animated-card">Shorts</h3>
+                    <h3 class="text-3xl font-semibold mb-2 neon-text-purple">Shorts</h3>
                     <p class="text-lg text-gray-300 mb-2">Perfect for match and practice sessions.</p>
                     <p class="text-xl font-bold neon-text mb-4">R250 - R290</p>
-                    <button class="w-full py-3 px-6 rounded-md button-hover-glow ripple-container" onclick="showModal('You are interested in Shorts! Please contact us at merch@fusiontt.club to order.')">
+                    <button class="w-full py-3 px-6 rounded-md button-hover-glow button-shimmer ripple-container" onclick="showModal('You are interested in Shorts! Please contact us at merch@fusiontt.club to order.')">
                         <span class="neon-text">Order Now!</span>
                     </button>
                 </div>
 
                 <!-- Practice Shirts -->
-                <div class="p-8 rounded-xl neon-border bg-gradient-to-br from-gray-900 to-black shadow-lg animated-card panel-hover-effect animate-border-glow">
+                <div class="p-8 rounded-xl neon-border bg-gradient-to-br from-gray-900 to-black shadow-lg animated-card panel-hover-effect merch-item-hover-effect">
                     <div id="merch-image-practice-shirts" class="merch-image-placeholder mb-4 rounded-md neon-border">
                         <div class="merch-image-spinner"></div>
                         <span class="mt-2">Generating image...</span>
                         <img src="" alt="Practice Shirts" class="w-full h-full object-contain">
                     </div>
-                    <h3 class="text-3xl font-semibold mb-2 neon-text-purple animated-card">Practice Shirts</h3>
+                    <h3 class="text-3xl font-semibold mb-2 neon-text-purple">Practice Shirts</h3>
                     <p class="text-lg text-gray-300 mb-2">Ideal for training, social tournaments, or casual wear.</p>
                     <p class="text-xl font-bold neon-text mb-4">R150 - R190</p>
-                    <button class="w-full py-3 px-6 rounded-md button-hover-glow ripple-container" onclick="showModal('You are interested in Practice Shirts! Please contact us at merch@fusiontt.club to order.')">
+                    <button class="w-full py-3 px-6 rounded-md button-hover-glow button-shimmer ripple-container" onclick="showModal('You are interested in Practice Shirts! Please contact us at merch@fusiontt.club to order.')">
                         <span class="neon-text">Order Now!</span>
                     </button>
                 </div>
 
                 <!-- Accessories -->
-                <div class="p-8 rounded-xl neon-border bg-gradient-to-br from-gray-900 to-black shadow-lg animated-card panel-hover-effect animate-border-glow">
+                <div class="p-8 rounded-xl neon-border bg-gradient-to-br from-gray-900 to-black shadow-lg animated-card panel-hover-effect merch-item-hover-effect">
                     <div id="merch-image-accessories" class="merch-image-placeholder mb-4 rounded-md neon-border">
                         <div class="merch-image-spinner"></div>
                         <span class="mt-2">Generating image...</span>
                         <img src="" alt="Accessories" class="w-full h-full object-contain">
                     </div>
-                    <h3 class="text-3xl font-semibold mb-2 neon-text-purple animated-card">Accessories</h3>
+                    <h3 class="text-3xl font-semibold mb-2 neon-text-purple">Accessories</h3>
                     <p class="text-lg text-gray-300 mb-2">Water bottles, bat cases, bags, backpacks, cleaners, keychains.</p>
                     <p class="text-xl font-bold neon-text mb-4">Coming in 2026</p>
-                    <button class="py-2 px-6 rounded-md button-hover-glow mx-auto block ripple-container" onclick="showAccessoriesModal()">
+                    <button class="py-2 px-6 rounded-md button-hover-glow button-shimmer mx-auto block ripple-container" onclick="showAccessoriesModal()">
                         <span class="neon-text">Enquire Now!</span>
                     </button>
                 </div>
             </div>
         </section>
 
-        <!-- Membership Section -->
+        <!-- Membership Section (NEW) -->
         <section id="membership" class="section flex-col py-16">
-            <h2 class="text-5xl font-bold mb-12 text-center neon-text animated-card">Choose Your Membership</h2>
+            <h2 class="text-5xl font-bold mb-12 text-center neon-text">Choose Your Membership Tier</h2>
             <p class="text-xl text-gray-300 max-w-3xl mb-12 text-center animated-card">
-                Unlock full access to Fusion TT Club with a membership plan tailored to your needs.
+                Join the Fusion TT Club family! Select the membership that best suits your table tennis journey.
             </p>
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl w-full">
-                <!-- Bronze Tier -->
-                <div class="p-8 rounded-xl neon-border bg-gradient-to-br from-gray-900 to-black shadow-lg animated-card panel-hover-effect animate-border-glow">
-                    <h3 class="text-3xl font-semibold mb-4 neon-text animated-card">Bronze Tier</h3>
-                    <p class="text-5xl font-bold neon-text-orange mb-6">R150<span class="text-lg text-gray-400">/month</span></p>
+                <!-- Bronze Membership -->
+                <div class="p-8 rounded-xl neon-border bg-gradient-to-br from-gray-900 to-black shadow-lg animated-card panel-hover-effect">
+                    <h3 class="text-3xl font-semibold mb-4 neon-text-orange">Bronze Tier</h3>
+                    <p class="text-5xl font-bold neon-text-purple mb-6">R150<span class="text-xl text-gray-400">/month</span></p>
                     <ul class="list-disc list-inside text-left space-y-2 text-lg text-gray-300 mb-8">
-                        <li><i class="fas fa-check-circle text-green-500 mr-2"></i>Access to Social Play (off-peak)</li>
-                        <li><i class="fas fa-check-circle text-green-500 mr-2"></i>Basic Tournament Entry</li>
-                        <li><i class="fas fa-check-circle text-green-500 mr-2"></i>Club Newsletter Access</li>
-                        <li><i class="fas fa-minus-circle text-red-500 mr-2"></i>No Training Discounts</li>
-                        <li><i class="fas fa-minus-circle text-red-500 mr-2"></i>Limited Table Booking Slots</li>
+                        <li>Access to social playing hours</li>
+                        <li>Discount on table bookings (10%)</li>
+                        <li>Entry to monthly social tournaments</li>
+                        <li>Club newsletter</li>
                     </ul>
-                    <button class="w-full py-3 px-6 rounded-md button-hover-glow ripple-container" onclick="showModal('You selected the Bronze Tier! Please contact us at membership@fusiontt.club to complete your registration.')">
-                        Select Plan
+                    <button class="w-full py-3 px-6 rounded-md button-hover-glow button-shimmer ripple-container" onclick="showModal('You selected the Bronze Tier! Contact us at join@fusiontt.club to sign up.')">
+                        Sign Up - Bronze
                     </button>
                 </div>
 
-                <!-- Silver Tier -->
-                <div class="p-8 rounded-xl neon-border bg-gradient-to-br from-gray-900 to-black shadow-lg animated-card panel-hover-effect animate-border-glow">
-                    <h3 class="text-3xl font-semibold mb-4 neon-text-purple animated-card">Silver Tier</h3>
-                    <p class="text-5xl font-bold neon-text mb-6">R300<span class="text-lg text-gray-400">/month</span></p>
+                <!-- Silver Membership -->
+                <div class="p-8 rounded-xl neon-border bg-gradient-to-br from-gray-900 to-black shadow-lg animated-card panel-hover-effect border-2 border-neon-blue">
+                    <h3 class="text-3xl font-semibold mb-4 neon-text-blue">Silver Tier <span class="text-xl text-gray-400">(Most Popular!)</span></h3>
+                    <p class="text-5xl font-bold neon-text mb-6">R300<span class="text-xl text-gray-400">/month</span></p>
                     <ul class="list-disc list-inside text-left space-y-2 text-lg text-gray-300 mb-8">
-                        <li><i class="fas fa-check-circle text-green-500 mr-2"></i>Full Access to Social Play</li>
-                        <li><i class="fas fa-check-circle text-green-500 mr-2"></i>Standard Tournament Entry</li>
-                        <li><i class="fas fa-check-circle text-green-500 mr-2"></i>10% Training Session Discount</li>
-                        <li><i class="fas fa-check-circle text-green-500 mr-2"></i>Priority Table Booking</li>
-                        <li><i class="fas fa-check-circle text-green-500 mr-2"></i>Exclusive Merch Discounts</li>
+                        <li>All Bronze Tier benefits</li>
+                        <li>Access to all club facilities</li>
+                        <li>Increased discount on table bookings (25%)</li>
+                        <li>One free 30-min coaching session per month</li>
+                        <li>Priority tournament registration</li>
+                        <li>Exclusive access to member-only events</li>
                     </ul>
-                    <button class="w-full py-3 px-6 rounded-md button-hover-glow ripple-container" onclick="showModal('You selected the Silver Tier! Please contact us at membership@fusiontt.club to complete your registration.')">
-                        Select Plan
+                    <button class="w-full py-3 px-6 rounded-md button-hover-glow button-shimmer ripple-container" onclick="showModal('You selected the Silver Tier! Contact us at join@fusiontt.club to sign up.')">
+                        Sign Up - Silver
                     </button>
                 </div>
 
-                <!-- Gold Tier -->
-                <div class="p-8 rounded-xl neon-border bg-gradient-to-br from-gray-900 to-black shadow-lg animated-card panel-hover-effect animate-border-glow">
-                    <h3 class="text-3xl font-semibold mb-4 neon-text-orange animated-card">Gold Tier</h3>
-                    <p class="text-5xl font-bold neon-text-purple mb-6">R500<span class="text-lg text-gray-400">/month</span></p>
+                <!-- Gold Membership -->
+                <div class="p-8 rounded-xl neon-border bg-gradient-to-br from-gray-900 to-black shadow-lg animated-card panel-hover-effect">
+                    <h3 class="text-3xl font-semibold mb-4 neon-text-purple">Gold Tier <span class="text-xl text-gray-400">(The Pro Package!)</span></h3>
+                    <p class="text-5xl font-bold neon-text-orange mb-6">R550<span class="text-xl text-gray-400">/month</span></p>
                     <ul class="list-disc list-inside text-left space-y-2 text-lg text-gray-300 mb-8">
-                        <li><i class="fas fa-check-circle text-green-500 mr-2"></i>All Silver Tier Benefits</li>
-                        <li><i class="fas fa-check-circle text-green-500 mr-2"></i>Free Premium Tournament Entry</li>
-                        <li><i class="fas fa-check-circle text-green-500 mr-2"></i>20% Training Session Discount</li>
-                        <li><i class="fas fa-check-circle text-green-500 mr-2"></i>Unlimited Priority Table Booking</li>
-                        <li><i class="fas fa-check-circle text-green-500 mr-2"></i>VIP Access to Club Events</li>
+                        <li>All Silver Tier benefits</li>
+                        <li>Unlimited table bookings (subject to availability)</li>
+                        <li>Two free 60-min coaching sessions per month</li>
+                        <li>Free entry to all social tournaments</li>
+                        <li>Early access to new merch releases</li>
+                        <li>Personalized performance tracking</li>
+                        <li>Exclusive "Pro-Tips" workshop access</li>
                     </ul>
-                    <button class="w-full py-3 px-6 rounded-md button-hover-glow ripple-container" onclick="showModal('You selected the Gold Tier! Please contact us at membership@fusiontt.club to complete your registration.')">
-                        Select Plan
+                    <button class="w-full py-3 px-6 rounded-md button-hover-glow button-shimmer ripple-container" onclick="showModal('You selected the Gold Tier! Contact us at join@fusiontt.club to sign up and unleash your full potential!')">
+                        Sign Up - Gold
                     </button>
                 </div>
             </div>
@@ -1428,10 +1404,12 @@
 
         <!-- About Section -->
         <section id="about" class="section flex-col py-16 relative">
+            <!-- About Page Doodles - REMOVED -->
+
             <div class="about-section-content">
                 <h2 class="text-5xl font-bold mb-12 text-center neon-text animated-card">About Our Club</h2>
-                <div class="max-w-4xl mx-auto p-8 rounded-xl neon-border bg-gradient-to-br from-gray-900 to-black shadow-lg animated-card panel-hover-effect animate-border-glow">
-                    <h3 class="text-3xl font-semibold mb-4 neon-text animated-card">Our Story <i class="fas fa-book-open ml-2 text-neon-purple"></i></h3>
+                <div class="max-w-4xl mx-auto p-8 rounded-xl neon-border bg-gradient-to-br from-gray-900 to-black shadow-lg animated-card panel-hover-effect">
+                    <h3 class="text-3xl font-semibold mb-4 neon-text">Our Story <i class="fas fa-book-open ml-2 text-neon-purple"></i></h3>
                     <p class="text-lg text-gray-300 leading-relaxed">
                         The Fusion TT Club was founded in 2025 by a visionary coach who believed in the immense potential of table tennis in South Africa. Driven by a deep passion for the sport, our founder's primary goal was to elevate South Africa's reputation on the global table tennis stage and, more importantly, to spread the pure joy and accessibility of the sport to everyone.
                     </p>
@@ -1439,26 +1417,17 @@
                         From humble beginnings, the club was built on the principle that table tennis is more than just a game; it's a community builder, a skill developer, and a source of endless fun. Our founder envisioned a place where aspiring athletes could hone their skills with top-tier coaching, where friends could gather for spirited social play, and where new enthusiasts could discover the thrill of the paddle. This dream of fostering both competitive excellence and widespread enjoyment is the beating heart of Fusion TT Club, ready to welcome you in 2026.
                     </p>
                 </div>
-                <div class="max-w-4xl mx-auto p-8 rounded-xl neon-border bg-gradient-to-br from-gray-900 to-black shadow-lg animated-card panel-hover-effect animate-border-glow">
-                    <h3 class="text-3xl font-semibold mb-4 neon-text animated-card">Our Location <i class="fas fa-map-marker-alt ml-2 text-neon-orange"></i></h3>
+                <div class="max-w-4xl mx-auto p-8 rounded-xl neon-border bg-gradient-to-br from-gray-900 to-black shadow-lg animated-card panel-hover-effect">
+                    <h3 class="text-3xl font-semibold mb-4 neon-text">Our Location <i class="fas fa-map-marker-alt ml-2 text-neon-orange"></i></h3>
                     <p class="text-lg text-gray-300 leading-relaxed">
                         Nestled in the heart of <span class="neon-text font-semibold">Montana, Pretoria</span>, our club is easily accessible and offers ample parking. We chose this location for its central convenience and its proximity to a thriving, active community, ensuring that everyone can join the fun.
                     </p>
                 </div>
-                <div class="max-w-4xl mx-auto p-8 rounded-xl neon-border bg-gradient-to-br from-gray-900 to-black shadow-lg animated-card panel-hover-effect animate-border-glow">
-                    <h3 class="text-3xl font-semibold mb-4 neon-text animated-card">The Neon Lounge <i class="fas fa-couch ml-2 text-neon-blue"></i></h3>
+                <div class="max-w-4xl mx-auto p-8 rounded-xl neon-border bg-gradient-to-br from-gray-900 to-black shadow-lg animated-card panel-hover-effect">
+                    <h3 class="text-3xl font-semibold mb-4 neon-text">The Neon Lounge <i class="fas fa-couch ml-2 text-neon-blue"></i></h3>
                     <p class="text-lg text-gray-300 leading-relaxed">
                         Beyond the tables, our club boasts the exclusive <span class="neon-text font-semibold">Neon Lounge</span> – a chill zone designed for relaxation and camaraderie. Featuring comfortable seating, a refreshment bar serving energizing drinks and snacks, and large screens broadcasting live tournaments, it's the perfect spot to unwind after a intense match, strategize with teammates, or simply soak in the club's electric atmosphere. It's where the community truly comes alive, making friends and forging rivalries.
                     </p>
-                </div>
-                <!-- New Club Milestones Section -->
-                <div class="max-w-4xl mx-auto p-8 rounded-xl neon-border bg-gradient-to-br from-gray-900 to-black shadow-lg animated-card panel-hover-effect animate-border-glow mt-8">
-                    <h3 class="text-3xl font-semibold mb-6 neon-text animated-card">Club Milestones <i class="fas fa-star ml-2 text-neon-orange"></i></h3>
-                    <div id="club-milestones" class="space-y-4">
-                        <!-- Milestones will be loaded dynamically -->
-                        <p class="text-gray-400 text-center" id="milestones-loading-message">Loading milestones...</p>
-                        <div id="milestones-spinner" class="merch-image-spinner mx-auto" style="display: block;"></div>
-                    </div>
                 </div>
             </div>
         </section>
@@ -1471,7 +1440,7 @@
             <span class="close-button ripple-container" onclick="closeModal()">&times;</span>
             <p id="modal-message" class="text-lg text-center neon-text"></p>
             <div id="modal-actions" class="flex justify-center mt-6">
-                <button onclick="closeModal()" class="py-2 px-6 rounded-md button-hover-glow ripple-container">
+                <button onclick="closeModal()" class="py-2 px-6 rounded-md button-hover-glow button-shimmer ripple-container">
                     Got it!
                 </button>
             </div>
@@ -1525,7 +1494,7 @@
                 modalActions.innerHTML = customContent;
             } else {
                 modalActions.innerHTML = `
-                    <button onclick="closeModal()" class="py-2 px-6 rounded-md button-hover-glow ripple-container">
+                    <button onclick="closeModal()" class="py-2 px-6 rounded-md button-hover-glow button-shimmer ripple-container">
                         Got it!
                     </button>
                 `;
@@ -1547,8 +1516,22 @@
                 if (section.id === id) {
                     section.classList.add('active');
                     window.scrollTo({ top: 0, behavior: 'smooth' }); // Scroll to top of the new "page"
+
+                    // Reset and observe animated cards within the newly active section
+                    section.querySelectorAll('.animated-card').forEach(card => {
+                        card.classList.remove('is-visible'); // Ensure it's hidden initially
+                        // Force reflow to reset animation
+                        void card.offsetWidth;
+                        observer.observe(card); // Re-observe to trigger animation on scroll
+                    });
+
                 } else {
                     section.classList.remove('active');
+                    // Stop observing cards in inactive sections to prevent unintended animations
+                    section.querySelectorAll('.animated-card').forEach(card => {
+                        observer.unobserve(card);
+                        card.classList.remove('is-visible'); // Hide them when inactive
+                    });
                 }
             });
 
@@ -1598,10 +1581,10 @@
                 if (entry.isIntersecting) {
                     entry.target.classList.add('is-visible');
                     // Optional: Unobserve after animation to save resources if elements don't need to re-animate
-                    // observer.unobserve(entry.target);
+                    // observer.unobserve(entry.target); // Keep observing for potential re-animations if needed for current behavior
                 } else {
                     // Optional: Remove 'is-visible' if you want elements to re-animate when scrolling back up
-                    // entry.target.classList.remove('is-visible');
+                    entry.target.classList.remove('is-visible'); // Allows re-animation on scroll back
                 }
             });
         }, {
@@ -1631,15 +1614,9 @@
             // Render bar chart on home page
             renderBarChart();
 
-            // Observe animated cards for scroll animation
-            document.querySelectorAll('.animated-card').forEach(card => {
+            // Initial observation for elements in the *active* section on first load
+            document.querySelector('.section.active').querySelectorAll('.animated-card').forEach(card => {
                 observer.observe(card);
-            });
-
-            // Also observe H2 headers within sections for animation
-            document.querySelectorAll('section h2').forEach(h2 => {
-                h2.classList.add('animated-card'); // Add animated-card class to all h2 in sections
-                observer.observe(h2);
             });
 
             // Generate merch images
@@ -1647,9 +1624,6 @@
             generateMerchImage('merch-image-shorts', 'futuristic table tennis shorts, black with neon blue and purple accents, e-sports style, dark background, high detail');
             generateMerchImage('merch-image-practice-shirts', 'futuristic table tennis practice shirt, dark grey with neon orange and blue accents, casual e-sports style, dark background, high detail');
             generateMerchImage('merch-image-accessories', 'futuristic table tennis accessories, including water bottle, bat case, and keychain, neon glowing elements, dark background, high detail');
-
-            // Load club milestones
-            loadClubMilestones();
         });
 
         // --- Bar Chart Logic ---
@@ -2030,44 +2004,18 @@
         };
 
         let currentLeaderboardCategory = 'seniors';
-        let playerSearchHistory = JSON.parse(localStorage.getItem('playerSearchHistory') || '[]');
-
-        function saveSearchHistory() {
-            localStorage.setItem('playerSearchHistory', JSON.stringify(playerSearchHistory));
-        }
-
-        function addSearchTermToHistory(term) {
-            if (term && !playerSearchHistory.includes(term)) {
-                playerSearchHistory.unshift(term); // Add to beginning
-                if (playerSearchHistory.length > 5) { // Keep last 5 searches
-                    playerSearchHistory.pop();
-                }
-                saveSearchHistory();
-            }
-        }
-
-        function renderSearchHistory() {
-            const historyList = document.getElementById('player-search-history-list');
-            historyList.innerHTML = '';
-            if (playerSearchHistory.length === 0) {
-                historyList.innerHTML = '<div class="text-center text-gray-500 py-2">No recent searches</div>';
-                return;
-            }
-            playerSearchHistory.forEach(term => {
-                const historyItem = document.createElement('div');
-                historyItem.textContent = term;
-                historyItem.addEventListener('click', () => {
-                    document.getElementById('player-search').value = term;
-                    renderLeaderboard(currentLeaderboardCategory, term);
-                    document.getElementById('player-search-history').style.display = 'none';
-                });
-                historyList.appendChild(historyItem);
-            });
-        }
 
         function renderLeaderboard(category, searchTerm = '') {
             currentLeaderboardCategory = category;
             const leaderboardBody = document.getElementById('leaderboard-body');
+            
+            // Clear existing content and unobserve old rows before adding new ones
+            // Only unobserve if the element is currently being observed by *this* observer
+            leaderboardBody.querySelectorAll('tr').forEach(row => {
+                if (row.classList.contains('animated-leaderboard-row')) { // Use a specific class for leaderboard rows
+                    observer.unobserve(row);
+                }
+            });
             leaderboardBody.innerHTML = '';
 
             let players = playersData[category];
@@ -2087,7 +2035,22 @@
 
             players.forEach((player, index) => {
                 const row = document.createElement('tr');
-                row.classList.add('hover:bg-gray-800', 'transition-colors', 'duration-200', 'animated-card'); // Ensure animated-card is here
+                // Use a dedicated class for leaderboard row animation for category change
+                row.classList.add('hover:bg-gray-800', 'transition-colors', 'duration-200', 'animated-leaderboard-row');
+                // These styles ensure they start hidden and animate in
+                row.style.opacity = '0';
+                row.style.transform = 'translateY(20px)';
+                row.style.transition = 'opacity 0.5s ease-out, transform 0.5s ease-out'; // Animation properties
+                row.style.animationDelay = `${index * 0.08}s`; // Staggered animation
+                row.style.animationFillMode = 'forwards'; // Keep the end state
+
+                // Apply the animation immediately for leaderboard rows when rendered
+                // This will make them animate in when category changes or page loads
+                setTimeout(() => {
+                    row.style.opacity = '1';
+                    row.style.transform = 'translateY(0)';
+                }, 10); // Small delay to allow CSS transition to apply from initial state
+
                 row.innerHTML = `
                     <td class="py-3 px-4 whitespace-nowrap text-lg font-semibold neon-text-purple">${player.rank}</td>
                     <td class="py-3 px-4 whitespace-nowrap text-gray-200 cursor-pointer player-name-clickable" data-player-name="${player.name}">${player.name}</td>
@@ -2095,8 +2058,8 @@
                     <td class="py-3 px-4 whitespace-nowrap text-gray-200">${player.matchesPlayed}</td>
                 `;
                 leaderboardBody.appendChild(row);
-                // OBSERVE THE NEWLY CREATED ROW
-                observer.observe(row); // <--- THIS IS THE FIX
+                // No need to observe individual leaderboard rows with the IntersectionObserver
+                // because we're handling their animation directly on render for category changes.
             });
 
             // Add click listeners to player names for pop-up
@@ -2125,34 +2088,13 @@
             tab.addEventListener('click', function() {
                 const category = this.dataset.category;
                 renderLeaderboard(category, document.getElementById('player-search').value);
-                addSearchTermToHistory(document.getElementById('player-search').value); // Save search on tab change
             });
         });
 
         // Search bar event listener
         document.getElementById('player-search')?.addEventListener('input', function() {
             renderLeaderboard(currentLeaderboardCategory, this.value);
-            if (this.value === '') {
-                renderSearchHistory();
-                document.getElementById('player-search-history').style.display = 'block';
-            } else {
-                document.getElementById('player-search-history').style.display = 'none';
-            }
         });
-
-        document.getElementById('player-search')?.addEventListener('focus', function() {
-            renderSearchHistory();
-            document.getElementById('player-search-history').style.display = 'block';
-        });
-
-        document.getElementById('player-search')?.addEventListener('blur', function() {
-            // Delay hiding to allow click on history items
-            setTimeout(() => {
-                document.getElementById('player-search-history').style.display = 'none';
-            }, 200);
-            addSearchTermToHistory(this.value); // Save search on blur
-        });
-
 
         // Function to show player details modal
         function showPlayerDetailsModal(player) {
@@ -2195,72 +2137,108 @@
             showModal('', teamDetailsHtml);
         }
 
-        // --- Hardcoded Pro Tips (replacing Gemini API for this feature) ---
-        const proTips = [
-            { quote: "The serve is your first attack. Master it, and you control the point.", player: "Jan-Ove Waldner" },
-            { quote: "Footwork is everything. Your paddle is just an extension of your body, but your feet get you to the ball.", player: "Ma Long" },
-            { quote: "Confidence isn't just about hitting hard; it's about knowing you can adapt to any situation.", player: "Liu Guoliang" },
-            { quote: "A good defense sets up a great offense. Learn to return everything, and openings will appear.", player: "Ding Ning" },
-            { quote: "Vary your spin. Predictability is your opponent's best friend.", player: "Xu Xin" },
-            { quote: "The key to consistency is repetition. Practice until you can't get it wrong.", player: "Zhang Jike" },
-            { quote: "Don't just play; think. Every shot should have a purpose.", player: "Timo Boll" },
-            { quote: "Patience wins rallies. Force errors, don't just go for outright winners.", player: "Mima Ito" },
-            { quote: "Your paddle is your sword, but your mind is your shield.", player: "Forrest Gump (Table Tennis Champion)" },
-            { quote: "Embrace the pressure. It's where diamonds are made.", player: "Wang Hao" },
-            { quote: "Never underestimate your opponent, and never overestimate yourself.", player: "Count Olaf (Table Tennis Enthusiast)" },
-            { quote: "The best players are students of the game. Always be learning.", player: "Fan Zhendong" },
-            { quote: "Control the table, control the game. Dominance starts with position.", player: "Deng Yaping" },
-            { quote: "Spin is the secret language of table tennis. Learn to speak it fluently.", player: "Koki Niwa" },
-            { quote: "Your opponent's weakness is your opportunity. Find it, exploit it.", player: "Jean-Philippe Gatien" },
-            { quote: "Stay calm under pressure. A clear mind leads to clear shots.", player: "Harimoto Tomokazu" },
-            { quote: "Don't chase the ball, intercept it. Anticipation is key.", player: "Li Jiawei" },
-            { quote: "The more you sweat in practice, the less you bleed in battle.", player: "Liu Shiwen" },
-            { quote: "A good serve doesn't just score points; it dictates the rhythm of the rally.", player: "Wang Nan" },
-            { quote: "Table tennis is a dance. Move with the ball, not against it.", player: "Miu Hirano" },
-            { quote: "Learn from every loss. It's not a defeat, it's a lesson.", player: "Ichiro (from Ping Pong the Animation)" },
-            { quote: "The sound of the ball hitting your racket tells you everything. Listen closely.", player: "Mizutani Jun" },
-            { quote: "Placement over power, always. Unless you have both.", player: "Kasper Schmeichel (Table Tennis Goalie)" },
-            { quote: "Develop a strong backhand. It opens up your forehand.", player: "Vladimir Samsonov" },
-            { quote: "Don't be afraid to try new techniques. Innovation leads to victory.", player: "Chen Meng" },
-            { quote: "Consistency is boring until you realize it's winning.", player: "Swish (Table Tennis Robot)" },
-            { quote: "The best rallies are the ones you build, not just react to.", player: "Waldner's Shadow" },
-            { quote: "Every point is a new opportunity. Forget the last one, focus on the next.", player: "Ma Long's Coach" },
-            { quote: "Your mental game is as important as your physical game. Train both.", player: "Sun Yingsha" },
-            { quote: "Love the process, not just the outcome.", player: "The Zen Master of Spin" }
+        // --- Motivating Quotes Logic (now pre-defined) ---
+        const motivatingQuotes = [
+            { quote: "The best way to predict the future is to create it.", player: "Dimitrij Ovtcharov" },
+            { quote: "Table tennis is like chess on legs.", player: "Wang Liqin" },
+            { quote: "Success is no accident. It is hard work, perseverance, learning, studying, sacrifice and most of all, love of what you are doing or learning to do.", player: "Pelé (applies to TT too!)" },
+            { quote: "The harder you work, the luckier you get.", player: "Gary Player (TT version)" },
+            { quote: "Don't be afraid to fail. Be afraid not to try.", player: "Ma Long" },
+            { quote: "Your attitude, not your aptitude, will determine your altitude.", player: "Zhang Jike" },
+            { quote: "Believe you can and you're halfway there.", player: "Timo Boll" },
+            { quote: "The only way to do great work is to love what you do.", player: "Jan-Ove Waldner" },
+            { quote: "Champions keep playing until they get it right.", player: "Liu Guoliang" },
+            { quote: "It's not whether you get knocked down, it's whether you get up.", player: "Kong Linghui" },
+            { quote: "Push yourself because no one else is going to do it for you.", player: "Fan Zhendong" },
+            { quote: "The mind is the limit. As long as the mind can envision the fact that you can do something, you can do it.", player: "Xu Xin" },
+            { quote: "Discipline is doing what needs to be done, even if you don’t want to do it.", player: "Mima Ito" },
+            { quote: "Talent wins games, but teamwork and intelligence wins championships.", player: "Miu Hirano" },
+            { quote: "The difference between the impossible and the possible lies in a person's determination.", player: "Koki Niwa" },
+            { quote: "To be a champion, I think you have to see the big picture. It's not about winning and losing; it's about every day hard work and about thriving on a challenge.", player: "Tomokazu Harimoto" },
+            { quote: "The only limit to our realization of tomorrow will be our doubts of today.", player: "Kasumi Ishikawa" },
+            { quote: "If you want to be the best, you have to do things other people aren’t willing to do.", player: "Hugo Calderano" },
+            { quote: "The future belongs to those who believe in the beauty of their dreams.", player: "Adriana Diaz" },
+            { quote: "Pain is temporary. Quitting lasts forever.", player: "Wang Manyu" }
         ];
+
+        let currentQuoteIndex = 0;
 
         document.getElementById('quote-button')?.addEventListener('click', () => {
             const quoteDisplay = document.getElementById('quote-display');
             const quoteText = document.getElementById('quote-text');
             const quotePlayer = document.getElementById('quote-player');
 
-            // Select a random tip
-            const randomIndex = Math.floor(Math.random() * proTips.length);
-            const randomTip = proTips[randomIndex];
+            const quoteData = motivatingQuotes[currentQuoteIndex];
+            quoteText.textContent = `"${quoteData.quote}"`;
+            quotePlayer.textContent = quoteData.player;
 
-            // Display the quote
-            quoteText.textContent = `"${randomTip.quote}"`;
-            quotePlayer.textContent = randomTip.player;
             quoteDisplay.style.display = 'block';
-
-            // Re-trigger animation
             quoteDisplay.style.animation = 'none';
             void quoteDisplay.offsetWidth; // Trigger reflow for animation reset
-            quoteDisplay.style.animation = 'fadeIn 0.8s ease-out forwards'; // Using generic fadeIn
+            quoteDisplay.style.animation = 'fadeInSlideUp 0.8s ease-out forwards';
+
+            currentQuoteIndex = (currentQuoteIndex + 1) % motivatingQuotes.length; // Cycle through quotes
         });
 
+        // --- Image Generation Logic ---
+        async function generateMerchImage(containerId, prompt) {
+            const container = document.getElementById(containerId);
+            const imgElement = container.querySelector('img');
+            const spinner = container.querySelector('.merch-image-spinner');
+            const textSpan = container.querySelector('span');
 
-        // --- LLM Integration: Suggest Training Drills ---
+            // Show loading state
+            if (spinner) spinner.style.display = 'block';
+            if (textSpan) textSpan.style.display = 'block';
+            imgElement.classList.remove('loaded');
+            imgElement.src = '';
+
+            try {
+                const payload = { instances: { prompt: prompt }, parameters: { "sampleCount": 1} };
+                const apiKey = "";
+                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/imagen-3.0-generate-002:predict?key=${apiKey}`;
+
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                const result = await response.json();
+
+                if (result.predictions && result.predictions.length > 0 && result.predictions[0].bytesBase64Encoded) {
+                    const imageUrl = `data:image/png;base64,${result.predictions[0].bytesBase64Encoded}`;
+                    imgElement.src = imageUrl;
+                    imgElement.onload = () => {
+                        if (spinner) spinner.style.display = 'none';
+                        if (textSpan) textSpan.style.display = 'none';
+                        imgElement.classList.add('loaded');
+                    };
+                } else {
+                    console.error('Image generation failed: No predictions or bytesBase64Encoded found.', result);
+                    if (spinner) spinner.style.display = 'none';
+                    if (textSpan) textSpan.textContent = 'Image failed to load.';
+                    imgElement.src = `https://placehold.co/300x200/051020/8A2BE2/FFFFFF?text=Image+Error`;
+                    imgElement.classList.add('loaded');
+                }
+            } catch (error) {
+                console.error('Error generating image:', error);
+                if (spinner) spinner.style.display = 'none';
+                if (textSpan) textSpan.textContent = 'Error generating image.';
+                imgElement.src = `https://placehold.co/300x200/051020/8A2BE2/FFFFFF?text=Image+Error`;
+                imgElement.classList.add('loaded');
+            }
+        }
+
+        // --- New LLM Integration: Suggest Training Drills ---
         document.getElementById('suggest-drills-button')?.addEventListener('click', async () => {
             const coachSelect = document.getElementById('coach-select');
             const selectedCoachText = coachSelect.options[coachSelect.selectedIndex].text;
             const drillSuggestionsDiv = document.getElementById('drill-suggestions');
             const drillSuggestionsMessage = document.getElementById('drill-suggestions-message');
-            const loadingSpinner = document.getElementById('drills-loading-spinner');
 
             drillSuggestionsDiv.style.display = 'block';
-            drillSuggestionsMessage.innerHTML = ''; // Clear previous drills
-            loadingSpinner.style.display = 'block'; // Show spinner
+            drillSuggestionsMessage.innerHTML = '<div class="merch-image-spinner mx-auto"></div><p class="mt-2">Generating drill suggestions...</p>';
 
             const coachLevel = selectedCoachText.includes('Beginner/Intermediate') ? 'beginner to intermediate' :
                                selectedCoachText.includes('Intermediate/Advanced') ? 'intermediate to advanced' :
@@ -2288,7 +2266,7 @@
                         }
                     }
                 };
-                const apiKey = ""; // Canvas will automatically provide the API key
+                const apiKey = "";
                 const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
 
                 const response = await fetch(apiUrl, {
@@ -2318,8 +2296,6 @@
             } catch (error) {
                 console.error('Error calling Gemini API for drills:', error);
                 drillSuggestionsMessage.innerHTML = '<p class="text-red-400">Error generating drills. Please try again later.</p>';
-            } finally {
-                loadingSpinner.style.display = 'none'; // Hide spinner
             }
         });
 
@@ -2342,7 +2318,7 @@
                         ${accessoriesOptions.map(option => `<option value="${option.value}">${option.text}</option>`).join('')}
                     </select>
                 </div>
-                <button onclick="orderSelectedAccessory()" class="py-2 px-6 rounded-md button-hover-glow mx-auto block ripple-container">
+                <button onclick="orderSelectedAccessory()" class="py-2 px-6 rounded-md button-hover-glow button-shimmer mx-auto block ripple-container">
                     Order Selected Accessory
                 </button>
             `;
@@ -2355,50 +2331,16 @@
             showModal(`Great choice! You want to order a <span class="neon-text-orange">${selectedAccessory}</span>. Please contact us at merch@fusiontt.club to finalize your order.`);
         }
 
-        // --- Club Milestones Section Logic ---
-        function loadClubMilestones() {
-            const milestonesDiv = document.getElementById('club-milestones');
-            const loadingMessage = document.getElementById('milestones-loading-message');
-            const spinner = document.getElementById('milestones-spinner');
-
-            const milestones = [
-                { year: 2025, description: "Club Grand Opening & Inaugural Member Recruitment Drive" },
-                { year: 2026, description: "First Inter-Club Tournament Hosting" },
-                { year: 2027, description: "Launch of Junior Development Program" },
-                { year: 2028, description: "Expansion to 10+ Table Tennis Tables" },
-                { year: 2029, description: "Host of National Table Tennis Championship" }
-            ];
-
-            // Simulate loading with a delay
-            setTimeout(() => {
-                loadingMessage.style.display = 'none';
-                spinner.style.display = 'none';
-                milestonesDiv.innerHTML = ''; // Clear loading message
-
-                milestones.forEach((milestone, index) => {
-                    const milestoneItem = document.createElement('div');
-                    milestoneItem.classList.add('milestone-item', 'p-4', 'rounded-md', 'bg-gray-800', 'neon-border');
-                    milestoneItem.style.animationDelay = `${0.1 * index}s`; // Stagger animation
-                    milestoneItem.innerHTML = `
-                        <p class="text-xl font-semibold neon-text-purple">${milestone.year}</p>
-                        <p class="text-lg text-gray-300">${milestone.description}</p>
-                    `;
-                    milestonesDiv.appendChild(milestoneItem);
-                    observer.observe(milestoneItem); // Observe for scroll animation
-                });
-            }, 1500); // 1.5 second delay
-        }
-
         // --- Three.js Silk Animation Wallpaper Logic ---
         let scene, camera, renderer, mesh, clock, particles;
 
         const DEFAULT_PROPS_THREEJS = {
             speed: 5,
             scale: 1,
-            color1: "#051020", /* Darkest blue from background gradient */
-            color2: "#0A1A30", /* Middle blue from background gradient */
-            color3: "#0F2040", /* Lightest blue from background gradient */
-            noiseIntensity: 0.7, // DECREASED NOISE INTENSITY FURTHER
+            color1: "#00F0FF", // Turquoise
+            color2: "#8A2BE2", // Purple
+            color3: "#FF7F00", // Orange
+            noiseIntensity: 1.5,
             rotation: 0,
         };
 
@@ -2472,7 +2414,7 @@
                                          sin(20.0 * (tex.x + tex.y - 0.1 * tOffset)));
 
                 // Calculate the final color, applying the pattern, base color, and noise
-                vec4 col = vec4(gradientColor, 1.0) * vec4(pattern) - rnd / 30.0 * uNoiseIntensity; /* DECREASED NOISE IMPACT FURTHER */
+                vec4 col = vec4(gradientColor, 1.0) * vec4(pattern) - rnd / 15.0 * uNoiseIntensity;
                 col.a = 1.0; // Ensure full opacity
                 gl_FragColor = col;
             }
@@ -2552,7 +2494,7 @@
                 colors[i * 3 + 2] = color.b;
 
                 // Random size for particles
-                sizes[i] = Math.random() * 1.2 + 0.2; // Size between 0.2 and 1.4 - DECREASED SIZE FURTHER
+                sizes[i] = Math.random() * 3 + 1; // Size between 1 and 4
             }
 
             particleGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
@@ -2560,10 +2502,10 @@
             particleGeometry.setAttribute('size', new THREE.BufferAttribute(sizes, 1));
 
             const particleMaterial = new THREE.PointsMaterial({
-                size: 2, // Base size, will be multiplied by 'size' attribute - DECREASED SIZE FURTHER
+                size: 5, // Base size, will be multiplied by 'size' attribute
                 vertexColors: true, // Enable per-vertex colors
                 transparent: true,
-                opacity: 0.4, // DECREASED OPACITY FURTHER
+                opacity: 0.8,
                 blending: THREE.AdditiveBlending, // For glowing effect
                 sizeAttenuation: true // Particles closer to camera appear larger
             });
@@ -2636,59 +2578,6 @@
         // Initialize Three.js after the DOM is fully loaded
         window.addEventListener('load', initThreeJS);
 
-        // --- Imagen API: Generate Merch Images ---
-        async function generateMerchImage(elementId, prompt) {
-            const container = document.getElementById(elementId);
-            const spinner = container.querySelector('.merch-image-spinner');
-            const message = container.querySelector('span');
-            const imgElement = container.querySelector('img');
-
-            spinner.style.display = 'block';
-            message.textContent = 'Generating image...';
-            imgElement.style.opacity = 0;
-
-            try {
-                const payload = { instances: { prompt: prompt }, parameters: { "sampleCount": 1} };
-                const apiKey = ""; // Canvas will automatically provide the API key
-                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/imagen-3.0-generate-002:predict?key=${apiKey}`;
-
-                const response = await fetch(apiUrl, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(payload)
-                });
-
-                const result = await response.json();
-
-                if (result.predictions && result.predictions.length > 0 && result.predictions[0].bytesBase64Encoded) {
-                    const imageUrl = `data:image/png;base64,${result.predictions[0].bytesBase64Encoded}`;
-                    imgElement.src = imageUrl;
-                    imgElement.onload = () => {
-                        spinner.style.display = 'none';
-                        message.textContent = '';
-                        imgElement.classList.add('loaded'); // Trigger fade in
-                    };
-                    imgElement.onerror = () => {
-                        spinner.style.display = 'none';
-                        message.textContent = 'Image failed to load. Using placeholder.';
-                        imgElement.src = `https://placehold.co/192x192/00F0FF/FFFFFF?text=Image+Failed`;
-                        imgElement.classList.add('loaded');
-                    };
-                } else {
-                    console.error('Image generation failed or unexpected response:', result);
-                    spinner.style.display = 'none';
-                    message.textContent = 'Image failed to generate. Using placeholder.';
-                    imgElement.src = `https://placehold.co/192x192/00F0FF/FFFFFF?text=Image+Failed`;
-                    imgElement.classList.add('loaded');
-                }
-            } catch (error) {
-                console.error('Error generating image:', error);
-                spinner.style.display = 'none';
-                message.textContent = 'Error generating image. Using placeholder.';
-                imgElement.src = `https://placehold.co/192x192/00F0FF/FFFFFF?text=Image+Error`;
-                imgElement.classList.add('loaded');
-            }
-        }
     </script>
 </body>
 </html>
