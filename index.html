@@ -601,48 +601,74 @@
             position: fixed;
             top: 0;
             left: 0;
-            width: 100%;
-            height: 100%;
+            width: 100vw; /* Use viewport width */
+            height: 100vh; /* Use viewport height */
             /* Updated for more glassy effect */
             background-color: rgba(10, 25, 47, 0.8); /* Slightly less opaque for more blur */
             backdrop-filter: blur(25px); /* Increased blur significantly for stronger effect */
+            display: flex; /* Use flex to center content */
+            flex-direction: column; /* Stack items vertically */
             justify-content: center;
             align-items: center;
             opacity: 0;
             visibility: hidden; /* Start hidden */
-            transition: opacity 1s ease-out, visibility 1s ease-out; /* Slower transition */
+            transition: opacity 0.5s ease-out, visibility 0.5s ease-out; /* Slower transition */
             z-index: 999; /* Ensure it's above other content but below modal */
+            overflow-y: auto; /* Allow scrolling if content overflows vertically */
+            padding: 2rem 1rem; /* Add some overall padding to prevent edge issues */
+            box-sizing: border-box; /* Include padding in width/height */
         }
 
         .mobile-menu-overlay.active {
             opacity: 1;
             visibility: visible; /* Show when active */
-            display: flex; /* Keep flex for centering content */
+            /* Display is already flex, no need to redefine */
         }
 
         .mobile-menu-overlay .nav-link {
-            font-size: 2.5rem; /* Large size for overlay menu */
-            margin-bottom: 1.5rem;
+            font-size: 2rem; /* Adjusted for smaller screens */
+            margin-bottom: 1.25rem; /* Adjusted margin */
             opacity: 0;
             transform: translateY(20px);
-            animation: slideInLink 1.2s forwards ease-out; /* Slower animation */
+            animation: slideInLink 0.8s forwards ease-out; /* Adjusted animation speed */
             display: flex; /* Make icon and text align */
             align-items: center;
             justify-content: center; /* Center content in the overlay */
-            padding: 0.5rem 1rem; /* Add some padding for touch targets */
+            padding: 0.75rem 1rem; /* Slightly more padding for touch targets */
             border-radius: 10px; /* Rounded corners for menu items */
-            transition: background-color 0.3s ease, box-shadow 0.3s ease; /* Smooth transitions */
+            transition: background-color 0.3s ease, box-shadow 0.3s ease, transform 0.2s ease; /* Smooth transitions */
+            text-align: center; /* Ensure text is centered within its link box */
+            width: 100%; /* Take full width within overlay for better tapping */
+            max-width: 300px; /* Max width to keep it neat on wider mobile screens */
         }
 
-        .mobile-menu-overlay .nav-link:nth-child(1) { animation-delay: 0.1s; }
-        .mobile-menu-overlay .nav-link:nth-child(2) { animation-delay: 0.2s; }
-        .mobile-menu-overlay .nav-link:nth-child(3) { animation-delay: 0.3s; }
-        .mobile-menu-overlay .nav-link:nth-child(4) { animation-delay: 0.4s; }
-        .mobile-menu-overlay .nav-link:nth-child(5) { animation-delay: 0.5s; }
-        .mobile-menu-overlay .nav-link:nth-child(6) { animation-delay: 0.6s; }
-        .mobile-menu-overlay .nav-link:nth-child(7) { animation-delay: 0.7s; }
-        .mobile-menu-overlay .nav-link:nth-child(8) { animation-delay: 0.8s; }
-        .mobile-menu-overlay .nav-link:nth-child(9) { animation-delay: 0.9s; } /* New membership link */
+        /* Media query for slightly larger mobile screens/tablets if needed for nav-link font-size */
+        @media (min-width: 480px) {
+            .mobile-menu-overlay .nav-link {
+                font-size: 2.25rem; /* Slightly larger for medium mobile screens */
+                margin-bottom: 1.5rem;
+            }
+        }
+
+        @media (min-width: 768px) { /* md breakpoint - desktop menu takes over */
+            .mobile-menu-overlay .nav-link {
+                /* Reset styles when desktop menu is active, though this overlay shouldn't be active */
+                font-size: 2.5rem; /* Keep original large size for desktop hamburger experience */
+                margin-bottom: 1.5rem;
+                padding: 0.5rem 1rem;
+                max-width: none; /* Remove max-width restriction for larger screens */
+            }
+        }
+
+        .mobile-menu-overlay .nav-link:nth-child(1) { animation-delay: 0.05s; } /* Reduced delay */
+        .mobile-menu-overlay .nav-link:nth-child(2) { animation-delay: 0.10s; }
+        .mobile-menu-overlay .nav-link:nth-child(3) { animation-delay: 0.15s; }
+        .mobile-menu-overlay .nav-link:nth-child(4) { animation-delay: 0.20s; }
+        .mobile-menu-overlay .nav-link:nth-child(5) { animation-delay: 0.25s; }
+        .mobile-menu-overlay .nav-link:nth-child(6) { animation-delay: 0.30s; }
+        .mobile-menu-overlay .nav-link:nth-child(7) { animation-delay: 0.35s; }
+        .mobile-menu-overlay .nav-link:nth-child(8) { animation-delay: 0.40s; }
+        .mobile-menu-overlay .nav-link:nth-child(9) { animation-delay: 0.45s; }
 
 
         @keyframes slideInLink {
@@ -652,12 +678,15 @@
 
         .mobile-menu-close-button {
             position: absolute;
-            top: 0.25rem; /* Closer to the corner */
-            right: 0.25rem; /* Closer to the corner */
-            font-size: 3rem;
+            top: 1rem; /* Slightly more space from top */
+            right: 1rem; /* Slightly more space from right */
+            font-size: 2.5rem; /* Slightly smaller for better fit */
             color: var(--neon-purple);
             cursor: pointer;
             transition: transform 0.2s ease-in-out, color 0.2s ease-in-out;
+            padding: 0.5rem; /* Add padding for easier tapping */
+            border-radius: 50%; /* Make it a circle */
+            background-color: rgba(0, 0, 0, 0.2); /* Subtle background */
         }
 
         .mobile-menu-close-button:hover {
@@ -672,8 +701,8 @@
 
         /* Styling for icons and text within the overlay menu */
         .mobile-menu-overlay .nav-link .fas {
-            margin-right: 1rem; /* Space between icon and text */
-            font-size: 2.5rem; /* Icon size matches text */
+            margin-right: 0.75rem; /* Space between icon and text */
+            font-size: 1.75rem; /* Icon size matches text slightly better */
             /* Default icon color */
             color: white;
             transition: color 0.3s ease, text-shadow 0.3s ease;
@@ -693,6 +722,7 @@
         .mobile-menu-overlay .nav-link:hover {
             background-color: rgba(138, 43, 226, 0.1); /* Subtle background on hover */
             box-shadow: 0 0 10px rgba(138, 43, 226, 0.4); /* Glow on hover */
+            transform: scale(1.02); /* Slight scale on hover */
         }
 
         .mobile-menu-overlay .nav-link:hover .fas {
@@ -872,7 +902,7 @@
     <!-- Mobile Menu Overlay (Now serves as the main menu for all screen sizes when opened) -->
     <div id="mobile-menu-overlay" class="mobile-menu-overlay">
         <i class="fas fa-times mobile-menu-close-button ripple-container" id="mobile-menu-close-button"></i>
-        <div class="flex flex-col items-center">
+        <div class="flex flex-col items-center w-full"> <!-- Added w-full here to make content take full width -->
             <a href="#home" class="nav-link text-lg font-medium hover:text-white transition-colors duration-300 mobile-nav-link ripple-container" onclick="activateSection('home'); return false;"><i class="fas fa-home mr-2"></i><span class="neon-text">Home</span></a>
             <a href="#book-training" class="nav-link text-lg font-medium hover:text-white transition-colors duration-300 mobile-nav-link ripple-container" onclick="activateSection('book-training'); return false;"><i class="fas fa-chalkboard-teacher mr-2"></i><span class="neon-text">Book Training</span></a>
             <a href="#social-tournaments" class="nav-link text-lg font-medium hover:text-white transition-colors duration-300 mobile-nav-link ripple-container" onclick="activateSection('social-tournaments'); return false;"><i class="fas fa-trophy mr-2"></i><span class="neon-text">Social Tournaments</span></a>
@@ -2013,7 +2043,12 @@
             // Only unobserve if the element is currently being observed by *this* observer
             leaderboardBody.querySelectorAll('tr').forEach(row => {
                 if (row.classList.contains('animated-leaderboard-row')) { // Use a specific class for leaderboard rows
-                    observer.unobserve(row);
+                    // Remove current animation classes before clearing
+                    row.style.opacity = '';
+                    row.style.transform = '';
+                    row.style.transition = '';
+                    row.style.animationDelay = '';
+                    row.style.animationFillMode = '';
                 }
             });
             leaderboardBody.innerHTML = '';
