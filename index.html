@@ -866,6 +866,43 @@
         .team-name-clickable:hover {
             color: var(--neon-orange);
         }
+
+        /* Options Modal (for Edit/Cancel Session) */
+        .options-modal {
+            display: none;
+            position: fixed;
+            z-index: 1001; /* Higher than global-modal */
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(10px);
+            justify-content: center;
+            align-items: center;
+        }
+
+        .options-modal-content {
+            background: linear-gradient(135deg, rgba(10, 25, 47, 0.6), rgba(20, 35, 60, 0.6));
+            padding: 30px;
+            border-radius: 15px;
+            width: 90%;
+            max-width: 400px;
+            box-shadow: 0 0 20px rgba(0, 240, 255, 0.4), inset 0 0 10px rgba(0, 240, 255, 0.2);
+            position: relative;
+            animation: fadeIn 0.5s ease-out;
+            border: 2px solid var(--neon-purple);
+            backdrop-filter: blur(20px);
+            text-align: center;
+        }
+
+        .options-modal-content button {
+            margin-top: 1rem;
+            padding: 0.75rem 1.5rem;
+            font-size: 1.1rem;
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
@@ -1032,6 +1069,7 @@
                 <div class="p-8 rounded-xl neon-border bg-gradient-to-br from-gray-900 to-black shadow-lg animated-card panel-hover-effect">
                     <h3 class="text-3xl font-semibold mb-6 neon-text">Schedule a Coaching Session</h3>
                     <form id="training-booking-form" class="space-y-6">
+                        <input type="hidden" id="training-booking-id">
                         <div>
                             <label for="coach-select" class="block text-lg font-medium text-gray-300 mb-2">Select Coach:</label>
                             <select id="coach-select" class="w-full p-3 rounded-md bg-gray-800 border border-gray-700 focus:border-neon-blue focus:ring focus:ring-neon-blue focus:ring-opacity-50 transition-all duration-200">
@@ -1046,7 +1084,7 @@
                                 </optgroup>
                                 <optgroup label="Advanced Coaches">
                                     <option value="coach-lisa">Coach Lisa</option>
-                                    <option value="coach-chris">Coach Chris</option>
+                                    <option value="coach-chris">Coach-Chris</option>
                                 </optgroup>
                             </select>
                         </div>
@@ -1067,17 +1105,19 @@
                                 <option value="120">2 hours</option>
                             </select>
                         </div>
-                        <button type="submit" class="w-full py-3 px-6 rounded-md button-hover-glow button-shimmer ripple-container">
+                        <button type="submit" id="training-submit-button" class="w-full py-3 px-6 rounded-md button-hover-glow button-shimmer ripple-container">
                             Book Session
                         </button>
-                        <!-- Removed 'Get Training Drills!' button -->
+                        <button type="button" id="training-cancel-edit-button" class="w-full py-3 px-6 rounded-md button-hover-glow button-shimmer ripple-container hidden" onclick="resetTrainingForm()">
+                            Cancel Update
+                        </button>
                     </form>
                     <!-- Removed drill suggestions div -->
                 </div>
 
                 <!-- Calendar of Booked Sessions -->
                 <div class="p-8 rounded-xl neon-border bg-gradient-to-br from-gray-900 to-black shadow-lg animated-card panel-hover-effect">
-                    <h3 class="text-3xl font-semibold mb-6 neon-text">Your Booked Coaching Sessions</h3>
+                    <h3 class="text-3xl font-semibold mb-6 neon-text">All Coaching Sessions</h3>
                     <div class="flex justify-between items-center mb-4">
                         <button id="prev-month-training" class="text-neon-blue hover:text-white transition-colors duration-200 ripple-container button-shimmer"><i class="fas fa-chevron-left"></i></button>
                         <span id="current-month-training" class="text-xl font-semibold neon-text"></span>
@@ -1185,6 +1225,7 @@
                 <div class="p-8 rounded-xl neon-border bg-gradient-to-br from-gray-900 to-black shadow-lg animated-card panel-hover-effect">
                     <h3 class="text-3xl font-semibold mb-6 neon-text">Reserve Your Table Time</h3>
                     <form id="table-booking-form" class="space-y-6">
+                        <input type="hidden" id="table-booking-id">
                         <div>
                             <label for="table-activity" class="block text-lg font-medium text-gray-300 mb-2">Activity Type:</label>
                             <select id="table-activity" class="w-full p-3 rounded-md bg-gray-800 border border-gray-700 focus:border-neon-blue focus:ring focus:ring-neon-blue focus:ring-opacity-50 transition-all duration-200">
@@ -1212,15 +1253,18 @@
                                 <option value="120">2 hours</option>
                             </select>
                         </div>
-                        <button type="submit" class="w-full py-3 px-6 rounded-md button-hover-glow button-shimmer ripple-container">
+                        <button type="submit" id="table-submit-button" class="w-full py-3 px-6 rounded-md button-hover-glow button-shimmer ripple-container">
                             Book Table
+                        </button>
+                        <button type="button" id="table-cancel-edit-button" class="w-full py-3 px-6 rounded-md button-hover-glow button-shimmer ripple-container hidden" onclick="resetTableForm()">
+                            Cancel Update
                         </button>
                     </form>
                 </div>
 
                 <!-- Calendar of Booked Tables -->
                 <div class="p-8 rounded-xl neon-border bg-gradient-to-br from-gray-900 to-black shadow-lg animated-card panel-hover-effect">
-                    <h3 class="text-3xl font-semibold mb-6 neon-text">Your Booked Table Sessions</h3>
+                    <h3 class="text-3xl font-semibold mb-6 neon-text">All Table Sessions</h3>
                     <div class="flex justify-between items-center mb-4">
                         <button id="prev-month-table" class="text-neon-blue hover:text-white transition-colors duration-200 ripple-container button-shimmer"><i class="fas fa-chevron-left"></i></button>
                         <span id="current-month-table" class="text-xl font-semibold neon-text"></span>
@@ -1591,8 +1635,223 @@
         </div>
     </div>
 
+    <!-- Options Modal for Edit/Cancel Sessions -->
+    <div id="options-modal" class="options-modal">
+        <div class="options-modal-content">
+            <span class="close-button ripple-container" onclick="closeOptionsModal()">&times;</span>
+            <h3 class="text-2xl font-semibold mb-6 neon-text-purple">Session Options</h3>
+            <button id="edit-session-button" class="py-2 px-6 rounded-md button-hover-glow button-shimmer ripple-container w-full" onclick="editSelectedSession()">
+                Edit Session
+            </button>
+            <button id="cancel-session-button" class="py-2 px-6 rounded-md button-hover-glow button-shimmer ripple-container w-full mt-4" onclick="confirmCancelSession()">
+                Cancel Session
+            </button>
+        </div>
+    </div>
+
+    <!-- Confirmation Modal for Deletion -->
+    <div id="confirm-modal" class="options-modal"> <!-- Reusing options-modal styles -->
+        <div class="options-modal-content">
+            <h3 class="text-2xl font-semibold mb-6 neon-text-orange">Confirm Deletion</h3>
+            <p class="text-lg text-gray-300 mb-6">Are you sure you want to cancel this session?</p>
+            <button onclick="deleteConfirmedSession()" class="py-2 px-6 rounded-md button-hover-glow button-shimmer ripple-container">
+                Yes, Cancel It!
+            </button>
+            <button onclick="closeConfirmModal()" class="py-2 px-6 rounded-md button-hover-glow button-shimmer ripple-container ml-4">
+                No, Keep It
+            </button>
+        </div>
+    </div>
+
     <!-- Three.js library from CDN -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+    <!-- Firebase SDK initialization and Firestore operations -->
+    <script type="module">
+        // Import the functions you need from the SDKs you need
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, collection, query, onSnapshot, addDoc, serverTimestamp, deleteDoc, doc, updateDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+        // Your Firebase project configuration (provided by Canvas environment)
+        // Ensure __firebase_config is a global variable from the environment
+        const firebaseConfig = JSON.parse(typeof __firebase_config !== 'undefined' ? __firebase_config : '{}');
+        // Ensure __app_id is a global variable from the environment
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
+
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+        const auth = getAuth(app);
+
+        let userId = null;
+        let isAuthReady = false;
+
+        // Make Firebase instances and functions globally accessible for the main script
+        window.db = db;
+        window.appId = appId;
+        window.collection = collection;
+        window.query = query;
+        window.onSnapshot = onSnapshot;
+        window.addDoc = addDoc;
+        window.serverTimestamp = serverTimestamp;
+        window.deleteDoc = deleteDoc;
+        window.doc = doc;
+        window.updateDoc = updateDoc; // Add updateDoc to global scope
+
+        // Listen for authentication state changes and sign in anonymously if not authenticated
+        onAuthStateChanged(auth, async (user) => {
+            if (user) {
+                userId = user.uid;
+                console.log("User signed in:", userId);
+            } else {
+                console.log("No user signed in. Signing in anonymously...");
+                try {
+                    // Check if __initial_auth_token is provided by the environment
+                    if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
+                        await signInWithCustomToken(auth, __initial_auth_token);
+                    } else {
+                        await signInAnonymously(auth);
+                    }
+                    userId = auth.currentUser.uid; // Get UID after successful sign-in
+                    console.log("Signed in anonymously:", userId);
+                } catch (error) {
+                    console.error("Error during anonymous sign-in or custom token sign-in:", error);
+                }
+            }
+            window.userId = userId; // Update global userId
+            isAuthReady = true;
+            window.isAuthReady = isAuthReady; // Update global isAuthReady
+            console.log("Initial userId check (after onAuthStateChanged):", userId);
+
+
+            // Now that auth is ready, set up real-time listeners for all data types
+            setupRealtimeListeners();
+
+            // Re-render calendars after data is fetched from Firestore
+            // This is important because the initial render might happen before data is ready
+            // The onSnapshot listeners will also trigger renders, but this ensures an initial render
+            // if data arrives very quickly or is cached.
+            if (document.getElementById('book-training').classList.contains('active')) {
+                renderCalendar('training', window.trainingBookings, window.trainingCurrentDate);
+            }
+            if (document.getElementById('table-booking').classList.contains('active')) {
+                renderCalendar('table', window.tableBookings, window.tableCurrentDate);
+            }
+            if (document.getElementById('social-tournaments').classList.contains('active')) {
+                renderCalendar('social', window.socialTournaments, window.socialCurrentDate);
+            }
+            if (document.getElementById('club-league').classList.contains('active')) {
+                renderCalendar('league', window.leagueGames, window.leagueCurrentDate);
+            }
+        });
+
+        // Function to set up all real-time listeners
+        function setupRealtimeListeners() {
+            if (!window.isAuthReady || !window.db || !window.userId) {
+                console.warn("Firestore not ready for listeners. Skipping setup.");
+                return;
+            }
+            console.log("Firestore ready. Setting up listeners.");
+
+
+            // --- Training Sessions Listener ---
+            const trainingRef = collection(window.db, `artifacts/${window.appId}/public/data/trainingSessions`);
+            // Ordering by timestamp ensures the latest data is sorted (optional, but good practice)
+            const trainingQuery = query(trainingRef); // Removed orderBy as it can cause index issues if not explicitly created
+
+            onSnapshot(trainingQuery, (snapshot) => {
+                window.trainingBookings = [];
+                snapshot.forEach((doc) => {
+                    const data = doc.data();
+                    window.trainingBookings.push({ id: doc.id, ...data });
+                });
+                // Sort client-side if not using orderBy in query to avoid index issues
+                window.trainingBookings.sort((a, b) => {
+                    const dateA = new Date(`${a.date}T${a.time}`);
+                    const dateB = new Date(`${b.date}T${b.time}`);
+                    return dateA - dateB;
+                });
+                console.log("onSnapshot received updates for trainingSessions. Data:", window.trainingBookings);
+                // Re-render training calendar only if its section is active or for first load
+                if (document.getElementById('book-training').classList.contains('active')) {
+                     renderCalendar('training', window.trainingBookings, window.trainingCurrentDate);
+                }
+            }, (error) => {
+                console.error("Error fetching training sessions:", error);
+            });
+
+            // --- Table Bookings Listener ---
+            const tableRef = collection(window.db, `artifacts/${window.appId}/public/data/tableBookings`);
+            const tableQuery = query(tableRef); // Removed orderBy
+
+            onSnapshot(tableQuery, (snapshot) => {
+                window.tableBookings = [];
+                snapshot.forEach((doc) => {
+                    const data = doc.data();
+                    window.tableBookings.push({ id: doc.id, ...data });
+                });
+                window.tableBookings.sort((a, b) => {
+                    const dateA = new Date(`${a.date}T${a.time}`);
+                    const dateB = new Date(`${b.date}T${b.time}`);
+                    return dateA - dateB;
+                });
+                console.log("onSnapshot received updates for tableBookings. Data:", window.tableBookings);
+                if (document.getElementById('table-booking').classList.contains('active')) {
+                    renderCalendar('table', window.tableBookings, window.tableCurrentDate);
+                }
+            }, (error) => {
+                console.error("Error fetching table bookings:", error);
+            });
+
+            // --- Social Tournaments Listener ---
+            const socialRef = collection(window.db, `artifacts/${window.appId}/public/data/socialTournaments`);
+            const socialQuery = query(socialRef); // Removed orderBy
+
+            onSnapshot(socialQuery, (snapshot) => {
+                window.socialTournaments = [];
+                snapshot.forEach((doc) => {
+                    const data = doc.data();
+                    window.socialTournaments.push({ id: doc.id, ...data });
+                });
+                window.socialTournaments.sort((a, b) => {
+                    const dateA = new Date(`${a.date}T${a.time}`);
+                    const dateB = new Date(`${b.date}T${b.time}`);
+                    return dateA - dateB;
+                });
+                console.log("Fetched social tournaments:", window.socialTournaments);
+                if (document.getElementById('social-tournaments').classList.contains('active')) {
+                    renderCalendar('social', window.socialTournaments, window.socialCurrentDate);
+                }
+            }, (error) => {
+                console.error("Error fetching social tournaments:", error);
+            });
+
+            // --- League Games Listener ---
+            const leagueRef = collection(window.db, `artifacts/${window.appId}/public/data/leagueGames`);
+            const leagueQuery = query(leagueRef); // Removed orderBy
+
+            onSnapshot(leagueQuery, (snapshot) => {
+                window.leagueGames = [];
+                snapshot.forEach((doc) => {
+                    const data = doc.data();
+                    window.leagueGames.push({ id: doc.id, ...data });
+                });
+                window.leagueGames.sort((a, b) => {
+                    const dateA = new Date(`${a.date}T${a.time}`);
+                    const dateB = new Date(`${b.date}T${b.time}`);
+                    return dateA - dateB;
+                });
+                console.log("Fetched league games:", window.leagueGames);
+                if (document.getElementById('club-league').classList.contains('active')) {
+                    renderCalendar('league', window.leagueGames, window.leagueCurrentDate);
+                }
+            }, (error) => {
+                console.error("Error fetching league games:", error);
+            });
+        }
+    </script>
 
     <script>
         // --- Global State and Utility Functions ---
@@ -1603,8 +1862,31 @@
         const modalArticleContent = document.getElementById('modal-article-content'); // New element for article content
         const modalActions = document.getElementById('modal-actions');
 
+        // Options Modal elements
+        const optionsModal = document.getElementById('options-modal');
+        const editSessionBtn = document.getElementById('edit-session-button');
+        const cancelSessionBtn = document.getElementById('cancel-session-button');
+        const confirmModal = document.getElementById('confirm-modal');
+
+        // Variables to hold the session type and ID for edit/cancel operations
+        let currentSessionType = null;
+        let currentSessionId = null;
+
         // Global variable to store selected membership tier
         let selectedMembershipTier = null; // Can be 'Bronze', 'Silver', 'Gold', or null
+
+        // Placeholder for data arrays, will be populated by Firestore listeners
+        window.trainingBookings = [];
+        window.tableBookings = [];
+        window.leagueGames = [];
+        window.socialTournaments = [];
+
+        // Current month/year for each calendar
+        window.trainingCurrentDate = new Date(2026, 2, 1); // March 2026
+        window.tableCurrentDate = new Date(2026, 2, 1);    // March 2026
+        window.leagueCurrentDate = new Date(2026, 2, 1);   // March 2026
+        window.socialCurrentDate = new Date(2026, 2, 1);   // March 2026
+
 
         // Function to select membership tier
         function selectMembership(tier) {
@@ -1671,6 +1953,143 @@
         function closeModal() {
             globalModal.style.display = 'none';
             document.body.style.overflow = ''; // Re-enable scrolling
+        }
+
+        // --- Session Options Modal Functions ---
+        function showSessionOptions(event, type, sessionId) {
+            event.stopPropagation(); // Prevent calendar day click from firing
+            currentSessionType = type;
+            currentSessionId = sessionId;
+            console.log("Showing options for:", { type, sessionId, currentUserId: window.userId });
+
+
+            optionsModal.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeOptionsModal() {
+            optionsModal.style.display = 'none';
+            document.body.style.overflow = '';
+            // Reset currentSessionId and currentSessionType after the options modal is closed
+            // and after the actions have been processed (e.g., delete/edit)
+            currentSessionType = null;
+            currentSessionId = null;
+        }
+
+        function confirmCancelSession() {
+            confirmModal.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeConfirmModal() {
+            confirmModal.style.display = 'none';
+            document.body.style.overflow = '';
+        }
+
+        async function deleteConfirmedSession() {
+            console.log("Attempting to delete session:", { currentSessionId, currentSessionType, currentUserId: window.userId });
+
+            if (!window.isAuthReady || !window.db || !window.userId || !currentSessionId || !currentSessionType) {
+                showModal('Cannot cancel session. Firestore or session data is not ready.');
+                console.error("Attempted to delete session without full context:", {isAuthReady: window.isAuthReady, db: window.db, userId: window.userId, currentSessionId, currentSessionType});
+                closeConfirmModal(); // Close confirm modal even on error
+                closeOptionsModal(); // Close options modal even on error
+                return;
+            }
+
+            const collectionName = currentSessionType === 'training' ? 'trainingSessions' : 'tableBookings';
+            try {
+                await window.deleteDoc(window.doc(window.db, `artifacts/${window.appId}/public/data/${collectionName}`, currentSessionId));
+                showModal('Session cancelled successfully!');
+            } catch (error) {
+                console.error(`Error cancelling ${currentSessionType} session with ID ${currentSessionId}:`, error);
+                showModal('Failed to cancel session. Please try again.');
+            } finally {
+                // Ensure both modals are closed and state is reset AFTER deletion attempt
+                closeConfirmModal();
+                closeOptionsModal();
+            }
+        }
+
+        function editSelectedSession() {
+            // Do NOT close options modal here immediately, as we need currentSessionId and currentSessionType
+            let sessionToEdit;
+            let form, bookingIdInput, submitButton, cancelButton;
+
+            console.log("Attempting to edit session:", currentSessionId);
+            console.log("Current user ID:", window.userId);
+            console.log("Type:", currentSessionType);
+
+            if (currentSessionType === 'training') {
+                sessionToEdit = window.trainingBookings.find(s => s.id === currentSessionId);
+                form = document.getElementById('training-booking-form');
+                bookingIdInput = document.getElementById('training-booking-id');
+                submitButton = document.getElementById('training-submit-button');
+                cancelButton = document.getElementById('training-cancel-edit-button');
+
+                console.log("All training bookings:", window.trainingBookings);
+                console.log("Found session for editing (training):", sessionToEdit);
+
+                if (sessionToEdit) {
+                    document.getElementById('coach-select').value = sessionToEdit.coach.includes('Danie') ? 'coach-danie' :
+                                                                      sessionToEdit.coach.includes('Alex') ? 'coach-alex' :
+                                                                      sessionToEdit.coach.includes('Sarah') ? 'coach-sarah' :
+                                                                      sessionToEdit.coach.includes('Ben') ? 'coach-ben' :
+                                                                      sessionToEdit.coach.includes('Mike') ? 'coach-mike' :
+                                                                      sessionToEdit.coach.includes('Lisa') ? 'coach-lisa' :
+                                                                      sessionToEdit.coach.includes('Chris') ? 'coach-chris' : '';
+
+                    document.getElementById('training-date').value = sessionToEdit.date;
+                    document.getElementById('training-time').value = sessionToEdit.time;
+                    document.getElementById('training-length').value = sessionToEdit.length.split(' ')[0]; // Extract "30" from "30 minutes"
+                }
+            } else if (currentSessionType === 'table') {
+                sessionToEdit = window.tableBookings.find(s => s.id === currentSessionId);
+                form = document.getElementById('table-booking-form');
+                bookingIdInput = document.getElementById('table-booking-id');
+                submitButton = document.getElementById('table-submit-button');
+                cancelButton = document.getElementById('table-cancel-edit-button');
+
+                console.log("All table bookings:", window.tableBookings);
+                console.log("Found session for editing (table):", sessionToEdit);
+
+                if (sessionToEdit) {
+                    document.getElementById('table-activity').value = sessionToEdit.activity.toLowerCase().replace(/ /g, '-');
+                    document.getElementById('table-date').value = sessionToEdit.date;
+                    document.getElementById('table-time').value = sessionToEdit.time;
+                    document.getElementById('table-length').value = sessionToEdit.length.split(' ')[0];
+                }
+            }
+
+            if (sessionToEdit) {
+                bookingIdInput.value = currentSessionId;
+                submitButton.textContent = 'Update Session';
+                cancelButton.classList.remove('hidden');
+                // Scroll to the form
+                form.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                closeOptionsModal(); // Close options modal AFTER form is populated
+            } else {
+                showModal('Session not found for editing.');
+                closeOptionsModal(); // Close options modal if session not found
+            }
+        }
+
+        function resetTrainingForm() {
+            document.getElementById('training-booking-form').reset();
+            document.getElementById('training-booking-id').value = '';
+            document.getElementById('training-submit-button').textContent = 'Book Session';
+            document.getElementById('training-cancel-edit-button').classList.add('hidden');
+            currentSessionId = null;
+            currentSessionType = null;
+        }
+
+        function resetTableForm() {
+            document.getElementById('table-booking-form').reset();
+            document.getElementById('table-booking-id').value = '';
+            document.getElementById('table-submit-button').textContent = 'Book Table';
+            document.getElementById('table-cancel-edit-button').classList.add('hidden');
+            currentSessionId = null;
+            currentSessionType = null;
         }
 
 
@@ -1744,11 +2163,8 @@
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     entry.target.classList.add('is-visible');
-                    // Optional: Unobserve after animation to save resources if elements don't need to re-animate
-                    // observer.unobserve(entry.target); // Keep observing for potential re-animations if needed for current behavior
                 } else {
-                    // Optional: Remove 'is-visible' if you want elements to re-animate when scrolling back up
-                    entry.target.classList.remove('is-visible'); // Allows re-animation on scroll back
+                    entry.target.classList.remove('is-visible');
                 }
             });
         }, {
@@ -1766,11 +2182,12 @@
                 activateSection('home');
             }
 
-            // Initialize calendars
-            renderCalendar('training', trainingBookings, trainingCurrentDate);
-            renderCalendar('table', tableBookings, tableCurrentDate);
-            renderCalendar('league', leagueGames, leagueCurrentDate);
-            renderCalendar('social', socialTournaments, socialCurrentDate); // Initialize social calendar
+            // Initialize calendars will be triggered by Firestore listeners, but set initial states
+            // We pass the global window.trainingBookings, etc. which will be populated by Firebase
+            renderCalendar('training', window.trainingBookings, window.trainingCurrentDate);
+            renderCalendar('table', window.tableBookings, window.tableCurrentDate);
+            renderCalendar('league', window.leagueGames, window.leagueCurrentDate);
+            renderCalendar('social', window.socialTournaments, window.socialCurrentDate);
 
             // Populate leaderboard
             renderLeaderboard('seniors'); // Default to seniors
@@ -1831,52 +2248,26 @@
 
 
         // --- Calendar Logic (Reusable) ---
-        let trainingBookings = [
-            { date: '2026-03-10', time: '18:00', coach: 'Coach Alex', details: 'Beginner Session', length: '1 hour' },
-            { date: '2026-03-15', time: '19:30', coach: 'Coach Ben', details: 'Advanced Drills', length: '1 hour 30 minutes' },
-            { date: '2026-04-02', time: '17:00', coach: 'Coach Danie', details: 'Serve Masterclass', length: '2 hours' },
-        ];
+        // These arrays are now populated by Firebase onSnapshot listeners
+        // let trainingBookings = [];
+        // let tableBookings = [];
+        // let leagueGames = [];
+        // let socialTournaments = [];
 
-        let tableBookings = [
-            { date: '2026-03-12', time: '10:00', activity: 'Social Playing', details: 'Table 3', length: '30 minutes' },
-            { date: '2026-03-18', time: '14:00', activity: 'Serve Training', details: 'Table 1', length: '1 hour' },
-            { date: '2026-04-05', time: '11:00', activity: 'Training with a Friend', details: 'Table 2', length: '1 hour 30 minutes' },
-        ];
-
-        let leagueGames = [
-            { date: '2026-03-12', time: '19:00', teams: 'Team A vs Team D' },
-            { date: '2026-03-15', time: '18:30', teams: 'Team B vs Team F' },
-            { date: '2026-03-19', time: '19:30', teams: 'Team C vs Team E' },
-            { date: '2026-03-22', time: '20:00', teams: 'Team G vs Team H' },
-            { date: '2026-04-01', time: '19:00', teams: 'Team I vs Team J' },
-        ];
-
-        let socialTournaments = [
-            { date: '2026-03-10', time: '18:00', name: 'Spring Open - Mixed Doubles' },
-            { date: '2026-04-05', time: '14:00', name: 'Rookie Rumble - Singles' },
-            { date: '2026-05-20', time: '19:00', name: 'Neon Night Challenge - Fast Paced Singles' },
-            { date: '2026-06-15', time: '10:00', name: 'Summer Smash - Team Event' },
-        ];
-
-        // Current month/year for each calendar
-        let trainingCurrentDate = new Date(2026, 2, 1); // March 2026
-        let tableCurrentDate = new Date(2026, 2, 1);    // March 2026
-        let leagueCurrentDate = new Date(2026, 2, 1);   // March 2026
-        let socialCurrentDate = new Date(2026, 2, 1);   // March 2026
 
         function getCalendarState(type) {
-            if (type === 'training') return { bookings: trainingBookings, currentDate: trainingCurrentDate };
-            if (type === 'table') return { bookings: tableBookings, currentDate: tableCurrentDate };
-            if (type === 'league') return { bookings: leagueGames, currentDate: leagueCurrentDate };
-            if (type === 'social') return { bookings: socialTournaments, currentDate: socialCurrentDate };
+            if (type === 'training') return { bookings: window.trainingBookings, currentDate: window.trainingCurrentDate };
+            if (type === 'table') return { bookings: window.tableBookings, currentDate: window.tableCurrentDate };
+            if (type === 'league') return { bookings: window.leagueGames, currentDate: window.leagueCurrentDate };
+            if (type === 'social') return { bookings: window.socialTournaments, currentDate: window.socialCurrentDate };
             return null;
         }
 
         function setCalendarState(type, newDate) {
-            if (type === 'training') trainingCurrentDate = newDate;
-            if (type === 'table') tableCurrentDate = newDate;
-            if (type === 'league') leagueCurrentDate = newDate;
-            if (type === 'social') socialCurrentDate = newDate;
+            if (type === 'training') window.trainingCurrentDate = newDate;
+            if (type === 'table') window.tableCurrentDate = newDate;
+            if (type === 'league') window.leagueCurrentDate = newDate;
+            if (type === 'social') window.socialCurrentDate = newDate;
         }
 
         function renderCalendar(type, bookings, currentMonthDate) {
@@ -1917,11 +2308,15 @@
 
             // Add days of the month
             let daysWithEvents = {};
-            bookings.forEach(booking => {
+            // Filter bookings for the current month and year
+            const currentMonthBookings = bookings.filter(booking => {
                 const bookingDate = new Date(booking.date);
-                if (bookingDate.getFullYear() === year && bookingDate.getMonth() === month) {
-                    daysWithEvents[bookingDate.getDate()] = true;
-                }
+                return bookingDate.getFullYear() === year && bookingDate.getMonth() === month;
+            });
+
+            currentMonthBookings.forEach(booking => {
+                const bookingDate = new Date(booking.date);
+                daysWithEvents[bookingDate.getDate()] = true;
             });
 
             for (let day = 1; day <= daysInMonth; day++) {
@@ -1972,27 +2367,42 @@
             eventsOnDay.forEach(event => {
                 const eventDiv = document.createElement('div');
                 eventDiv.classList.add('p-3', 'rounded-md', 'bg-gray-800', 'neon-border');
+                
+                let detailsHtml = '';
                 if (type === 'training') {
-                    eventDiv.innerHTML = `
+                    detailsHtml = `
                         <p class="text-lg neon-text font-semibold">${event.coach}</p>
-                        <p class="text-gray-300">${event.time} (${event.length}) - ${event.details}</p>
+                        <p class="text-gray-300">${event.time} (${event.length})</p>
+                        <p class="text-gray-400 text-sm">Booked by: ${event.bookedBy === window.userId ? 'You' : event.bookedBy.substring(0, 8) + '...'}</p>
                     `;
                 } else if (type === 'table') {
-                    eventDiv.innerHTML = `
+                    detailsHtml = `
                         <p class="text-lg neon-text font-semibold">${event.activity}</p>
-                        <p class="text-gray-300">${event.time} (${event.length}) - ${event.details}</p>
+                        <p class="text-gray-300">${event.time} (${event.length})</p>
+                        <p class="text-gray-400 text-sm">Booked by: ${event.bookedBy === window.userId ? 'You' : event.bookedBy.substring(0, 8) + '...'}</p>
                     `;
                 } else if (type === 'league') {
-                    eventDiv.innerHTML = `
+                    detailsHtml = `
                         <p class="text-lg neon-text font-semibold">${event.teams}</p>
                         <p class="text-gray-300">Time: ${event.time}</p>
                     `;
                 } else if (type === 'social') {
-                    eventDiv.innerHTML = `
+                    detailsHtml = `
                         <p class="text-lg neon-text font-semibold">${event.name}</p>
                         <p class="text-gray-300">Time: ${event.time}</p>
                     `;
                 }
+
+                // Add options icon only if the session is booked by the current user and it's training or table booking
+                const optionsIconHtml = (type === 'training' || type === 'table') && event.bookedBy === window.userId ?
+                    `<i class="fas fa-ellipsis-v cursor-pointer ml-auto text-neon-blue" onclick="showSessionOptions(event, '${type}', '${event.id}')"></i>` : '';
+
+                eventDiv.innerHTML = `
+                    <div class="flex justify-between items-center">
+                        <div>${detailsHtml}</div>
+                        ${optionsIconHtml}
+                    </div>
+                `;
                 eventsListEl.appendChild(eventDiv);
             });
         }
@@ -2000,20 +2410,24 @@
         function setupCalendarNavigation(type) {
             const prevBtn = document.getElementById(`prev-month-${type}`);
             const nextBtn = document.getElementById(`next-month-${type}`);
-            const state = getCalendarState(type);
+            // Access state directly from window object now
+            const state = {
+                bookings: window[`${type}Bookings`],
+                currentDate: window[`${type}CurrentDate`]
+            };
 
             if (!prevBtn || !nextBtn || !state) return;
 
             prevBtn.addEventListener('click', () => {
                 state.currentDate.setMonth(state.currentDate.getMonth() - 1);
-                setCalendarState(type, state.currentDate);
-                renderCalendar(type, state.bookings, state.currentDate);
+                window[`${type}CurrentDate`] = state.currentDate; // Update global
+                renderCalendar(type, window[`${type}Bookings`], window[`${type}CurrentDate`]);
             });
 
             nextBtn.addEventListener('click', () => {
                 state.currentDate.setMonth(state.currentDate.getMonth() + 1);
-                setCalendarState(type, state.currentDate);
-                renderCalendar(type, state.bookings, state.currentDate);
+                window[`${type}CurrentDate`] = state.currentDate; // Update global
+                renderCalendar(type, window[`${type}Bookings`], window[`${type}CurrentDate`]);
             });
         }
 
@@ -2024,9 +2438,19 @@
         setupCalendarNavigation('social');
 
         // --- Booking Form Logic ---
-        document.getElementById('training-booking-form')?.addEventListener('submit', function(e) {
+        document.getElementById('training-booking-form')?.addEventListener('submit', async function(e) { // Add async
             e.preventDefault();
-            const coach = document.getElementById('coach-select').value;
+            if (!window.isAuthReady || !window.db || !window.userId) {
+                showModal('Firestore is not ready. Please wait a moment and try again.');
+                console.error("Training booking failed: Firestore or userId not ready.");
+                return;
+            }
+            console.log("Submitting training booking. User ID:", window.userId);
+
+
+            const bookingId = document.getElementById('training-booking-id').value;
+            const coachSelect = document.getElementById('coach-select');
+            const coach = coachSelect.options[coachSelect.selectedIndex].text;
             const date = document.getElementById('training-date').value;
             const time = document.getElementById('training-time').value;
             const length = document.getElementById('training-length').value;
@@ -2036,23 +2460,48 @@
                 return;
             }
 
-            const newBooking = {
+            const bookingData = {
+                coach: coach,
                 date: date,
                 time: time,
-                coach: document.getElementById('coach-select').options[document.getElementById('coach-select').selectedIndex].text,
+                length: `${length} minutes`,
                 details: 'Coaching Session',
-                length: `${length} minutes`
+                bookedBy: window.userId, // Ensure userId is correctly set here
+                timestamp: window.serverTimestamp() // For sorting and tracking
             };
-            trainingBookings.push(newBooking);
-            trainingBookings.sort((a, b) => new Date(a.date + ' ' + a.time) - new Date(b.date + ' ' + b.time));
-            renderCalendar('training', trainingBookings, trainingCurrentDate);
-            showModal('Training session booked successfully! See you on the court!');
-            this.reset();
+
+            try {
+                if (bookingId) {
+                    // Update existing document
+                    await window.updateDoc(window.doc(window.db, `artifacts/${window.appId}/public/data/trainingSessions`, bookingId), bookingData);
+                    showModal('Training session updated successfully!');
+                    console.log("Training session updated:", bookingId, bookingData);
+                } else {
+                    // Add new document
+                    const docRef = await window.addDoc(window.collection(window.db, `artifacts/${window.appId}/public/data/trainingSessions`), bookingData);
+                    showModal('Training session booked successfully! See you on the court!');
+                    console.log("Training session booked:", docRef.id, bookingData);
+                }
+                resetTrainingForm(); // Reset form after submission
+            } catch (error) {
+                console.error("Error booking/updating training session:", error);
+                showModal('Failed to book/update training session. Please try again.');
+            }
         });
 
-        document.getElementById('table-booking-form')?.addEventListener('submit', function(e) {
+        document.getElementById('table-booking-form')?.addEventListener('submit', async function(e) { // Add async
             e.preventDefault();
-            const activity = document.getElementById('table-activity').value;
+            if (!window.isAuthReady || !window.db || !window.userId) {
+                showModal('Firestore is not ready. Please wait a moment and try again.');
+                console.error("Table booking failed: Firestore or userId not ready.");
+                return;
+            }
+            console.log("Submitting table booking. User ID:", window.userId);
+
+
+            const bookingId = document.getElementById('table-booking-id').value;
+            const activitySelect = document.getElementById('table-activity');
+            const activity = activitySelect.options[activitySelect.selectedIndex].text;
             const date = document.getElementById('table-date').value;
             const time = document.getElementById('table-time').value;
             const length = document.getElementById('table-length').value;
@@ -2062,18 +2511,33 @@
                 return;
             }
 
-            const newBooking = {
+            const bookingData = {
+                activity: activity,
                 date: date,
                 time: time,
-                activity: document.getElementById('table-activity').options[document.getElementById('table-activity').selectedIndex].text,
+                length: `${length} minutes`,
                 details: `Table ${Math.floor(Math.random() * 5) + 1}`, // Random table number
-                length: `${length} minutes`
+                bookedBy: window.userId, // Ensure userId is correctly set here
+                timestamp: window.serverTimestamp()
             };
-            tableBookings.push(newBooking);
-            tableBookings.sort((a, b) => new Date(a.date + ' ' + a.time) - new Date(b.date + ' ' + b.time));
-            renderCalendar('table', tableBookings, tableCurrentDate);
-            showModal('Table booked successfully! Get ready to play!');
-            this.reset();
+
+            try {
+                if (bookingId) {
+                    // Update existing document
+                    await window.updateDoc(window.doc(window.db, `artifacts/${window.appId}/public/data/tableBookings`, bookingId), bookingData);
+                    showModal('Table booking updated successfully!');
+                    console.log("Table booking updated:", bookingId, bookingData);
+                } else {
+                    // Add new document
+                    const docRef = await window.addDoc(window.collection(window.db, `artifacts/${window.appId}/public/data/tableBookings`), bookingData);
+                    showModal('Table booked successfully! Get ready to play!');
+                    console.log("Table booking booked:", docRef.id, bookingData);
+                }
+                resetTableForm(); // Reset form after submission
+            } catch (error) {
+                console.error("Error booking/updating table session:", error);
+                showModal('Failed to book/update table. Please try again.');
+            }
         });
 
         // Add click effect to all buttons with .button-hover-glow class
@@ -2174,10 +2638,8 @@
             const leaderboardBody = document.getElementById('leaderboard-body');
             
             // Clear existing content and unobserve old rows before adding new ones
-            // Only unobserve if the element is currently being observed by *this* observer
             leaderboardBody.querySelectorAll('tr').forEach(row => {
-                if (row.classList.contains('animated-leaderboard-row')) { // Use a specific class for leaderboard rows
-                    // Remove current animation classes before clearing
+                if (row.classList.contains('animated-leaderboard-row')) {
                     row.style.opacity = '';
                     row.style.transform = '';
                     row.style.transition = '';
@@ -2204,21 +2666,17 @@
 
             players.forEach((player, index) => {
                 const row = document.createElement('tr');
-                // Use a dedicated class for leaderboard row animation for category change
                 row.classList.add('hover:bg-gray-800', 'transition-colors', 'duration-200', 'animated-leaderboard-row');
-                // These styles ensure they start hidden and animate in
                 row.style.opacity = '0';
                 row.style.transform = 'translateY(20px)';
-                row.style.transition = 'opacity 0.5s ease-out, transform 0.5s ease-out'; // Animation properties
-                row.style.animationDelay = `${index * 0.08}s`; // Staggered animation
-                row.style.animationFillMode = 'forwards'; // Keep the end state
+                row.style.transition = 'opacity 0.5s ease-out, transform 0.5s ease-out';
+                row.style.animationDelay = `${index * 0.08}s`;
+                row.style.animationFillMode = 'forwards';
 
-                // Apply the animation immediately for leaderboard rows when rendered
-                // This will make them animate in when category changes or page loads
                 setTimeout(() => {
                     row.style.opacity = '1';
                     row.style.transform = 'translateY(0)';
-                }, 10); // Small delay to allow CSS transition to apply from initial state
+                }, 10);
 
                 row.innerHTML = `
                     <td class="py-3 px-4 whitespace-nowrap text-lg font-semibold neon-text-purple">${player.rank}</td>
@@ -2227,8 +2685,6 @@
                     <td class="py-3 px-4 whitespace-nowrap text-gray-200">${player.matchesPlayed}</td>
                 `;
                 leaderboardBody.appendChild(row);
-                // No need to observe individual leaderboard rows with the IntersectionObserver
-                // because we're handling their animation directly on render for category changes.
             });
 
             // Add click listeners to player names for pop-up
@@ -2278,7 +2734,7 @@
                     <li><span class="neon-text-orange font-semibold">Hours at Club:</span> ${player.hoursPlayed}</li>
                     <li><span class="neon-text-orange font-semibold">Years Playing:</span> ${player.yearsPlaying}</li>
                 </ul>
-            `; // Removed the Get Player Insight button and its div
+            `;
             showModal('', playerDetailsHtml);
         }
 
