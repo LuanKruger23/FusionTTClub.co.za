@@ -903,6 +903,26 @@
             font-size: 1.1rem;
             cursor: pointer;
         }
+
+        /* Setup Modal Specific Styles */
+        #firebase-setup-modal .modal-content {
+            max-width: 600px;
+        }
+        #firebase-setup-modal label {
+            text-align: left;
+            width: 100%;
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+        #firebase-setup-modal input {
+            background-color: #1a202c;
+            border: 1px solid #4a5568;
+            color: white;
+            padding: 0.75rem;
+            border-radius: 0.375rem;
+            width: 100%;
+            margin-bottom: 1rem;
+        }
     </style>
 </head>
 <body>
@@ -1554,7 +1574,7 @@
                     <h3 class="text-3xl font-semibold mb-4 neon-text-purple">Exclusive: Fusion TT Club to Host Esports Team Tryouts!</h3>
                     <p class="text-sm text-gray-400 mb-4">Published: February 1, 2026</p>
                     <p class="text-lg text-gray-300 leading-relaxed mb-4">
-                        Get ready to go pro! Fusion TT Club is excited to announce that we will be hosting exclusive tryouts for our very first professional esports table tennis team. This is a unique opportunity for top-tier players to represent the club on a national and international stage... <span class="neon-text-orange">(Membership Required to Read More)</span>
+                        Get ready to go pro! Fusion TT Club is excited to announce that we will be hosting exclusive tryouts for our very first professional esports table tennis team. This is a unique opportunity for top-tier players to represent the club on a national and international stage, competing in online leagues and live events.
                     </p>
                     <button class="py-2 px-6 rounded-md button-hover-glow button-shimmer ripple-container" onclick="readMoreNews('esports-tryouts')">
                         Read More
@@ -1663,6 +1683,51 @@
         </div>
     </div>
 
+    <!-- Firebase Setup Modal -->
+    <div id="firebase-setup-modal" class="modal">
+        <div class="modal-content">
+            <h3 class="text-2xl font-semibold mb-6 neon-text-blue text-center">Firebase Setup Required</h3>
+            <p class="text-lg text-gray-300 mb-4 text-center">
+                This app uses Firebase for data storage. Since you're running it outside of the Canvas environment,
+                please provide your Firebase project's configuration details below.
+            </p>
+            <form id="firebase-config-form" class="space-y-4">
+                <div>
+                    <label for="apiKey">API Key:</label>
+                    <input type="text" id="apiKey" placeholder="Your Firebase API Key" required>
+                </div>
+                <div>
+                    <label for="authDomain">Auth Domain:</label>
+                    <input type="text" id="authDomain" placeholder="Your Firebase Auth Domain" required>
+                </div>
+                <div>
+                    <label for="projectId">Project ID:</label>
+                    <input type="text" id="projectId" placeholder="Your Firebase Project ID" required>
+                </div>
+                <div>
+                    <label for="storageBucket">Storage Bucket:</label>
+                    <input type="text" id="storageBucket" placeholder="Your Firebase Storage Bucket" required>
+                </div>
+                <div>
+                    <label for="messagingSenderId">Messaging Sender ID:</label>
+                    <input type="text" id="messagingSenderId" placeholder="Your Firebase Messaging Sender ID" required>
+                </div>
+                <div>
+                    <label for="appId">App ID (for Firestore Collection Path):</label>
+                    <input type="text" id="userAppId" placeholder="e.g., fusion-tt-club-prod" required>
+                </div>
+                <div>
+                    <label for="measurementId">Measurement ID (Optional):</label>
+                    <input type="text" id="measurementId" placeholder="Your Firebase Measurement ID">
+                </div>
+                <button type="submit" class="w-full py-3 px-6 rounded-md button-hover-glow button-shimmer ripple-container">
+                    Save Configuration
+                </button>
+            </form>
+        </div>
+    </div>
+
+
     <!-- Three.js library from CDN -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 
@@ -1670,96 +1735,152 @@
     <script type="module">
         // Import the functions you need from the SDKs you need
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-        import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
         import { getFirestore, collection, query, onSnapshot, addDoc, serverTimestamp, deleteDoc, doc, updateDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
-        // Your Firebase project configuration (provided by Canvas environment)
-        // Ensure __firebase_config is a global variable from the environment
-        const firebaseConfig = JSON.parse(typeof __firebase_config !== 'undefined' ? __firebase_config : '{}');
-        // Ensure __app_id is a global variable from the environment
-        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
+        // Global Firebase instances and state
+        window.db = null;
+        window.auth = null;
+        window.userId = null;
+        window.isAuthReady = false;
+        window.appId = null; // Will be set from Canvas or user input
 
+        let firebaseSetupModal = document.getElementById('firebase-setup-modal');
+        let firebaseConfigForm = document.getElementById('firebase-config-form');
 
-        // Initialize Firebase
-        const app = initializeApp(firebaseConfig);
-        const db = getFirestore(app);
-        const auth = getAuth(app);
+        // Function to initialize Firebase and set up listeners
+        async function initializeFirebaseAndListeners(config, userAppId) {
+            try {
+                const app = initializeApp(config);
+                window.db = getFirestore(app);
+                window.auth = getAuth(app);
+                window.appId = userAppId; // Set the app ID for Firestore collection paths
 
-        let userId = null;
-        let isAuthReady = false;
+                // Make Firebase functions globally accessible
+                window.collection = collection;
+                window.query = query;
+                window.onSnapshot = onSnapshot;
+                window.addDoc = addDoc;
+                window.serverTimestamp = serverTimestamp;
+                window.deleteDoc = deleteDoc;
+                window.doc = doc;
+                window.updateDoc = updateDoc;
 
-        // Make Firebase instances and functions globally accessible for the main script
-        window.db = db;
-        window.appId = appId;
-        window.collection = collection;
-        window.query = query;
-        window.onSnapshot = onSnapshot;
-        window.addDoc = addDoc;
-        window.serverTimestamp = serverTimestamp;
-        window.deleteDoc = deleteDoc;
-        window.doc = doc;
-        window.updateDoc = updateDoc; // Add updateDoc to global scope
-
-        // Listen for authentication state changes and sign in anonymously if not authenticated
-        onAuthStateChanged(auth, async (user) => {
-            if (user) {
-                userId = user.uid;
-                console.log("User signed in:", userId);
-            } else {
-                console.log("No user signed in. Signing in anonymously...");
-                try {
-                    // Check if __initial_auth_token is provided by the environment
-                    if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
-                        await signInWithCustomToken(auth, __initial_auth_token);
+                onAuthStateChanged(window.auth, async (user) => {
+                    if (user) {
+                        window.userId = user.uid;
+                        console.log("User signed in:", window.userId);
                     } else {
-                        await signInAnonymously(auth);
+                        console.log("No user signed in. Signing in anonymously...");
+                        try {
+                            // For external hosting, always sign in anonymously if no user is found
+                            await signInAnonymously(window.auth);
+                            window.userId = window.auth.currentUser.uid;
+                            console.log("Signed in anonymously:", window.userId);
+                        } catch (error) {
+                            console.error("Error during anonymous sign-in:", error);
+                        }
                     }
-                    userId = auth.currentUser.uid; // Get UID after successful sign-in
-                    console.log("Signed in anonymously:", userId);
-                } catch (error) {
-                    console.error("Error during anonymous sign-in or custom token sign-in:", error);
-                }
+                    window.isAuthReady = true;
+                    console.log("Firebase Auth Ready. User ID:", window.userId);
+
+                    // Now that auth is ready, set up real-time listeners for all data types
+                    setupRealtimeListeners();
+
+                    // Re-render calendars after data is fetched from Firestore
+                    // This is important because the initial render might happen before data is ready
+                    if (document.getElementById('book-training').classList.contains('active')) {
+                        renderCalendar('training', window.trainingBookings, window.trainingCurrentDate);
+                    }
+                    if (document.getElementById('table-booking').classList.contains('active')) {
+                        renderCalendar('table', window.tableBookings, window.tableCurrentDate);
+                    }
+                    if (document.getElementById('social-tournaments').classList.contains('active')) {
+                        renderCalendar('social', window.socialTournaments, window.socialCurrentDate);
+                    }
+                    if (document.getElementById('club-league').classList.contains('active')) {
+                        renderCalendar('league', window.leagueGames, window.leagueCurrentDate);
+                    }
+                });
+
+                firebaseSetupModal.style.display = 'none'; // Hide the setup modal if successful
+                document.body.style.overflow = ''; // Re-enable scrolling
+            } catch (error) {
+                console.error("Failed to initialize Firebase:", error);
+                alert("Error initializing Firebase. Please check your configuration and try again. " + error.message);
+                firebaseSetupModal.style.display = 'flex'; // Show modal again on error
+                document.body.style.overflow = 'hidden';
             }
-            window.userId = userId; // Update global userId
-            isAuthReady = true;
-            window.isAuthReady = isAuthReady; // Update global isAuthReady
-            console.log("Initial userId check (after onAuthStateChanged):", userId);
+        }
+
+        // Check for Canvas environment variables or localStorage for Firebase config
+        let loadedFirebaseConfig = null;
+        let loadedAppId = null;
+
+        if (typeof __firebase_config !== 'undefined' && __firebase_config) {
+            // Running in Canvas environment
+            loadedFirebaseConfig = JSON.parse(__firebase_config);
+            loadedAppId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
+            initializeFirebaseAndListeners(loadedFirebaseConfig, loadedAppId);
+        } else {
+            // Running outside Canvas, try localStorage
+            const storedConfig = localStorage.getItem('firebaseConfig');
+            const storedAppId = localStorage.getItem('userAppId');
+
+            if (storedConfig && storedAppId) {
+                loadedFirebaseConfig = JSON.parse(storedConfig);
+                loadedAppId = storedAppId;
+                initializeFirebaseAndListeners(loadedFirebaseConfig, loadedAppId);
+            } else {
+                // No config found, show setup modal
+                firebaseSetupModal.style.display = 'flex';
+                document.body.style.overflow = 'hidden';
+            }
+        }
 
 
-            // Now that auth is ready, set up real-time listeners for all data types
-            setupRealtimeListeners();
+        // Handle Firebase config form submission
+        firebaseConfigForm?.addEventListener('submit', async function(e) {
+            e.preventDefault();
 
-            // Re-render calendars after data is fetched from Firestore
-            // This is important because the initial render might happen before data is ready
-            // The onSnapshot listeners will also trigger renders, but this ensures an initial render
-            // if data arrives very quickly or is cached.
-            if (document.getElementById('book-training').classList.contains('active')) {
-                renderCalendar('training', window.trainingBookings, window.trainingCurrentDate);
+            const config = {
+                apiKey: document.getElementById('apiKey').value,
+                authDomain: document.getElementById('authDomain').value,
+                projectId: document.getElementById('projectId').value,
+                storageBucket: document.getElementById('storageBucket').value,
+                messagingSenderId: document.getElementById('messagingSenderId').value,
+                appId: document.getElementById('appId')?.value || '', // Firebase SDK's appId, often optional
+                measurementId: document.getElementById('measurementId')?.value || '' // Optional
+            };
+            const userAppId = document.getElementById('userAppId').value; // Our custom app ID for Firestore paths
+
+            if (!config.apiKey || !config.authDomain || !config.projectId || !userAppId) {
+                alert('Please fill in all required Firebase configuration fields and the custom App ID.');
+                return;
             }
-            if (document.getElementById('table-booking').classList.contains('active')) {
-                renderCalendar('table', window.tableBookings, window.tableCurrentDate);
-            }
-            if (document.getElementById('social-tournaments').classList.contains('active')) {
-                renderCalendar('social', window.socialTournaments, window.socialCurrentDate);
-            }
-            if (document.getElementById('club-league').classList.contains('active')) {
-                renderCalendar('league', window.leagueGames, window.leagueCurrentDate);
-            }
+
+            // Save to localStorage
+            localStorage.setItem('firebaseConfig', JSON.stringify(config));
+            localStorage.setItem('userAppId', userAppId);
+
+            console.log("Saving Firebase Config to localStorage and initializing:", { config, userAppId });
+            await initializeFirebaseAndListeners(config, userAppId);
         });
+
 
         // Function to set up all real-time listeners
         function setupRealtimeListeners() {
-            if (!window.isAuthReady || !window.db || !window.userId) {
-                console.warn("Firestore not ready for listeners. Skipping setup.");
+            // Ensure db, userId, and appId are ready before setting listeners
+            if (!window.isAuthReady || !window.db || !window.userId || !window.appId) {
+                console.warn("Firestore not ready for listeners (setupRealtimeListeners was called too early). Skipping setup.");
                 return;
             }
-            console.log("Firestore ready. Setting up listeners.");
+            console.log("Firestore ready. Setting up listeners with appId:", window.appId);
 
 
             // --- Training Sessions Listener ---
             const trainingRef = collection(window.db, `artifacts/${window.appId}/public/data/trainingSessions`);
-            // Ordering by timestamp ensures the latest data is sorted (optional, but good practice)
-            const trainingQuery = query(trainingRef); // Removed orderBy as it can cause index issues if not explicitly created
+            const trainingQuery = query(trainingRef);
 
             onSnapshot(trainingQuery, (snapshot) => {
                 window.trainingBookings = [];
@@ -1767,14 +1888,12 @@
                     const data = doc.data();
                     window.trainingBookings.push({ id: doc.id, ...data });
                 });
-                // Sort client-side if not using orderBy in query to avoid index issues
                 window.trainingBookings.sort((a, b) => {
                     const dateA = new Date(`${a.date}T${a.time}`);
                     const dateB = new Date(`${b.date}T${b.time}`);
                     return dateA - dateB;
                 });
                 console.log("onSnapshot received updates for trainingSessions. Data:", window.trainingBookings);
-                // Re-render training calendar only if its section is active or for first load
                 if (document.getElementById('book-training').classList.contains('active')) {
                      renderCalendar('training', window.trainingBookings, window.trainingCurrentDate);
                 }
@@ -1784,7 +1903,7 @@
 
             // --- Table Bookings Listener ---
             const tableRef = collection(window.db, `artifacts/${window.appId}/public/data/tableBookings`);
-            const tableQuery = query(tableRef); // Removed orderBy
+            const tableQuery = query(tableRef);
 
             onSnapshot(tableQuery, (snapshot) => {
                 window.tableBookings = [];
@@ -1807,7 +1926,7 @@
 
             // --- Social Tournaments Listener ---
             const socialRef = collection(window.db, `artifacts/${window.appId}/public/data/socialTournaments`);
-            const socialQuery = query(socialRef); // Removed orderBy
+            const socialQuery = query(socialRef);
 
             onSnapshot(socialQuery, (snapshot) => {
                 window.socialTournaments = [];
@@ -1830,7 +1949,7 @@
 
             // --- League Games Listener ---
             const leagueRef = collection(window.db, `artifacts/${window.appId}/public/data/leagueGames`);
-            const leagueQuery = query(leagueRef); // Removed orderBy
+            const leagueQuery = query(leagueRef);
 
             onSnapshot(leagueQuery, (snapshot) => {
                 window.leagueGames = [];
