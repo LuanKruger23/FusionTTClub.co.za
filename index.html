@@ -214,6 +214,18 @@
             overflow: hidden; /* Ensure content stays within rounded corners */
         }
 
+        /* IMPORTANT: New rule for readability within modal */
+        .modal-content p {
+            max-width: 60ch; /* Limit to approx 60 characters wide for 8-10 words per line */
+            margin-left: auto; /* Center the paragraph within the modal content */
+            margin-right: auto; /* Center the paragraph within the modal content */
+            padding-left: 0.5rem; /* Small left/right padding for readability on small screens */
+            padding-right: 0.5rem; /* Small left/right padding for readability on small screens */
+            box-sizing: border-box; /* Include padding in width calculation */
+            text-align: left; /* Ensure text is left-aligned within its max-width container */
+        }
+
+
         .modal-content::before {
             content: '';
             position: absolute;
@@ -445,12 +457,11 @@
         }
 
         /* Show/hide hamburger icon and regular menu based on breakpoint */
-        /* Only show hamburger-icon on small screens, show navbar-menu on medium and up */
         .navbar-menu {
-            display: none; /* Hidden by default */
+            display: none; /* Hidden by default for small screens */
         }
         .hamburger-icon {
-            display: block; /* Always visible to open the overlay */
+            display: block; /* Always visible on small screens */
         }
         @media (min-width: 768px) { /* md breakpoint */
             .navbar-menu {
@@ -476,6 +487,9 @@
             .navbar-menu .nav-link:hover .fas {
                 color: var(--neon-orange); /* Icon color change on hover */
                 text-shadow: 0 0 5px var(--neon-orange);
+            }
+            .hamburger-icon {
+                display: none; /* Hide hamburger on desktop when full menu is visible */
             }
         }
 
@@ -668,7 +682,8 @@
         .mobile-menu-overlay .nav-link:nth-child(6) { animation-delay: 0.30s; }
         .mobile-menu-overlay .nav-link:nth-child(7) { animation-delay: 0.35s; }
         .mobile-menu-overlay .nav-link:nth-child(8) { animation-delay: 0.40s; }
-        .mobile-menu-overlay .nav-link:nth-child(9) { animation-delay: 0.45s; }
+        .mobile-menu-overlay .nav-link:nth-child(9) { animation-delay: 0.45s; } /* This is now club-news */
+        .mobile-menu-overlay .nav-link:nth-child(10) { animation-delay: 0.50s; } /* This is now about */
 
 
         @keyframes slideInLink {
@@ -889,6 +904,9 @@
             <a href="#membership" class="nav-link text-lg font-medium hover:text-white transition-colors duration-300 ripple-container flex items-center" onclick="activateSection('membership'); return false;">
                 <i class="fas fa-users text-2xl"></i>
             </a>
+            <a href="#club-news" class="nav-link text-lg font-medium hover:text-white transition-colors duration-300 ripple-container flex items-center" onclick="activateSection('club-news'); return false;">
+                <i class="fas fa-newspaper text-2xl"></i>
+            </a>
             <a href="#about" class="nav-link text-lg font-medium hover:text-white transition-colors duration-300 ripple-container flex items-center" onclick="activateSection('about'); return false;">
                 <i class="fas fa-circle-info text-2xl"></i>
             </a>
@@ -911,6 +929,7 @@
             <a href="#club-leaderboard" class="nav-link text-lg font-medium hover:text-white transition-colors duration-300 mobile-nav-link ripple-container" onclick="activateSection('club-leaderboard'); return false;"><i class="fas fa-chart-line mr-2"></i><span class="neon-text">Club Leaderboard</span></a>
             <a href="#merch" class="nav-link text-lg font-medium hover:text-white transition-colors duration-300 mobile-nav-link ripple-container" onclick="activateSection('merch'); return false;"><i class="fas fa-shirt mr-2"></i><span class="neon-text">Merch</span></a>
             <a href="#membership" class="nav-link text-lg font-medium hover:text-white transition-colors duration-300 mobile-nav-link ripple-container" onclick="activateSection('membership'); return false;"><i class="fas fa-users mr-2"></i><span class="neon-text">Membership</span></a>
+            <a href="#club-news" class="nav-link text-lg font-medium hover:text-white transition-colors duration-300 mobile-nav-link ripple-container" onclick="activateSection('club-news'); return false;"><i class="fas fa-newspaper mr-2"></i><span class="neon-text">Club News</span></a>
             <a href="#about" class="nav-link text-lg font-medium hover:text-white transition-colors duration-300 mobile-nav-link ripple-container" onclick="activateSection('about'); return false;"><i class="fas fa-circle-info mr-2"></i><span class="neon-text">About</span></a>
         </div>
     </div>
@@ -1017,12 +1036,18 @@
                             <label for="coach-select" class="block text-lg font-medium text-gray-300 mb-2">Select Coach:</label>
                             <select id="coach-select" class="w-full p-3 rounded-md bg-gray-800 border border-gray-700 focus:border-neon-blue focus:ring focus:ring-neon-blue focus:ring-opacity-50 transition-all duration-200">
                                 <option value="coach-danie">Coach Danie (All Levels, Strategy)</option>
-                                <option value="coach-alex">Coach Alex (Beginner/Intermediate)</option>
-                                <option value="coach-ben">Coach Ben (Intermediate/Advanced)</option>
-                                <option value="coach-sarah">Coach Sarah (Footwork & Agility)</option>
-                                <option value="coach-mike">Coach Mike (Spin & Serve)</option>
-                                <option value="coach-lisa">Coach Lisa (Defensive Play)</option>
-                                <option value="coach-chris">Coach Chris (Forehand Attack)</option>
+                                <optgroup label="Beginner Coaches">
+                                    <option value="coach-alex">Coach Alex</option>
+                                    <option value="coach-sarah">Coach Sarah</option>
+                                </optgroup>
+                                <optgroup label="Intermediate Coaches">
+                                    <option value="coach-ben">Coach Ben</option>
+                                    <option value="coach-mike">Coach Mike</option>
+                                </optgroup>
+                                <optgroup label="Advanced Coaches">
+                                    <option value="coach-lisa">Coach Lisa</option>
+                                    <option value="coach-chris">Coach Chris</option>
+                                </optgroup>
                             </select>
                         </div>
                         <div>
@@ -1045,13 +1070,9 @@
                         <button type="submit" class="w-full py-3 px-6 rounded-md button-hover-glow button-shimmer ripple-container">
                             Book Session
                         </button>
-                        <button type="button" id="suggest-drills-button" class="w-full py-3 px-6 rounded-md button-hover-glow button-shimmer ripple-container mt-4">
-                            Get ✨Training Drills!
-                        </button>
+                        <!-- Removed 'Get Training Drills!' button -->
                     </form>
-                    <div id="drill-suggestions" class="mt-6 p-4 rounded-md neon-border bg-gray-900 panel-hover-effect" style="display: none;">
-                        <p class="text-gray-400 text-center" id="drill-suggestions-message">Drill suggestions will appear here.</p>
-                    </div>
+                    <!-- Removed drill suggestions div -->
                 </div>
 
                 <!-- Calendar of Booked Sessions -->
@@ -1366,7 +1387,7 @@
                     <h3 class="text-3xl font-semibold mb-2 neon-text-purple">Accessories</h3>
                     <p class="text-lg text-gray-300 mb-2">Water bottles, bat cases, bags, backpacks, cleaners, keychains.</p>
                     <p class="text-xl font-bold neon-text mb-4">Coming in 2026</p>
-                    <button class="py-2 px-6 rounded-md button-hover-glow button-shimmer mx-auto block ripple-container" onclick="showAccessoriesModal()">
+                    <button class="py-2 px-6 rounded-md button-hover-glow button-shimmer mx-auto block max-w-xs ripple-container" onclick="showAccessoriesModal()">
                         <span class="neon-text">Enquire Now!</span>
                     </button>
                 </div>
@@ -1390,7 +1411,7 @@
                         <li>Entry to monthly social tournaments</li>
                         <li>Club newsletter</li>
                     </ul>
-                    <button class="w-full py-3 px-6 rounded-md button-hover-glow button-shimmer ripple-container" onclick="showModal('You selected the Bronze Tier! Contact us at join@fusiontt.club to sign up.')">
+                    <button class="w-full py-3 px-6 rounded-md button-hover-glow button-shimmer ripple-container" onclick="selectMembership('Bronze'); showModal('You selected the Bronze Tier! Contact us at join@fusiontt.club to sign up.')">
                         Sign Up - Bronze
                     </button>
                 </div>
@@ -1407,7 +1428,7 @@
                         <li>Priority tournament registration</li>
                         <li>Exclusive access to member-only events</li>
                     </ul>
-                    <button class="w-full py-3 px-6 rounded-md button-hover-glow button-shimmer ripple-container" onclick="showModal('You selected the Silver Tier! Contact us at join@fusiontt.club to sign up.')">
+                    <button class="w-full py-3 px-6 rounded-md button-hover-glow button-shimmer ripple-container" onclick="selectMembership('Silver'); showModal('You selected the Silver Tier! Contact us at join@fusiontt.club to sign up.')">
                         Sign Up - Silver
                     </button>
                 </div>
@@ -1425,12 +1446,79 @@
                         <li>Personalized performance tracking</li>
                         <li>Exclusive "Pro-Tips" workshop access</li>
                     </ul>
-                    <button class="w-full py-3 px-6 rounded-md button-hover-glow button-shimmer ripple-container" onclick="showModal('You selected the Gold Tier! Contact us at join@fusiontt.club to sign up and unleash your full potential!')">
+                    <button class="w-full py-3 px-6 rounded-md button-hover-glow button-shimmer ripple-container" onclick="selectMembership('Gold'); showModal('You selected the Gold Tier! Contact us at join@fusiontt.club to sign up and unleash your full potential!')">
                         Sign Up - Gold
                     </button>
                 </div>
             </div>
         </section>
+
+        <!-- Club News Section (NEW) -->
+        <section id="club-news" class="section flex-col py-16">
+            <h2 class="text-5xl font-bold mb-12 text-center neon-text">Club News & Updates</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl w-full">
+                <!-- News Article 1 -->
+                <div class="p-8 rounded-xl neon-border bg-gradient-to-br from-gray-900 to-black shadow-lg animated-card panel-hover-effect">
+                    <h3 class="text-3xl font-semibold mb-4 neon-text-blue">Fusion TT Club Grand Opening Announced!</h3>
+                    <p class="text-sm text-gray-400 mb-4">Published: November 15, 2025</p>
+                    <p class="text-lg text-gray-300 leading-relaxed mb-4">
+                        Get ready, Pretoria! The Fusion TT Club is thrilled to announce its grand opening in early 2026. Our state-of-the-art facility, complete with professional tables, expert coaching, and the vibrant Neon Lounge, is almost ready to welcome you. Stay tuned for exact dates and exciting opening events!
+                    </p>
+                    <button class="py-2 px-6 rounded-md button-hover-glow button-shimmer ripple-container" onclick="readMoreNews('grand-opening')">
+                        Read More
+                    </button>
+                </div>
+
+                <!-- News Article 2 -->
+                <div class="p-8 rounded-xl neon-border bg-gradient-to-br from-gray-900 to-black shadow-lg animated-card panel-hover-effect">
+                    <h3 class="text-3xl font-semibold mb-4 neon-text-purple">New Coaching Staff Joins the Team!</h3>
+                    <p class="text-sm text-gray-400 mb-4">Published: October 28, 2025</p>
+                    <p class="text-lg text-gray-300 leading-relaxed mb-4">
+                        We're excited to introduce our phenomenal new coaching team! Headed by seasoned professionals like Coach Danie and rising stars, our coaches are committed to elevating your game, no matter your skill level. Learn more about our coaching philosophy and individual coaches on the 'Book Training' page.
+                    </p>
+                    <button class="py-2 px-6 rounded-md button-hover-glow button-shimmer ripple-container" onclick="readMoreNews('new-coaching-staff')">
+                        Read More
+                    </button>
+                </div>
+
+                <!-- News Article 3 -->
+                <div class="p-8 rounded-xl neon-border bg-gradient-to-br from-gray-900 to-black shadow-lg animated-card panel-hover-effect">
+                    <h3 class="text-3xl font-semibold mb-4 neon-text-orange">Youth Development Program Kicks Off Soon!</h3>
+                    <p class="text-sm text-gray-400 mb-4">Published: December 5, 2025</p>
+                    <p class="text-lg text-gray-300 leading-relaxed mb-4">
+                        Nurturing the next generation of table tennis talent is a core mission at Fusion TT Club. Our comprehensive Youth Development Program is set to launch shortly after our grand opening, offering specialized training, mentorship, and fun, engaging activities for young players.
+                    </p>
+                    <button class="py-2 px-6 rounded-md button-hover-glow button-shimmer ripple-container" onclick="readMoreNews('youth-program')">
+                        Read More
+                    </button>
+                </div>
+
+                <!-- News Article 4 -->
+                <div class="p-8 rounded-xl neon-border bg-gradient-to-br from-gray-900 to-black shadow-lg animated-card panel-hover-effect">
+                    <h3 class="text-3xl font-semibold mb-4 neon-text-blue">Social Tournament Schedule Revealed!</h3>
+                    <p class="text-sm text-gray-400 mb-4">Published: January 10, 2026</p>
+                    <p class="text-lg text-gray-300 leading-relaxed mb-4">
+                        Mark your calendars! Our inaugural social tournament schedule for the first quarter of 2026 is now live. Get ready for thrilling mixed doubles, singles showdowns, and team events designed for all skill levels. Check out the 'Social Tournaments' page for dates and registration details.
+                    </p>
+                    <button class="py-2 px-6 rounded-md button-hover-glow button-shimmer ripple-container" onclick="readMoreNews('social-tournament-schedule')">
+                        Read More
+                    </button>
+                </div>
+
+                <!-- NEW: Premium News Article -->
+                <div class="p-8 rounded-xl neon-border bg-gradient-to-br from-gray-900 to-black shadow-lg animated-card panel-hover-effect">
+                    <h3 class="text-3xl font-semibold mb-4 neon-text-purple">Exclusive: Fusion TT Club to Host Esports Team Tryouts!</h3>
+                    <p class="text-sm text-gray-400 mb-4">Published: February 1, 2026</p>
+                    <p class="text-lg text-gray-300 leading-relaxed mb-4">
+                        Get ready to go pro! Fusion TT Club is excited to announce that we will be hosting exclusive tryouts for our very first professional esports table tennis team. This is a unique opportunity for top-tier players to represent the club on a national and international stage... <span class="neon-text-orange">(Membership Required to Read More)</span>
+                    </p>
+                    <button class="py-2 px-6 rounded-md button-hover-glow button-shimmer ripple-container" onclick="readMoreNews('esports-tryouts')">
+                        Read More
+                    </button>
+                </div>
+            </div>
+        </section>
+
 
         <!-- About Section -->
         <section id="about" class="section flex-col py-16 relative">
@@ -1459,6 +1547,28 @@
                         Beyond the tables, our club boasts the exclusive <span class="neon-text font-semibold">Neon Lounge</span> – a chill zone designed for relaxation and camaraderie. Featuring comfortable seating, a refreshment bar serving energizing drinks and snacks, and large screens broadcasting live tournaments, it's the perfect spot to unwind after a intense match, strategize with teammates, or simply soak in the club's electric atmosphere. It's where the community truly comes alive, making friends and forging rivalries.
                     </p>
                 </div>
+                <!-- NEW: About Page Update -->
+                <div class="max-w-4xl mx-auto p-8 rounded-xl neon-border bg-gradient-to-br from-gray-900 to-black shadow-lg animated-card panel-hover-effect">
+                    <h3 class="text-3xl font-semibold mb-4 neon-text-purple">Our Vision for Growth <i class="fas fa-chart-line ml-2 text-neon-orange"></i></h3>
+                    <p class="text-lg text-gray-300 leading-relaxed">
+                        Looking ahead, Fusion TT Club is dedicated to continuous growth and innovation. We aim to expand our reach through community outreach programs, school partnerships, and by hosting larger regional and national tournaments. Our commitment is not just to the sport, but to fostering a vibrant ecosystem where passion for table tennis can flourish for generations to come, creating champions both on and off the court. We envision Fusion TT Club as a cornerstone of the South African table tennis scene, recognized for its excellence, inclusivity, and electrifying atmosphere.
+                    </p>
+                </div>
+                <!-- NEW: Club Milestones Panel -->
+                <div class="max-w-4xl mx-auto p-8 rounded-xl neon-border bg-gradient-to-br from-gray-900 to-black shadow-lg animated-card panel-hover-effect">
+                    <h3 class="text-3xl font-semibold mb-4 neon-text-orange">Club Milestones <i class="fas fa-medal ml-2 text-neon-purple"></i></h3>
+                    <ul class="list-disc list-inside text-left space-y-2 text-lg text-gray-300 mb-4">
+                        <li><span class="neon-text font-semibold">November 2025:</span> Groundbreaking of Fusion TT Club facility.</li>
+                        <li><span class="neon-text font-semibold">December 2025:</span> Recruitment of elite coaching staff finalized.</li>
+                        <li><span class="neon-text font-semibold">January 2026:</span> Successful pre-opening community engagement events.</li>
+                        <li><span class="neon-text font-semibold">Early 2026:</span> Official Grand Opening to the public!</li>
+                        <li><span class="neon-text font-semibold">Q2 2026:</span> Launch of Youth Development Program.</li>
+                        <li><span class="neon-text font-semibold">Mid 2026:</span> Hosting of first inter-club tournament.</li>
+                    </ul>
+                    <p class="text-lg text-gray-300 leading-relaxed">
+                        These milestones mark our journey towards becoming a leading table tennis club in South Africa, driven by our community and dedication to the sport.
+                    </p>
+                </div>
             </div>
         </section>
 
@@ -1468,7 +1578,11 @@
     <div id="global-modal" class="modal">
         <div class="modal-content">
             <span class="close-button ripple-container" onclick="closeModal()">&times;</span>
+            <!-- modal-message now handles titles and dates, content goes directly below -->
             <p id="modal-message" class="text-lg text-center neon-text"></p>
+            <div id="modal-article-content">
+                <!-- Article content will be dynamically inserted here -->
+            </div>
             <div id="modal-actions" class="flex justify-center mt-6">
                 <button onclick="closeModal()" class="py-2 px-6 rounded-md button-hover-glow button-shimmer ripple-container">
                     Got it!
@@ -1486,7 +1600,17 @@
         const navLinks = document.querySelectorAll('.nav-link');
         const globalModal = document.getElementById('global-modal');
         const modalMessage = document.getElementById('modal-message');
+        const modalArticleContent = document.getElementById('modal-article-content'); // New element for article content
         const modalActions = document.getElementById('modal-actions');
+
+        // Global variable to store selected membership tier
+        let selectedMembershipTier = null; // Can be 'Bronze', 'Silver', 'Gold', or null
+
+        // Function to select membership tier
+        function selectMembership(tier) {
+            selectedMembershipTier = tier;
+            console.log(`Membership selected: ${selectedMembershipTier}`);
+        }
 
         // Function to create ripple effect
         function createRipple(event) {
@@ -1516,8 +1640,18 @@
 
 
         // Function to show custom modal
-        function showModal(message, customContent = '') {
-            modalMessage.innerHTML = message; // Use innerHTML to allow for custom content
+        function showModal(message, customContent = '', articleMode = false) {
+            modalMessage.innerHTML = ''; // Clear main message area initially
+            modalArticleContent.innerHTML = ''; // Clear article content area
+
+            if (articleMode) {
+                // In article mode, 'message' will be the full HTML content including title/date/paragraphs
+                modalArticleContent.innerHTML = message;
+            } else {
+                // In general message mode, 'message' is plain text/simple HTML
+                modalMessage.innerHTML = message;
+            }
+
             modalActions.innerHTML = ''; // Clear previous actions
 
             if (customContent) {
@@ -2265,75 +2399,6 @@
             }
         }
 
-        // --- New LLM Integration: Suggest Training Drills ---
-        document.getElementById('suggest-drills-button')?.addEventListener('click', async () => {
-            const coachSelect = document.getElementById('coach-select');
-            const selectedCoachText = coachSelect.options[coachSelect.selectedIndex].text;
-            const drillSuggestionsDiv = document.getElementById('drill-suggestions');
-            const drillSuggestionsMessage = document.getElementById('drill-suggestions-message');
-
-            drillSuggestionsDiv.style.display = 'block';
-            drillSuggestionsMessage.innerHTML = '<div class="merch-image-spinner mx-auto"></div><p class="mt-2">Generating drill suggestions...</p>';
-
-            const coachLevel = selectedCoachText.includes('Beginner/Intermediate') ? 'beginner to intermediate' :
-                               selectedCoachText.includes('Intermediate/Advanced') ? 'intermediate to advanced' :
-                               'all levels, focusing on strategy';
-
-            try {
-                const prompt = `Generate 3-4 distinct table tennis training drill suggestions for a coach specializing in ${coachLevel} players. For each drill, provide a concise name and a brief description of how to perform it. Format the response as a JSON array of objects, where each object has 'name' (string) and 'description' (string) properties.`;
-
-                let chatHistory = [];
-                chatHistory.push({ role: "user", parts: [{ text: prompt }] });
-                const payload = {
-                    contents: chatHistory,
-                    generationConfig: {
-                        responseMimeType: "application/json",
-                        responseSchema: {
-                            type: "ARRAY",
-                            items: {
-                                type: "OBJECT",
-                                properties: {
-                                    "name": { "type": "STRING" },
-                                    "description": { "type": "STRING" }
-                                },
-                                "propertyOrdering": ["name", "description"]
-                            }
-                        }
-                    }
-                };
-                const apiKey = "";
-                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
-
-                const response = await fetch(apiUrl, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(payload)
-                });
-
-                const result = await response.json();
-
-                if (result.candidates && result.candidates.length > 0 &&
-                    result.candidates[0].content && result.candidates[0].content.parts &&
-                    result.candidates[0].content.parts.length > 0) {
-                    const jsonString = result.candidates[0].content.parts[0].text;
-                    const drills = JSON.parse(jsonString);
-
-                    let drillsHtml = '<h4 class="text-2xl font-semibold mb-4 neon-text-purple">Suggested Drills:</h4><ul class="list-disc list-inside space-y-3 text-left">';
-                    drills.forEach(drill => {
-                        drillsHtml += `<li><span class="neon-text-orange font-semibold">${drill.name}:</span> ${drill.description}</li>`;
-                    });
-                    drillsHtml += '</ul>';
-                    drillSuggestionsMessage.innerHTML = drillsHtml;
-                } else {
-                    drillSuggestionsMessage.innerHTML = '<p class="text-red-400">Failed to generate drills. Please try again.</p>';
-                    console.error('Gemini API response structure unexpected for drills:', result);
-                }
-            } catch (error) {
-                console.error('Error calling Gemini API for drills:', error);
-                drillSuggestionsMessage.innerHTML = '<p class="text-red-400">Error generating drills. Please try again later.</p>';
-            }
-        });
-
         // --- Accessories Modal Logic ---
         function showAccessoriesModal() {
             const accessoriesOptions = [
@@ -2353,7 +2418,7 @@
                         ${accessoriesOptions.map(option => `<option value="${option.value}">${option.text}</option>`).join('')}
                     </select>
                 </div>
-                <button onclick="orderSelectedAccessory()" class="py-2 px-6 rounded-md button-hover-glow button-shimmer mx-auto block ripple-container">
+                <button onclick="orderSelectedAccessory()" class="py-2 px-6 rounded-md button-hover-glow button-shimmer mx-auto block max-w-xs ripple-container">
                     Order Selected Accessory
                 </button>
             `;
@@ -2365,6 +2430,131 @@
             const selectedAccessory = selectElement.options[selectElement.selectedIndex].text;
             showModal(`Great choice! You want to order a <span class="neon-text-orange">${selectedAccessory}</span>. Please contact us at merch@fusiontt.club to finalize your order.`);
         }
+
+        // --- News "Read More" Logic ---
+        const newsArticlesContent = {
+            'grand-opening': {
+                title: "Fusion TT Club Grand Opening Announced!",
+                date: "November 15, 2025",
+                content: `
+                    <p class="text-lg text-gray-300 leading-relaxed mb-4">
+                        Get ready, Pretoria! The Fusion TT Club is thrilled to announce its grand opening in early 2026. Our state-of-the-art facility, complete with professional tables, expert coaching, and the vibrant Neon Lounge, is almost ready to welcome you. Stay tuned for exact dates and exciting opening events!
+                    </p>
+                    <p class="text-lg text-gray-300 leading-relaxed">
+                        We're putting the final touches on what we believe will be the premier table tennis destination in South Africa. Our goal is to create a dynamic space where players of all ages and skill levels can thrive, learn, compete, and connect. The opening event promises to be an unforgettable day filled with exhibition matches, free coaching tasters, and exclusive membership offers. Don't miss out on being part of history!
+                    </p>
+                `,
+                requiredMembership: 'None' // Accessible to everyone
+            },
+            'new-coaching-staff': {
+                title: "New Coaching Staff Joins the Team!",
+                date: "October 28, 2025",
+                content: `
+                    <p class="text-lg text-gray-300 leading-relaxed mb-4">
+                        We're excited to introduce our phenomenal new coaching team! Headed by seasoned professionals like Coach Danie and rising stars, our coaches are committed to elevating your game, no matter your skill level. Learn more about our coaching philosophy and individual coaches on the 'Book Training' page.
+                    </p>
+                    <p class="text-lg text-gray-300 leading-relaxed">
+                        Our coaching philosophy centers around personalized growth, positive reinforcement, and a deep understanding of modern table tennis techniques. Each coach brings a unique set of skills and experiences, ensuring that every member receives tailored guidance. From mastering the basic forehand to perfecting complex spin serves, our team is equipped to help you achieve your table tennis aspirations.
+                    </p>
+                `,
+                requiredMembership: 'None'
+            },
+            'youth-program': {
+                title: "Youth Development Program Kicks Off Soon!",
+                date: "December 5, 2025",
+                content: `
+                    <p class="text-lg text-gray-300 leading-relaxed mb-4">
+                        Nurturing the next generation of table tennis talent is a core mission at Fusion TT Club. Our comprehensive Youth Development Program is set to launch shortly after our grand opening, offering specialized training, mentorship, and fun, engaging activities for young players.
+                    </p>
+                    <p class="text-lg text-gray-300 leading-relaxed">
+                        The program will focus on fundamental skills, sportsmanship, and tactical awareness, all within a supportive and encouraging environment. We believe in building not just great players, but well-rounded individuals. There will be various age groups and skill levels, ensuring every child finds their perfect fit and gets the attention they need to grow.
+                    </p>
+                `,
+                requiredMembership: 'Bronze' // Bronze members can read this
+            },
+            'social-tournament-schedule': {
+                title: "Social Tournament Schedule Revealed!",
+                date: "January 10, 2026",
+                content: `
+                    <p class="text-lg text-gray-300 leading-relaxed mb-4">
+                        Mark your calendars! Our inaugural social tournament schedule for the first quarter of 2026 is now live. Get ready for thrilling mixed doubles, singles showdowns, and team events designed for all skill levels. Check out the 'Social Tournaments' page for dates and registration details.
+                    </p>
+                    <p class="text-lg text-gray-300 leading-relaxed">
+                        These tournaments are designed to be fun, inclusive, and a great way to meet other club members. Whether you're aiming for the trophy or just want to enjoy some friendly competition, there's a tournament for you. Prizes, bragging rights, and a lively atmosphere are guaranteed!
+                    </p>
+                `,
+                requiredMembership: 'Bronze' // Bronze members can read this
+            },
+            'esports-tryouts': {
+                title: "Exclusive: Fusion TT Club to Host Esports Team Tryouts!",
+                date: "February 1, 2026",
+                content: `
+                    <p class="text-lg text-gray-300 leading-relaxed mb-4">
+                        Get ready to go pro! Fusion TT Club is excited to announce that we will be hosting exclusive tryouts for our very first professional esports table tennis team. This is a unique opportunity for top-tier players to represent the club on a national and international stage, competing in online leagues and live events.
+                    </p>
+                    <p class="text-lg text-gray-300 leading-relaxed">
+                        Successful candidates will receive sponsored gear, dedicated coaching, travel support for events, and a chance to build a professional career in table tennis esports. Eligibility requirements include advanced skill levels, a strong competitive spirit, and a commitment to rigorous training schedules. Details regarding tryout dates, format, and application procedures will be shared exclusively with our Silver and Gold tier members. This is your chance to shine!
+                    </p>
+                `,
+                requiredMembership: 'Silver' // Only Silver and Gold members can read this
+            }
+        };
+
+        function readMoreNews(articleId) {
+            const article = newsArticlesContent[articleId];
+            if (!article) {
+                showModal("Oops! This news article isn't available right now. Please check back later.");
+                return;
+            }
+
+            let fullContentHtml;
+            let accessGranted = false;
+            console.log("Current Membership Tier:", selectedMembershipTier); // Debug log
+
+            // Determine access based on membership tier
+            if (article.requiredMembership === 'None') {
+                accessGranted = true;
+            } else if (selectedMembershipTier === null || selectedMembershipTier === undefined) {
+                accessGranted = false; // Deny if no membership selected
+            } else if (article.requiredMembership === 'Bronze' && (selectedMembershipTier === 'Bronze' || selectedMembershipTier === 'Silver' || selectedMembershipTier === 'Gold')) {
+                accessGranted = true;
+            } else if (article.requiredMembership === 'Silver' && (selectedMembershipTier === 'Silver' || selectedMembershipTier === 'Gold')) {
+                accessGranted = true;
+            }
+            // If accessGranted is still false, it means the membership is not sufficient
+
+            if (accessGranted) {
+                fullContentHtml = `
+                    <h3 class="text-3xl font-semibold mb-4 neon-text text-center">${article.title}</h3>
+                    <p class="text-sm text-gray-400 mb-6 text-center">Published: ${article.date}</p>
+                    ${article.content}
+                `;
+                showModal(fullContentHtml, '', true); // Pass true for articleMode
+            } else {
+                let upgradeMessage = '';
+                if (article.requiredMembership === 'Bronze') {
+                    upgradeMessage = 'This content is exclusive to Fusion TT Club members. Sign up for a <span class="neon-text-orange font-bold">Bronze</span> tier or higher to gain access!';
+                } else if (article.requiredMembership === 'Silver') {
+                    upgradeMessage = 'This exclusive content requires a <span class="neon-text-blue font-bold">Silver</span> or <span class="neon-text-purple font-bold">Gold</span> membership to read the full story. Upgrade your membership today!';
+                } else { // Fallback for any other restricted content
+                    upgradeMessage = 'This content is exclusive to Fusion TT Club members. Sign up for a membership tier to gain access!';
+                }
+
+                fullContentHtml = `
+                    <h3 class="text-3xl font-semibold mb-4 neon-text-orange text-center">Access Denied</h3>
+                    <p class="text-lg text-gray-300 leading-relaxed mb-6 text-center">
+                        ${upgradeMessage}
+                    </p>
+                    <div class="flex justify-center mt-6">
+                        <button onclick="activateSection('membership'); closeModal()" class="py-2 px-6 rounded-md button-hover-glow button-shimmer ripple-container">
+                            View Membership Tiers
+                        </button>
+                    </div>
+                `;
+                showModal('', fullContentHtml); // General message mode
+            }
+        }
+
 
         // --- Three.js Silk Animation Wallpaper Logic ---
         let scene, camera, renderer, mesh, clock, particles;
