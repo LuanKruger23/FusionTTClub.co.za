@@ -1,0 +1,2593 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fusion TT Club - Coming 2026</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Custom CSS for neon glow and gradients */
+        :root {
+            --neon-blue: #00F0FF; /* Bright neon blue */
+            --neon-purple: #8A2BE2; /* New vibrant neon purple (replaces pink) */
+            --neon-orange: #FF7F00; /* Vibrant neon orange */
+            --dark-background: #0A0A0A; /* Slightly darker black for contrast */
+
+            --text-gradient-start-blue: #00E0FF;
+            --text-gradient-end-blue: #80FFFF;
+            --text-gradient-start-purple: #8A2BE2;
+            --text-gradient-end-purple: #C792EA;
+            --text-gradient-start-orange: #FF7F00;
+            --text-gradient-end-orange: #FFA500;
+
+            --glow-color-blue: #00F0FF;
+            --glow-color-purple: #8A2BE2;
+            --glow-color-orange: #FF7F00;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            /* Changed to a blueish gradient background */
+            background: linear-gradient(135deg, #051020, #0A1A30, #0F2040); /* Darker blue gradient */
+            color: white;
+            overflow-x: hidden; /* Prevent horizontal scroll due to animations */
+            position: relative; /* For animated background */
+        }
+
+        /* Three.js Canvas Container for Wallpaper */
+        #threejs-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0; /* Ensures it's behind content */
+            overflow: hidden;
+        }
+        #threejs-container canvas {
+            display: block; /* Remove extra space below canvas */
+            width: 100%;
+            height: 100%;
+        }
+
+        /* New general neon glow animation for a single color (user's provided base) */
+        @keyframes neonGlow {
+            from {
+                text-shadow:
+                    0 0 5px #00f0ff,
+                    0 0 10px #00f0ff,
+                    0 0 20px #00f0ff,
+                    0 0 40px #00f0ff;
+            }
+            to {
+                text-shadow:
+                    0 0 10px #00f0ff,
+                    0 0 20px #00f0ff,
+                    0 0 30px #00f0ff,
+                    0 0 50px #00f0ff;
+            }
+        }
+
+        /* Neon glow animation for purple */
+        @keyframes neonGlowPurple {
+            from {
+                text-shadow:
+                    0 0 5px var(--neon-purple),
+                    0 0 10px var(--neon-purple),
+                    0 0 20px var(--neon-purple),
+                    0 0 40px var(--neon-purple);
+            }
+            to {
+                text-shadow:
+                    0 0 10px var(--neon-purple),
+                    0 0 20px var(--neon-purple),
+                    0 0 30px var(--neon-purple),
+                    0 0 50px var(--neon-purple);
+            }
+        }
+
+        /* Neon glow animation for orange */
+        @keyframes neonGlowOrange {
+            from {
+                text-shadow:
+                    0 0 5px var(--neon-orange),
+                    0 0 10px var(--neon-orange),
+                    0 0 20px var(--neon-orange),
+                    0 0 40px var(--neon-orange);
+            }
+            to {
+                text-shadow:
+                    0 0 10px var(--neon-orange),
+                    0 0 20px var(--neon-orange),
+                    0 0 30px var(--neon-orange),
+                    0 0 50px var(--neon-orange);
+            }
+        }
+
+        /* Neon glow animation for white base (for RGB text) */
+        @keyframes neonGlowRgb {
+            from {
+                text-shadow:
+                    0 0 5px rgba(255, 255, 255, 0.7),
+                    0 0 10px rgba(255, 255, 255, 0.7),
+                    0 0 20px rgba(255, 255, 255, 0.7),
+                    0 0 40px rgba(255, 255, 255, 0.7);
+            }
+            to {
+                text-shadow:
+                    0 0 10px rgba(255, 255, 255, 0.9),
+                    0 0 20px rgba(255, 255, 255, 0.9),
+                    0 0 30px rgba(255, 255, 255, 0.9),
+                    0 0 50px rgba(255, 255, 255, 0.9);
+            }
+        }
+
+        /* Neon text effect - primary blue, now with new glow */
+        .neon-text {
+            background: none; /* Removed gradient background */
+            color: var(--neon-blue);
+            text-shadow:
+                0 0 5px var(--neon-blue),
+                0 0 10px var(--neon-blue),
+                0 0 20px var(--neon-blue),
+                0 0 40px var(--neon-blue);
+            animation: neonGlow 2s ease-in-out infinite alternate;
+        }
+
+        /* Neon text effect - secondary purple */
+        .neon-text-purple {
+            background: none; /* Removed gradient background */
+            color: var(--neon-purple);
+            text-shadow:
+                0 0 5px var(--neon-purple),
+                0 0 10px var(--neon-purple),
+                0 0 20px var(--neon-purple),
+                0 0 40px var(--neon-purple);
+            animation: neonGlowPurple 2s ease-in-out infinite alternate;
+        }
+
+        /* Neon text effect - tertiary orange */
+        .neon-text-orange {
+            background: none; /* Removed gradient background */
+            color: var(--neon-orange);
+            text-shadow:
+                0 0 5px var(--neon-orange),
+                0 0 10px var(--neon-orange),
+                0 0 20px var(--neon-orange),
+                0 0 40px var(--neon-orange);
+            animation: neonGlowOrange 2s ease-in-out infinite alternate;
+        }
+
+        /* Enhanced glow for "COMING IN 2026" text */
+        .rgb-animated-text {
+            /* rgbCycle animation remains for color rotation */
+            animation: rgbCycle 10s linear infinite, neonGlowRgb 2s ease-in-out infinite alternate;
+            background: none; /* Removed gradient background as color is handled by filter and glow by text-shadow */
+            color: white; /* Base color for filter to apply hue rotate on */
+        }
+
+        /* Neon border effect - primary blue, subtle glow */
+        .neon-border {
+            border: 1px solid var(--neon-blue);
+            box-shadow:
+                0 0 2px var(--neon-blue),
+                0 0 4px var(--neon-blue),
+                0 0 8px rgba(0, 240, 255, 0.2);
+        }
+
+        /* Section transitions for page-like behavior */
+        .section {
+            display: none; /* Hidden by default for multi-page effect */
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 2s ease-out, transform 2s ease-out; /* Slower transition */
+            min-height: calc(100vh - 96px); /* Adjust for fixed nav height (pt-24 for main + nav height) */
+            padding-top: 4rem; /* Additional padding to ensure content is below nav */
+            padding-bottom: 4rem;
+            position: relative; /* Ensure content is above the wallpaper */
+            z-index: 10; /* Higher than wallpaper */
+        }
+
+        .section.active {
+            display: flex; /* Show active section */
+            opacity: 1;
+            transform: translateY(0);
+            flex-direction: column; /* Ensure content stacks vertically */
+            align-items: center; /* Center content horizontally */
+            justify-content: center; /* Center content vertically if enough space */
+        }
+
+        /* Navigation bar gradient background */
+        nav {
+            background: linear-gradient(90deg, rgba(0,0,0,0.8), rgba(10, 25, 47, 0.9), rgba(0,0,0,0.8));
+            border-bottom: 1px solid rgba(0, 240, 255, 0.2);
+            box-shadow: 0 5px 15px rgba(0, 240, 255, 0.1);
+            backdrop-filter: blur(5px); /* Added blur to nav */
+        }
+
+        /* Calendar styles */
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 4px;
+            background-color: rgba(10, 25, 47, 0.5); /* Darker blue, more transparent */
+            padding: 8px;
+            border-radius: 8px;
+            box-shadow: 0 0 6px rgba(0, 240, 255, 0.15);
+            backdrop-filter: blur(8px); /* Increased blur */
+        }
+
+        .calendar-day, .calendar-header {
+            padding: 8px;
+            text-align: center;
+            border-radius: 4px;
+            font-size: 0.875rem;
+        }
+
+        .calendar-header {
+            background-color: rgba(0, 240, 255, 0.1);
+            font-weight: 600;
+            color: var(--neon-blue);
+        }
+
+        .calendar-day {
+            background-color: rgba(10, 25, 47, 0.5); /* Darker blue, more transparent */
+            color: white;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+
+        .calendar-day:hover {
+            background-color: rgba(0, 240, 255, 0.08);
+        }
+
+        .calendar-day.selected {
+            background-color: var(--neon-blue);
+            color: black;
+            font-weight: bold;
+        }
+
+        .event-dot {
+            width: 5px;
+            height: 5px;
+            background-color: var(--neon-orange);
+            border-radius: 50%;
+            margin: 3px auto 0;
+            box-shadow: 0 0 2px var(--neon-orange);
+        }
+
+        /* Modal styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.7); /* Slightly more opaque for blur */
+            backdrop-filter: blur(10px); /* Increased blur */
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            /* Updated for more glassy effect */
+            background: linear-gradient(135deg, rgba(10, 25, 47, 0.4), rgba(20, 35, 60, 0.4)); /* More transparent overall */
+            margin: auto;
+            padding: 30px;
+            border-radius: 15px;
+            width: 90%;
+            max-width: 500px;
+            box-shadow: 0 0 20px rgba(0, 240, 255, 0.4), inset 0 0 10px rgba(0, 240, 255, 0.2); /* Enhanced outer and inner glow */
+            position: relative;
+            animation: fadeIn 0.8s ease-out; /* Slower fade in */
+            border: 2px solid var(--neon-blue); /* More prominent border */
+            backdrop-filter: blur(20px); /* Increased blur significantly for glassy look */
+            overflow: hidden; /* Ensure content stays within rounded corners */
+        }
+
+        .modal-content::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle at center, rgba(138, 43, 226, 0.1), transparent 70%);
+            animation: rotateGlow 35s linear infinite; /* Slower rotation */
+            z-index: -1;
+        }
+
+        @keyframes rotateGlow {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .close-button {
+            color: white;
+            position: absolute;
+            top: 0.25rem; /* Closer to the corner */
+            right: 0.25rem; /* Closer to the corner */
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: color 0.2s ease;
+        }
+
+        .close-button:hover,
+        .close-button:focus {
+            color: var(--neon-purple);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Custom scrollbar for better aesthetics */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(to bottom, var(--neon-blue), var(--neon-purple), var(--neon-orange));
+            border-radius: 10px;
+            box-shadow: 0 0 2px var(--neon-blue);
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(to bottom, rgba(0, 240, 255, 0.8), rgba(138, 43, 226, 0.8), rgba(255, 127, 0, 0.8));
+        }
+
+        /* Bar chart styling */
+        .bar-chart-container {
+            position: relative;
+            width: 100%;
+            height: 200px;
+            /* Updated for more glassy effect */
+            background-color: rgba(10, 25, 47, 0.4); /* More transparent */
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 0 8px rgba(0, 240, 255, 0.1);
+            overflow: hidden;
+            display: flex;
+            align-items: flex-end; /* Bars grow from bottom */
+            justify-content: space-around;
+            padding-bottom: 30px; /* Space for labels */
+            backdrop-filter: blur(15px); /* Increased blur for glassy look */
+        }
+
+        .bar-chart-bar {
+            width: 15px; /* Fixed width for bars */
+            background: linear-gradient(to top, var(--neon-blue), var(--neon-purple));
+            margin: 0 5px;
+            border-radius: 3px 3px 0 0;
+            box-shadow: 0 0 5px var(--neon-blue);
+            transform-origin: bottom;
+            transform: scaleY(0); /* Start scaled to 0 for animation */
+            animation: barGrow 3.5s ease-out forwards; /* Slower animation */
+            position: relative;
+        }
+
+        .bar-chart-bar-label {
+            position: absolute;
+            bottom: -25px; /* Position below the bar */
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.75rem;
+            color: white;
+            white-space: nowrap;
+        }
+
+        @keyframes barGrow {
+            from { transform: scaleY(0); }
+            to { transform: scaleY(1); }
+        }
+
+        /* New animations */
+        @keyframes pulseScaleGlow {
+            0% {
+                text-shadow: 0 0 5px rgba(0, 240, 255, 0.5), 0 0 10px rgba(138, 43, 226, 0.5), 0 0 15px rgba(255, 127, 0, 0.5);
+                transform: scale(1) skewX(0deg);
+            }
+            50% {
+                text-shadow: 0 0 10px rgba(0, 240, 255, 0.8), 0 0 20px rgba(138, 43, 226, 0.8), 0 0 30px rgba(255, 127, 0, 0.8);
+                transform: scale(1.05) skewX(1deg);
+            }
+            100% {
+                text-shadow: 0 0 5px rgba(0, 240, 255, 0.5), 0 0 10px rgba(138, 43, 226, 0.5), 0 0 15px rgba(255, 127, 0, 0.5);
+                transform: scale(1) skewX(0deg);
+            }
+        }
+        .animate-pulse-scale {
+            animation: pulseScaleGlow 5s ease-in-out infinite alternate; /* Slower animation */
+        }
+
+        .animated-card {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 2s ease-out, transform 2s ease-out; /* Slower transition */
+        }
+
+        .animated-card.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .button-hover-glow {
+            transition: all 0.3s ease-in-out;
+            background: linear-gradient(90deg, var(--neon-blue), var(--neon-purple));
+            color: black;
+        }
+        .button-hover-glow:hover {
+            box-shadow: 0 0 8px var(--neon-purple), 0 0 15px rgba(138, 43, 226, 0.4);
+            transform: translateY(-2px) scale(1.02);
+            background: linear-gradient(90deg, var(--neon-purple), var(--neon-orange));
+        }
+        .button-click-effect {
+            animation: buttonPress 0.4s ease-out; /* Slower and more pronounced */
+        }
+        @keyframes buttonPress {
+            0% { transform: scale(1); box-shadow: 0 0 5px var(--neon-blue); }
+            50% { transform: scale(0.92); box-shadow: 0 0 25px var(--neon-purple), 0 0 50px rgba(138, 43, 226, 1.0); } /* More intense glow */
+            100% { transform: scale(1); box-shadow: 0 0 8px var(--neon-purple), 0 0 15px rgba(138, 43, 226, 0.4); }
+        }
+
+        /* Hover effect for panels/boxes */
+        .panel-hover-effect {
+            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out, border-color 0.3s ease-in-out;
+            border: 1px solid rgba(0, 240, 255, 0.2);
+            /* Updated for more glassy effect */
+            background: linear-gradient(135deg, rgba(10, 25, 47, 0.4), rgba(0, 0, 0, 0.4)); /* More transparent background */
+            backdrop-filter: blur(15px); /* Increased blur for glassy look */
+        }
+
+        .panel-hover-effect:hover {
+            transform: scale(1.02); /* Removed rotateZ */
+            box-shadow: 0 0 15px var(--neon-purple), 0 0 30px rgba(138, 43, 226, 0.5);
+            border-color: var(--neon-orange);
+        }
+
+        /* Leaderboard tab active state with purple */
+        .leaderboard-tab.active-tab {
+            background-color: var(--neon-purple) !important;
+            color: black !important;
+            box-shadow: 0 0 5px var(--neon-purple), 0 0 10px rgba(138, 43, 226, 0.5);
+        }
+
+        /* Style for clickable team names */
+        .team-name-clickable {
+            cursor: pointer;
+            text-decoration: underline;
+            transition: color 0.2s ease;
+        }
+        .team-name-clickable:hover {
+            color: var(--neon-orange);
+        }
+
+        /* Ripple effect CSS */
+        .ripple-container {
+            position: relative;
+            overflow: hidden;
+            transform: translate3d(0, 0, 0);
+        }
+
+        .ripple {
+            background-color: rgba(255, 255, 255, 0.3);
+            position: absolute;
+            border-radius: 50%;
+            transform: scale(0);
+            animation: createRipple 1.2s linear; /* Slower ripple */
+            pointer-events: none;
+        }
+
+        @keyframes createRipple {
+            to {
+                transform: scale(1);
+                opacity: 0;
+            }
+        }
+
+        /* Show/hide hamburger icon and regular menu based on breakpoint */
+        /* Only show hamburger-icon on small screens, show navbar-menu on medium and up */
+        .navbar-menu {
+            display: none; /* Hidden by default */
+        }
+        .hamburger-icon {
+            display: block; /* Always visible to open the overlay */
+        }
+        @media (min-width: 768px) { /* md breakpoint */
+            .navbar-menu {
+                display: flex !important; /* Show on desktop */
+                justify-content: space-around;
+                width: auto;
+            }
+            .navbar-menu .nav-link {
+                padding: 0.5rem;
+            }
+            .navbar-menu .nav-link .neon-text {
+                display: none; /* Hide text for desktop icons */
+            }
+            /* Active state for desktop icons */
+            .navbar-menu .nav-link.active .fas {
+                background: linear-gradient(90deg, var(--neon-blue), var(--neon-purple));
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                text-shadow:
+                    0 0 5px var(--neon-blue),
+                    0 0 10px var(--neon-purple); /* Added glow */
+            }
+            .navbar-menu .nav-link:hover .fas {
+                color: var(--neon-orange); /* Icon color change on hover */
+                text-shadow: 0 0 5px var(--neon-orange);
+            }
+        }
+
+        /* Merch image loading style */
+        .merch-image-placeholder {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 192px; /* h-48 */
+            /* Updated for more glassy effect */
+            background-color: rgba(10, 25, 47, 0.4); /* More transparent */
+            border-radius: 0.375rem; /* rounded-md */
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 0.875rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(15px); /* Increased blur */
+        }
+        .merch-image-placeholder img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+        }
+        .merch-image-placeholder img.loaded {
+            opacity: 1;
+        }
+        .merch-image-spinner {
+            border: 4px solid rgba(0, 240, 255, 0.3);
+            border-top: 4px solid var(--neon-blue);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* RGB animation for text and logo */
+        @keyframes rgbCycle {
+            0% { filter: hue-rotate(0deg); }
+            100% { filter: hue-rotate(360deg); }
+        }
+
+        /* Mobile Menu Overlay (now serves as the main menu for all sizes when opened) */
+        .mobile-menu-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            /* Updated for more glassy effect */
+            background-color: rgba(10, 25, 47, 0.8); /* Slightly less opaque for more blur */
+            backdrop-filter: blur(25px); /* Increased blur significantly for stronger effect */
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            visibility: hidden; /* Start hidden */
+            transition: opacity 1s ease-out, visibility 1s ease-out; /* Slower transition */
+            z-index: 999; /* Ensure it's above other content but below modal */
+        }
+
+        .mobile-menu-overlay.active {
+            opacity: 1;
+            visibility: visible; /* Show when active */
+            display: flex; /* Keep flex for centering content */
+        }
+
+        .mobile-menu-overlay .nav-link {
+            font-size: 2.5rem; /* Large size for overlay menu */
+            margin-bottom: 1.5rem;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: slideInLink 1.2s forwards ease-out; /* Slower animation */
+            display: flex; /* Make icon and text align */
+            align-items: center;
+            justify-content: center; /* Center content in the overlay */
+            padding: 0.5rem 1rem; /* Add some padding for touch targets */
+            border-radius: 10px; /* Rounded corners for menu items */
+            transition: background-color 0.3s ease, box-shadow 0.3s ease; /* Smooth transitions */
+        }
+
+        .mobile-menu-overlay .nav-link:nth-child(1) { animation-delay: 0.1s; }
+        .mobile-menu-overlay .nav-link:nth-child(2) { animation-delay: 0.2s; }
+        .mobile-menu-overlay .nav-link:nth-child(3) { animation-delay: 0.3s; }
+        .mobile-menu-overlay .nav-link:nth-child(4) { animation-delay: 0.4s; }
+        .mobile-menu-overlay .nav-link:nth-child(5) { animation-delay: 0.5s; }
+        .mobile-menu-overlay .nav-link:nth-child(6) { animation-delay: 0.6s; }
+        .mobile-menu-overlay .nav-link:nth-child(7) { animation-delay: 0.7s; }
+        .mobile-menu-overlay .nav-link:nth-child(8) { animation-delay: 0.8s; }
+
+
+        @keyframes slideInLink {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .mobile-menu-close-button {
+            position: absolute;
+            top: 0.25rem; /* Closer to the corner */
+            right: 0.25rem; /* Closer to the corner */
+            font-size: 3rem;
+            color: var(--neon-purple);
+            cursor: pointer;
+            transition: transform 0.2s ease-in-out, color 0.2s ease-in-out;
+        }
+
+        .mobile-menu-close-button:hover {
+            transform: rotate(90deg);
+            color: var(--neon-orange);
+        }
+
+        /* Hamburger icon is now always visible */
+        .hamburger-icon {
+            display: block; /* Ensures it's always visible */
+        }
+
+        /* Styling for icons and text within the overlay menu */
+        .mobile-menu-overlay .nav-link .fas {
+            margin-right: 1rem; /* Space between icon and text */
+            font-size: 2.5rem; /* Icon size matches text */
+            /* Default icon color */
+            color: white;
+            transition: color 0.3s ease, text-shadow 0.3s ease;
+        }
+
+        .mobile-menu-overlay .nav-link .neon-text {
+            /* Default text color (transparent with gradient) */
+            background: linear-gradient(90deg, var(--text-gradient-start-blue), var(--text-gradient-end-blue));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow:
+                0 0 2px var(--glow-color-blue);
+            transition: all 0.3s ease;
+        }
+
+        /* Hover effect for menu items */
+        .mobile-menu-overlay .nav-link:hover {
+            background-color: rgba(138, 43, 226, 0.1); /* Subtle background on hover */
+            box-shadow: 0 0 10px rgba(138, 43, 226, 0.4); /* Glow on hover */
+        }
+
+        .mobile-menu-overlay .nav-link:hover .fas {
+            color: var(--neon-orange); /* Icon color change on hover */
+            text-shadow: 0 0 5px var(--neon-orange);
+        }
+
+        .mobile-menu-overlay .nav-link:hover .neon-text {
+            background: linear-gradient(90deg, var(--text-gradient-start-purple), var(--text-gradient-end-orange));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow:
+                0 0 2px var(--glow-color-purple),
+                0 0 4px var(--glow-color-orange);
+        }
+
+        /* Active state for the selected page icon/name */
+        .mobile-menu-overlay .nav-link.active {
+            background-color: rgba(0, 240, 255, 0.15); /* More prominent background for active */
+            box-shadow: 0 0 15px rgba(0, 240, 255, 0.6); /* Stronger glow for active */
+            border: 1px solid var(--neon-blue); /* Border for active */
+        }
+
+        .mobile-menu-overlay .nav-link.active .fas {
+            background: linear-gradient(90deg, var(--neon-blue), var(--neon-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow:
+                0 0 5px var(--neon-blue),
+                0 0 10px var(--neon-purple);
+        }
+
+        .mobile-menu-overlay .nav-link.active .neon-text {
+            background: linear-gradient(90deg, var(--text-gradient-start-blue), var(--text-gradient-end-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow:
+                0 0 5px var(--glow-color-blue),
+                0 0 10px var(--glow-color-purple);
+        }
+
+        /* Remove the old nav-link::after underline effect */
+        .nav-link::after {
+            display: none;
+        }
+
+        /* Horizontal text scroller for "COMING IN 2026" */
+        .parallax {
+            position: relative;
+            overflow: hidden;
+            width: 100%; /* Ensure it takes full width */
+            height: auto; /* Adjust height based on content */
+            margin-bottom: 2rem; /* Space below the scroller */
+        }
+
+        .scroller {
+            display: flex;
+            white-space: nowrap;
+            text-align: center;
+            font-family: 'Inter', sans-serif; /* Use Inter font */
+            font-size: 2.25rem; /* Default for mobile */
+            font-weight: bold;
+            letter-spacing: -0.02em;
+            filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.1));
+            animation: scrollText 30s linear infinite; /* Slower scroll */
+        }
+
+        .scroller span {
+            flex-shrink: 0;
+            padding-right: 2rem; /* Space between duplicated text */
+            /* Inherit neon text styles - rgb-animated-text now handles this */
+        }
+
+        @keyframes scrollText {
+            0% { transform: translateX(0%); }
+            100% { transform: translateX(-50%); } /* Scroll half the content width for seamless loop */
+        }
+
+        @media (min-width: 768px) {
+            .scroller {
+                font-size: 5rem;
+                line-height: 5rem;
+            }
+            .scroller span {
+                padding-right: 4rem; /* More space on desktop */
+            }
+        }
+
+
+        /* Minimalist Bat Bouncing Ball Animation */
+        @keyframes bounceBall {
+            0% { transform: translateY(0); }
+            25% { transform: translateY(-20px); }
+            50% { transform: translateY(0); }
+            75% { transform: translateY(-10px); }
+            100% { transform: translateY(0); }
+        }
+        @keyframes batSwing {
+            0%, 100% { transform: rotate(0deg); }
+            25% { transform: rotate(-15deg); }
+            50% { transform: rotate(0deg); }
+            75% { transform: rotate(-8deg); }
+        }
+
+        .bouncing-bat-ball {
+            width: 64px;
+            height: 64px;
+            overflow: visible;
+        }
+
+        .bouncing-bat-ball .ball {
+            animation: bounceBall 1.5s ease-in-out infinite;
+            transform-origin: center;
+        }
+        .bouncing-bat-ball .bat {
+            animation: batSwing 1.5s ease-in-out infinite;
+            transform-origin: 50px 50px;
+        }
+
+        /* Style for clickable team names */
+        .team-name-clickable {
+            cursor: pointer;
+            text-decoration: underline;
+            transition: color 0.2s ease;
+        }
+        .team-name-clickable:hover {
+            color: var(--neon-orange);
+        }
+
+        /* Ripple effect CSS */
+        .ripple-container {
+            position: relative;
+            overflow: hidden;
+            transform: translate3d(0, 0, 0);
+        }
+
+        .ripple {
+            background-color: rgba(255, 255, 255, 0.3);
+            position: absolute;
+            border-radius: 50%;
+            transform: scale(0);
+            animation: createRipple 1.2s linear; /* Slower ripple */
+            pointer-events: none;
+        }
+
+        @keyframes createRipple {
+            to {
+                transform: scale(1);
+                opacity: 0;
+            }
+        }
+
+        /* Show/hide hamburger icon and regular menu based on breakpoint */
+        /* Only show hamburger-icon on small screens, show navbar-menu on medium and up */
+        .navbar-menu {
+            display: none; /* Hidden by default */
+        }
+        .hamburger-icon {
+            display: block; /* Always visible to open the overlay */
+        }
+        @media (min-width: 768px) { /* md breakpoint */
+            .navbar-menu {
+                display: flex !important; /* Show on desktop */
+                justify-content: space-around;
+                width: auto;
+            }
+            .navbar-menu .nav-link {
+                padding: 0.5rem;
+            }
+            .navbar-menu .nav-link .neon-text {
+                display: none; /* Hide text for desktop icons */
+            }
+            /* Active state for desktop icons */
+            .navbar-menu .nav-link.active .fas {
+                background: linear-gradient(90deg, var(--neon-blue), var(--neon-purple));
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                text-shadow:
+                    0 0 5px var(--neon-blue),
+                    0 0 10px var(--neon-purple); /* Added glow */
+            }
+            .navbar-menu .nav-link:hover .fas {
+                color: var(--neon-orange); /* Icon color change on hover */
+                text-shadow: 0 0 5px var(--neon-orange);
+            }
+        }
+
+        /* Merch image loading style */
+        .merch-image-placeholder {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 192px; /* h-48 */
+            /* Updated for more glassy effect */
+            background-color: rgba(10, 25, 47, 0.4); /* More transparent */
+            border-radius: 0.375rem; /* rounded-md */
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 0.875rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(15px); /* Increased blur */
+        }
+        .merch-image-placeholder img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+        }
+        .merch-image-placeholder img.loaded {
+            opacity: 1;
+        }
+        .merch-image-spinner {
+            border: 4px solid rgba(0, 240, 255, 0.3);
+            border-top: 4px solid var(--neon-blue);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* About page specific improvements - REMOVED DOODLES */
+        .about-section-content {
+            position: relative;
+            z-index: 1; /* Ensure content is above background doodles */
+            max-width: 4xl;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .about-section-content > div {
+            position: relative;
+            z-index: 1;
+        }
+
+        /* New animated border glow */
+        @keyframes borderGlow {
+            0% {
+                box-shadow: 0 0 5px var(--neon-blue), inset 0 0 2px var(--neon-blue);
+                border-color: rgba(0, 240, 255, 0.2);
+            }
+            50% {
+                box-shadow: 0 0 15px var(--neon-purple), inset 0 0 5px var(--neon-purple);
+                border-color: var(--neon-purple);
+            }
+            100% {
+                box-shadow: 0 0 5px var(--neon-blue), inset 0 0 2px var(--neon-blue);
+                border-color: rgba(0, 240, 255, 0.2);
+            }
+        }
+
+        .animate-border-glow {
+            animation: borderGlow 4s ease-in-out infinite alternate; /* Slower, subtle glow */
+        }
+
+        /* Merch image hover effect */
+        .merch-item-hover-effect {
+            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+        }
+
+        .merch-item-hover-effect:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 20px var(--neon-orange), 0 0 40px rgba(255, 127, 0, 0.4);
+        }
+    </style>
+</head>
+<body>
+    <!-- Three.js Canvas Container for Wallpaper -->
+    <div id="threejs-container"></div>
+
+    <!-- Navigation Bar -->
+    <nav class="fixed top-0 left-0 right-0 z-50 bg-opacity-80 backdrop-blur-sm shadow-lg py-4 px-6 md:px-12 flex justify-between items-center rounded-b-xl">
+        <div class="flex items-center space-x-4">
+            <!-- Fusion TT Club Text (now a link to home) -->
+            <a href="#home" class="text-2xl font-bold rgb-animated-text no-underline" onclick="activateSection('home'); return false;">Fusion TT Club</a>
+        </div>
+        <!-- Desktop Menu - Icons Only -->
+        <div class="navbar-menu hidden md:flex space-x-6">
+            <a href="#home" class="nav-link text-lg font-medium hover:text-white transition-colors duration-300 ripple-container flex items-center" onclick="activateSection('home'); return false;">
+                <i class="fas fa-home text-2xl"></i>
+            </a>
+            <a href="#book-training" class="nav-link text-lg font-medium hover:text-white transition-colors duration-300 ripple-container flex items-center" onclick="activateSection('book-training'); return false;">
+                <i class="fas fa-chalkboard-teacher text-2xl"></i>
+            </a>
+            <a href="#social-tournaments" class="nav-link text-lg font-medium hover:text-white transition-colors duration-300 ripple-container flex items-center" onclick="activateSection('social-tournaments'); return false;">
+                <i class="fas fa-trophy text-2xl"></i>
+            </a>
+            <a href="#table-booking" class="nav-link text-lg font-medium hover:text-white transition-colors duration-300 ripple-container flex items-center" onclick="activateSection('table-booking'); return false;">
+                <i class="fas fa-table-tennis-paddle-ball text-2xl"></i>
+            </a>
+            <a href="#club-league" class="nav-link text-lg font-medium hover:text-white transition-colors duration-300 ripple-container flex items-center" onclick="activateSection('club-league'); return false;">
+                <i class="fas fa-medal text-2xl"></i>
+            </a>
+            <a href="#club-leaderboard" class="nav-link text-lg font-medium hover:text-white transition-colors duration-300 ripple-container flex items-center" onclick="activateSection('club-leaderboard'); return false;">
+                <i class="fas fa-chart-line text-2xl"></i>
+            </a>
+            <a href="#merch" class="nav-link text-lg font-medium hover:text-white transition-colors duration-300 ripple-container flex items-center" onclick="activateSection('merch'); return false;">
+                <i class="fas fa-shirt text-2xl"></i>
+            </a>
+            <a href="#about" class="nav-link text-lg font-medium hover:text-white transition-colors duration-300 ripple-container flex items-center" onclick="activateSection('about'); return false;">
+                <i class="fas fa-circle-info text-2xl"></i>
+            </a>
+        </div>
+        <!-- Hamburger Icon for Mobile and Desktop -->
+        <div class="hamburger-icon text-3xl text-neon-blue cursor-pointer ripple-container" id="hamburger-button">
+            <i class="fas fa-bars"></i>
+        </div>
+    </nav>
+
+    <!-- Mobile Menu Overlay (Now serves as the main menu for all screen sizes when opened) -->
+    <div id="mobile-menu-overlay" class="mobile-menu-overlay">
+        <i class="fas fa-times mobile-menu-close-button ripple-container" id="mobile-menu-close-button"></i>
+        <div class="flex flex-col items-center">
+            <a href="#home" class="nav-link text-lg font-medium hover:text-white transition-colors duration-300 mobile-nav-link ripple-container" onclick="activateSection('home'); return false;"><i class="fas fa-home mr-2"></i><span class="neon-text">Home</span></a>
+            <a href="#book-training" class="nav-link text-lg font-medium hover:text-white transition-colors duration-300 mobile-nav-link ripple-container" onclick="activateSection('book-training'); return false;"><i class="fas fa-chalkboard-teacher mr-2"></i><span class="neon-text">Book Training</span></a>
+            <a href="#social-tournaments" class="nav-link text-lg font-medium hover:text-white transition-colors duration-300 mobile-nav-link ripple-container" onclick="activateSection('social-tournaments'); return false;"><i class="fas fa-trophy mr-2"></i><span class="neon-text">Social Tournaments</span></a>
+            <a href="#table-booking" class="nav-link text-lg font-medium hover:text-white transition-colors duration-300 mobile-nav-link ripple-container" onclick="activateSection('table-booking'); return false;"><i class="fas fa-table-tennis-paddle-ball mr-2"></i><span class="neon-text">Table Booking</span></a>
+            <a href="#club-league" class="nav-link text-lg font-medium hover:text-white transition-colors duration-300 mobile-nav-link ripple-container" onclick="activateSection('club-league'); return false;"><i class="fas fa-medal mr-2"></i><span class="neon-text">Club League</span></a>
+            <a href="#club-leaderboard" class="nav-link text-lg font-medium hover:text-white transition-colors duration-300 mobile-nav-link ripple-container" onclick="activateSection('club-leaderboard'); return false;"><i class="fas fa-chart-line mr-2"></i><span class="neon-text">Club Leaderboard</span></a>
+            <a href="#merch" class="nav-link text-lg font-medium hover:text-white transition-colors duration-300 mobile-nav-link ripple-container" onclick="activateSection('merch'); return false;"><i class="fas fa-shirt mr-2"></i><span class="neon-text">Merch</span></a>
+            <a href="#about" class="nav-link text-lg font-medium hover:text-white transition-colors duration-300 mobile-nav-link ripple-container" onclick="activateSection('about'); return false;"><i class="fas fa-circle-info mr-2"></i><span class="neon-text">About</span></a>
+        </div>
+    </div>
+
+    <!-- Main Content Sections -->
+    <main class="pt-24 px-4 md:px-12">
+
+        <!-- Home Section -->
+        <section id="home" class="section active flex-col items-center justify-center text-center py-16 relative">
+            <!-- Table Tennis Doodles - REMOVED -->
+
+            <div class="parallax">
+                <div class="scroller">
+                    <!-- Text now uses rgb-animated-text for gradient, glow, and color change -->
+                    <span class="rgb-animated-text animate-pulse-scale">COMING IN <span class="text-white">2026</span></span>
+                    <span class="rgb-animated-text animate-pulse-scale">COMING IN <span class="text-white">2026</span></span>
+                    <span class="rgb-animated-text animate-pulse-scale">COMING IN <span class="text-white">2026</span></span>
+                    <span class="rgb-animated-text animate-pulse-scale">COMING IN <span class="text-white">2026</span></span>
+                </div>
+            </div>
+            <p class="text-xl md:text-2xl mb-12 max-w-3xl neon-text animated-card">
+                Get ready to serve, smash, and dominate! The future of table tennis is almost here.
+            </p>
+
+            <!-- Membership Increase Bar Chart -->
+            <div class="w-full max-w-4xl mb-16 animated-card panel-hover-effect animate-border-glow">
+                <h2 class="text-3xl font-semibold mb-6 neon-text">Anticipated Monthly Membership Increase</h2>
+                <div id="bar-chart-container" class="bar-chart-container">
+                    <!-- Bar chart elements will be generated here by JS -->
+                </div>
+                <!-- Labels for months -->
+                <div class="flex justify-between text-sm text-gray-400 mt-2 px-4">
+                    <span>Jan</span>
+                    <span>Feb</span>
+                    <span>Mar</span>
+                    <span>Apr</span>
+                    <span>May</span>
+                    <span>Jun</span>
+                    <span>Jul</span>
+                    <span>Aug</span>
+                    <span>Sep</span>
+                    <span>Oct</span>
+                    <span>Nov</span>
+                    <span>Dec</span>
+                </div>
+            </div>
+
+            <!-- Motivating Quote Button & Display -->
+            <button id="quote-button" class="mt-8 py-3 px-8 rounded-md button-hover-glow text-lg font-bold ripple-container animated-card">
+                Get a ✨Pro Tip!
+            </button>
+            <div id="quote-display" class="mt-6 p-6 rounded-xl neon-border bg-gradient-to-br from-gray-900 to-black shadow-lg max-w-2xl mx-auto animated-card animate-border-glow" style="display: none;">
+                <p id="quote-text" class="text-xl italic neon-text-orange"></p>
+                <p class="text-right mt-4 text-gray-400">- <span id="quote-player" class="neon-text-purple"></span></p>
+                <div id="quote-loading-spinner" class="merch-image-spinner mx-auto mt-4" style="display: none;"></div>
+            </div>
+
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mt-12">
+                <div class="p-8 rounded-xl neon-border bg-gradient-to-br from-gray-900 to-black shadow-lg animated-card panel-hover-effect animate-border-glow">
+                    <h3 class="text-3xl font-semibold mb-4 neon-text">Unleash Your Inner Pro!</h3>
+                    <p class="text-lg text-gray-300">
+                        Whether you're a seasoned pro or just picking up a paddle, Fusion TT Club is your spot.
+                        Top-tier coaching, epic social play, and a community that vibes together.
+                    </p>
+                </div>
+                <div class="p-8 rounded-xl neon-border bg-gradient-to-br from-gray-900 to-black shadow-lg animated-card panel-hover-effect animate-border-glow">
+                    <h3 class="text-3xl font-semibold mb-4 neon-text">Beyond the Table!</h3>
+                    <p class="text-lg text-gray-300">
+                        It's not just about the game. Our chill lounge, exclusive merch, and vibrant atmosphere make
+                        Fusion TT Club the ultimate hangout. Get ready for something truly special.
+                    </p>
+                </div>
+                <!-- New Hype Block 1 -->
+                <div class="p-8 rounded-xl neon-border bg-gradient-to-br from-gray-900 to-black shadow-lg animated-card panel-hover-effect animate-border-glow">
+                    <h3 class="text-3xl font-semibold mb-4 neon-text-orange">Level Up Your Game!</h3>
+                    <p class="text-lg text-gray-300">
+                        From beginner basics to advanced tactics, our expert coaches are here to help you smash your goals. Personalized training plans and cutting-edge facilities await!
+                    </p>
+                </div>
+                <!-- New Hype Block 2 -->
+                <div class="p-8 rounded-xl neon-border bg-gradient-to-br from-gray-900 to-black shadow-lg animated-card panel-hover-effect animate-border-glow">
+                    <h3 class="text-3xl font-semibold mb-4 neon-text-purple">Connect & Compete!</h3>
+                    <p class="text-lg text-gray-300">
+                        Join a thriving community of table tennis enthusiasts. Participate in thrilling tournaments, friendly matches, and social events that bring everyone together.
+                    </p>
+                </div>
+            </div>
+
+            <!-- JOIN NOW Button -->
+            <button class="mt-16 py-6 px-12 text-4xl font-bold rounded-full button-hover-glow-lg ripple-container rgb-animated-text animate-pulse-scale" onclick="showModal('Ready to join the Fusion TT Club? Contact us at join@fusiontt.club to sign up and start your table tennis journey!')">
+                JOIN NOW!
+            </button>
+        </section>
+
+        <!-- Book Training Section -->
+        <section id="book-training" class="section flex-col py-16">
+            <h2 class="text-5xl font-bold mb-12 text-center neon-text">Book Your Training Session</h2>
+            <div class="max-w-5xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12">
+                <!-- Booking Form -->
+                <div class="p-8 rounded-xl neon-border bg-gradient-to-br from-gray-900 to-black shadow-lg animated-card panel-hover-effect animate-border-glow">
+                    <h3 class="text-3xl font-semibold mb-6 neon-text">Schedule a Coaching Session</h3>
+                    <form id="training-booking-form" class="space-y-6">
+                        <div>
+                            <label for="coach-select" class="block text-lg font-medium text-gray-300 mb-2">Select Coach:</label>
+                            <select id="coach-select" class="w-full p-3 rounded-md bg-gray-800 border border-gray-700 focus:border-neon-blue focus:ring focus:ring-neon-blue focus:ring-opacity-50 transition-all duration-200">
+                                <option value="coach-danie">Coach Danie (All Levels, Strategy)</option>
+                                <option value="coach-alex">Coach Alex (Beginner/Intermediate)</option>
+                                <option value="coach-ben">Coach Ben (Intermediate/Advanced)</option>
+                                <option value="coach-sarah">Coach Sarah (Footwork & Agility)</option>
+                                <option value="coach-mike">Coach Mike (Spin & Serve)</option>
+                                <option value="coach-lisa">Coach Lisa (Defensive Play)</option>
+                                <option value="coach-chris">Coach Chris (Forehand Attack)</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="training-date" class="block text-lg font-medium text-gray-300 mb-2">Date:</label>
+                            <input type="date" id="training-date" class="w-full p-3 rounded-md bg-gray-800 border border-gray-700 focus:border-neon-blue focus:ring focus:ring-neon-blue focus:ring-opacity-50 transition-all duration-200" required>
+                        </div>
+                        <div>
+                            <label for="training-time" class="block text-lg font-medium text-gray-300 mb-2">Time:</label>
+                            <input type="time" id="training-time" class="w-full p-3 rounded-md bg-gray-800 border border-gray-700 focus:border-neon-blue focus:ring focus:ring-neon-blue focus:ring-opacity-50 transition-all duration-200" required>
+                        </div>
+                        <div>
+                            <label for="training-length" class="block text-lg font-medium text-gray-300 mb-2">Session Length:</label>
+                            <select id="training-length" class="w-full p-3 rounded-md bg-gray-800 border border-gray-700 focus:border-neon-blue focus:ring focus:ring-neon-blue focus:ring-opacity-50 transition-all duration-200" required>
+                                <option value="30">30 minutes</option>
+                                <option value="60">1 hour</option>
+                                <option value="90">1 hour 30 minutes</option>
+                                <option value="120">2 hours</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="w-full py-3 px-6 rounded-md button-hover-glow ripple-container">
+                            Book Session
+                        </button>
+                        <button type="button" id="suggest-drills-button" class="w-full py-3 px-6 rounded-md button-hover-glow ripple-container mt-4">
+                            Get ✨Training Drills!
+                        </button>
+                    </form>
+                    <div id="drill-suggestions" class="mt-6 p-4 rounded-md neon-border bg-gray-900 animate-border-glow" style="display: none;">
+                        <p class="text-gray-400 text-center" id="drill-suggestions-message">Drill suggestions will appear here.</p>
+                        <div id="drills-loading-spinner" class="merch-image-spinner mx-auto mt-4" style="display: none;"></div>
+                    </div>
+                </div>
+
+                <!-- Calendar of Booked Sessions -->
+                <div class="p-8 rounded-xl neon-border bg-gradient-to-br from-gray-900 to-black shadow-lg animated-card panel-hover-effect animate-border-glow">
+                    <h3 class="text-3xl font-semibold mb-6 neon-text">Your Booked Coaching Sessions</h3>
+                    <div class="flex justify-between items-center mb-4">
+                        <button id="prev-month-training" class="text-neon-blue hover:text-white transition-colors duration-200 ripple-container"><i class="fas fa-chevron-left"></i></button>
+                        <span id="current-month-training" class="text-xl font-semibold neon-text"></span>
+                        <button id="next-month-training" class="text-neon-blue hover:text-white transition-colors duration-200 ripple-container"><i class="fas fa-chevron-right"></i></button>
+                    </div>
+                    <div id="training-calendar" class="calendar-grid">
+                        <!-- Calendar days will be generated here by JS -->
+                    </div>
+                    <div id="training-events-list" class="mt-6 space-y-3 max-h-64 overflow-y-auto custom-scrollbar">
+                        <p class="text-gray-400">No sessions booked for this month.</p>
+                        <!-- Booked sessions will be displayed here -->
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Social Tournaments Section -->
+        <section id="social-tournaments" class="section flex-col py-16">
+            <h2 class="text-5xl font-bold mb-8 neon-text text-center">Social Tournaments</h2>
+            <p class="text-xl text-gray-300 max-w-3xl mb-12 text-center animated-card">
+                Ready to show off your skills in a friendly, competitive environment? Our social tournaments are the perfect way to connect with other players and have a blast!
+            </p>
+
+            <!-- Calendar of Social Tournaments (Moved to top) -->
+            <div class="p-8 rounded-xl neon-border bg-gradient-to-br from-gray-900 to-black shadow-lg w-full max-w-2xl mt-12 animated-card panel-hover-effect animate-border-glow">
+                <h3 class="text-3xl font-semibold mb-6 neon-text">Tournament Calendar</h3>
+                <div class="flex justify-between items-center mb-4">
+                    <button id="prev-month-social" class="text-neon-blue hover:text-white transition-colors duration-200 ripple-container"><i class="fas fa-chevron-left"></i></button>
+                    <span id="current-month-social" class="text-xl font-semibold neon-text"></span>
+                    <button id="next-month-social" class="text-neon-blue hover:text-white transition-colors duration-200 ripple-container"><i class="fas fa-chevron-right"></i></button>
+                </div>
+                <div id="social-calendar" class="calendar-grid">
+                    <!-- Calendar days will be generated here by JS -->
+                </div>
+                <div id="social-events-list" class="mt-6 space-y-3 max-h-64 overflow-y-auto custom-scrollbar">
+                    <p class="text-gray-400">No tournaments for this month.</p>
+                    <!-- Tournaments will be displayed here -->
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl w-full mt-12">
+                <!-- Tournament 1 Block -->
+                <div class="p-8 rounded-xl neon-border bg-gradient-to-br from-gray-900 to-black shadow-lg animated-card panel-hover-effect animate-border-glow">
+                    <h3 class="text-3xl font-semibold mb-4 neon-text-purple">Spring Open - Mixed Doubles</h3>
+                    <p class="text-lg text-gray-300 mb-2"><span class="neon-text">Date:</span> March 10, 2026</p>
+                    <p class="text-lg text-gray-300 mb-2"><span class="neon-text">Time:</span> 6:00 PM - 9:00 PM</p>
+                    <p class="text-lg text-gray-300 mb-2"><span class="neon-text">Format:</span> Round Robin + Knockout</p>
+                    <p class="text-lg text-gray-300 mb-4">
+                        Team up with a partner and conquer the Spring Open! Open to all skill levels, this mixed doubles tournament is all about fun, teamwork, and smashing good times. Prizes for top 3 teams!
+                    </p>
+                    <button class="py-2 px-6 rounded-md button-hover-glow ripple-container">
+                        <span class="neon-text">Register Now!</span>
+                    </button>
+                </div>
+
+                <!-- Tournament 2 Block -->
+                <div class="p-8 rounded-xl neon-border bg-gradient-to-br from-gray-900 to-black shadow-lg animated-card panel-hover-effect animate-border-glow">
+                    <h3 class="text-3xl font-semibold mb-4 neon-text-purple">Rookie Rumble - Singles</h3>
+                    <p class="text-lg text-gray-300 mb-2"><span class="neon-text">Date:</span> April 5, 2026</p>
+                    <p class="text-lg text-gray-300 mb-2"><span class="neon-text">Time:</span> 2:00 PM - 5:00 PM</p>
+                    <p class="text-lg text-gray-300 mb-2"><span class="neon-text">Format:</span> Group Stage + Finals</p>
+                    <p class="text-lg text-gray-300 mb-4">
+                        New to the game or just looking for a friendly challenge? The Rookie Rumble is designed for beginners and intermediate players to gain tournament experience in a supportive atmosphere.
+                    </p>
+                    <button class="py-2 px-6 rounded-md button-hover-glow ripple-container">
+                        <span class="neon-text">Register Now!</span>
+                    </button>
+                </div>
+
+                <!-- Tournament 3 Block -->
+                <div class="p-8 rounded-xl neon-border bg-gradient-to-br from-gray-900 to-black shadow-lg animated-card panel-hover-effect animate-border-glow">
+                    <h3 class="text-3xl font-semibold mb-4 neon-text-purple">Neon Night Challenge - Fast Paced Singles</h3>
+                    <p class="text-lg text-gray-300 mb-2"><span class="neon-text">Date:</span> May 20, 2026</p>
+                    <p class="text-lg text-gray-300 mb-2"><span class="neon-text">Time:</span> 7:00 PM - 10:00 PM</p>
+                    <p class="text-lg text-gray-300 mb-2"><span class="neon-text">Format:</span> Best of 3 sets, sudden death</p>
+                    <p class="text-lg text-gray-300 mb-4">
+                        Experience the thrill of fast-paced table tennis under the neon lights! This singles tournament emphasizes quick reflexes and aggressive play. Limited spots available, so sign up fast!
+                    </p>
+                    <button class="py-2 px-6 rounded-md button-hover-glow ripple-container">
+                        <span class="neon-text">Register Now!</span>
+                    </button>
+                </div>
+
+                <!-- Tournament 4 Block -->
+                <div class="p-8 rounded-xl neon-border bg-gradient-to-br from-gray-900 to-black shadow-lg animated-card panel-hover-effect animate-border-glow">
+                    <h3 class="text-3xl font-semibold mb-4 neon-text-purple">Summer Smash - Team Event</h3>
+                    <p class="text-lg text-gray-300 mb-2"><span class="neon-text">Date:</span> June 15, 2026</p>
+                    <p class="text-lg text-gray-300 mb-2"><span class="neon-text">Time:</span> 10:00 AM - 4:00 PM</p>
+                    <p class="text-lg text-gray-300 mb-2"><span class="neon-text">Format:</span> Team vs Team, multiple matches</p>
+                    <p class="text-lg text-gray-300 mb-4">
+                        Gather your squad for the ultimate team showdown! Compete in singles and doubles matches to earn points for your team. Great prizes and bragging rights up for grabs!
+                    </p>
+                    <button class="py-2 px-6 rounded-md button-hover-glow ripple-container">
+                        <span class="neon-text">Register Now!</span>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Table Booking Section -->
+        <section id="table-booking" class="section flex-col py-16">
+            <h2 class="text-5xl font-bold mb-12 text-center neon-text">Book a Table</h2>
+            <div class="max-w-5xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12">
+                <!-- Booking Form -->
+                <div class="p-8 rounded-xl neon-border bg-gradient-to-br from-gray-900 to-black shadow-lg animated-card panel-hover-effect animate-border-glow">
+                    <h3 class="text-3xl font-semibold mb-6 neon-text">Reserve Your Table Time</h3>
+                    <form id="table-booking-form" class="space-y-6">
+                        <div>
+                            <label for="table-activity" class="block text-lg font-medium text-gray-300 mb-2">Activity Type:</label>
+                            <select id="table-activity" class="w-full p-3 rounded-md bg-gray-800 border border-gray-700 focus:border-neon-blue focus:ring focus:ring-neon-blue focus:ring-opacity-50 transition-all duration-200">
+                                <option value="serve-training">Serve Training</option>
+                                <option value="social-playing">Social Playing</option>
+                                <option value="training-friend">Training with a Friend</option>
+                                <option value="robot-practice">Robot Practice</option>
+                                <option value="casual-match">Casual Match</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="table-date" class="block text-lg font-medium text-gray-300 mb-2">Date:</label>
+                            <input type="date" id="table-date" class="w-full p-3 rounded-md bg-gray-800 border border-gray-700 focus:border-neon-blue focus:ring focus:ring-neon-blue focus:ring-opacity-50 transition-all duration-200" required>
+                        </div>
+                        <div>
+                            <label for="table-time" class="block text-lg font-medium text-gray-300 mb-2">Time:</label>
+                            <input type="time" id="table-time" class="w-full p-3 rounded-md bg-gray-800 border border-gray-700 focus:border-neon-blue focus:ring focus:ring-neon-blue focus:ring-opacity-50 transition-all duration-200" required>
+                        </div>
+                        <div>
+                            <label for="table-length" class="block text-lg font-medium text-gray-300 mb-2">Session Length:</label>
+                            <select id="table-length" class="w-full p-3 rounded-md bg-gray-800 border border-gray-700 focus:border-neon-blue focus:ring focus:ring-neon-blue focus:ring-opacity-50 transition-all duration-200" required>
+                                <option value="30">30 minutes</option>
+                                <option value="60">1 hour</option>
+                                <option value="90">1 hour 30 minutes</option>
+                                <option value="120">2 hours</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="w-full py-3 px-6 rounded-md button-hover-glow ripple-container">
+                            Book Table
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Calendar of Booked Tables -->
+                <div class="p-8 rounded-xl neon-border bg-gradient-to-br from-gray-900 to-black shadow-lg animated-card panel-hover-effect animate-border-glow">
+                    <h3 class="text-3xl font-semibold mb-6 neon-text">Your Booked Table Sessions</h3>
+                    <div class="flex justify-between items-center mb-4">
+                        <button id="prev-month-table" class="text-neon-blue hover:text-white transition-colors duration-200 ripple-container"><i class="fas fa-chevron-left"></i></button>
+                        <span id="current-month-table" class="text-xl font-semibold neon-text"></span>
+                        <button id="next-month-table" class="text-neon-blue hover:text-white transition-colors duration-200 ripple-container"><i class="fas fa-chevron-right"></i></button>
+                    </div>
+                    <div id="table-calendar" class="calendar-grid">
+                        <!-- Calendar days will be generated here by JS -->
+                    </div>
+                    <div id="table-events-list" class="mt-6 space-y-3 max-h-64 overflow-y-auto custom-scrollbar">
+                        <p class="text-gray-400">No tables booked for this month.</p>
+                        <!-- Booked sessions will be displayed here -->
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Club League Section -->
+        <section id="club-league" class="section flex-col py-16">
+            <h2 class="text-5xl font-bold mb-12 text-center neon-text">Club League</h2>
+            <div class="max-w-5xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12">
+                <!-- Club Teams -->
+                <div class="p-8 rounded-xl neon-border bg-gradient-to-br from-gray-900 to-black shadow-lg animated-card panel-hover-effect animate-border-glow">
+                    <h3 class="text-3xl font-semibold mb-6 neon-text">Our League Teams</h3>
+                    <div class="grid grid-cols-2 gap-4 text-lg text-gray-300">
+                        <p><span class="neon-text-purple font-semibold team-name-clickable" data-team-id="team-a">Team A:</span> The Aces</p>
+                        <p><span class="neon-text-purple font-semibold team-name-clickable" data-team-id="team-b">Team B:</span> Blue Blasters</p>
+                        <p><span class="neon-text-purple font-semibold team-name-clickable" data-team-id="team-c">Team C:</span> Comet Crushers</p>
+                        <p><span class="neon-text-purple font-semibold team-name-clickable" data-team-id="team-d">Team D:</span> Dynamo Drifters</p>
+                        <p><span class="neon-text-purple font-semibold team-name-clickable" data-team-id="team-e">Team E:</span> Elite Eagles</p>
+                        <p><span class="neon-text-purple font-semibold team-name-clickable" data-team-id="team-f">Team F:</span> Furious Flames</p>
+                        <p><span class="neon-text-purple font-semibold team-name-clickable" data-team-id="team-g">Team G:</span> Galactic Gliders</p>
+                        <p><span class="neon-text-purple font-semibold team-name-clickable" data-team-id="team-h">Team H:</span> Hurricane Hitters</p>
+                        <p><span class="neon-text-purple font-semibold team-name-clickable" data-team-id="team-i">Team I:</span> Inferno Invaders</p>
+                        <p><span class="neon-text-purple font-semibold team-name-clickable" data-team-id="team-j">Team J:</span> Jolt Jaguars</p>
+                        <p><span class="neon-text-purple font-semibold team-name-clickable" data-team-id="team-k">Team K:</span> Kinetic Knights</p>
+                        <p><span class="neon-text-purple font-semibold team-name-clickable" data-team-id="team-l">Team L:</span> Lightning Legends</p>
+                    </div>
+                </div>
+
+                <!-- Upcoming Games & Calendar -->
+                <div class="p-8 rounded-xl neon-border bg-gradient-to-br from-gray-900 to-black shadow-lg animated-card panel-hover-effect animate-border-glow">
+                    <h3 class="text-3xl font-semibold mb-6 neon-text">Upcoming League Games</h3>
+                    <ul class="list-disc list-inside text-left space-y-3 text-lg text-gray-300 mb-6">
+                        <li><span class="neon-text">March 12, 2026:</span> Team A vs Team D (7:00 PM)</li>
+                        <li><span class="neon-text">March 15, 2026:</span> Team B vs Team F (6:30 PM)</li>
+                        <li><span class="neon-text">March 19, 2026:</span> Team C vs Team E (7:30 PM)</li>
+                        <li><span class="neon-text">March 22, 2026:</span> Team G vs Team H (8:00 PM)</li>
+                    </ul>
+                    <div class="flex justify-between items-center mb-4">
+                        <button id="prev-month-league" class="text-neon-blue hover:text-white transition-colors duration-200 ripple-container"><i class="fas fa-chevron-left"></i></button>
+                        <span id="current-month-league" class="text-xl font-semibold neon-text"></span>
+                        <button id="next-month-league" class="text-neon-blue hover:text-white transition-colors duration-200 ripple-container"><i class="fas fa-chevron-right"></i></button>
+                    </div>
+                    <div id="league-calendar" class="calendar-grid">
+                        <!-- Calendar days will be generated here by JS -->
+                    </div>
+                    <div id="league-events-list" class="mt-6 space-y-3 max-h-64 overflow-y-auto custom-scrollbar">
+                        <p class="text-gray-400">No league games for this month.</p>
+                        <!-- League games will be displayed here -->
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Club Leaderboard Section -->
+        <section id="club-leaderboard" class="section flex-col py-16">
+            <h2 class="text-5xl font-bold mb-12 text-center neon-text">Club Leaderboard</h2>
+            <div class="max-w-4xl mx-auto p-8 rounded-xl neon-border bg-gradient-to-br from-gray-900 to-black shadow-lg animated-card panel-hover-effect animate-border-glow">
+                <h3 class="text-3xl font-semibold mb-6 neon-text">Top Players by Category</h3>
+
+                <!-- Category Tabs -->
+                <div class="flex justify-center space-x-4 mb-8 flex-wrap">
+                    <button class="leaderboard-tab py-2 px-4 rounded-full bg-gray-800 text-gray-300 hover:bg-neon-purple hover:text-black transition-all duration-200 active-tab ripple-container" data-category="seniors">Seniors</button>
+                    <button class="leaderboard-tab py-2 px-4 rounded-full bg-gray-800 text-gray-300 hover:bg-neon-purple hover:text-black transition-all duration-200 ripple-container" data-category="vets">Vets</button>
+                    <button class="leaderboard-tab py-2 px-4 rounded-full bg-gray-800 text-gray-300 hover:bg-neon-purple hover:text-black transition-all duration-200 ripple-container" data-category="u19">Under 19</button>
+                    <button class="leaderboard-tab py-2 px-4 rounded-full bg-gray-800 text-gray-300 hover:bg-neon-purple hover:text-black transition-all duration-200 ripple-container" data-category="u15">Under 15</button>
+                    <button class="leaderboard-tab py-2 px-4 rounded-full bg-gray-800 text-gray-300 hover:bg-neon-purple hover:text-black transition-all duration-200 ripple-container" data-category="u13">Under 13</button>
+                    <button class="leaderboard-tab py-2 px-4 rounded-full bg-gray-800 text-gray-300 hover:bg-neon-purple hover:text-black transition-all duration-200 ripple-container" data-category="u11">Under 11</button>
+                </div>
+
+                <!-- Search Bar -->
+                <div class="mb-6">
+                    <input type="text" id="player-search" placeholder="Search player by name..." class="w-full p-3 rounded-md bg-gray-800 border border-gray-700 focus:border-neon-blue focus:ring focus:ring-neon-blue focus:ring-opacity-50 transition-all duration-200">
+                </div>
+
+                <!-- Leaderboard Table -->
+                <div class="overflow-x-auto">
+                    <table class="min-w-full bg-gray-900 rounded-lg overflow-hidden">
+                        <thead>
+                            <tr class="bg-gray-800">
+                                <th class="py-3 px-4 text-left text-sm font-semibold neon-text-purple uppercase tracking-wider">Rank</th>
+                                <th class="py-3 px-4 text-left text-sm font-semibold neon-text-purple uppercase tracking-wider">Player Name</th>
+                                <th class="py-3 px-4 text-left text-sm font-semibold neon-text-purple uppercase tracking-wider">Points</th>
+                                <th class="py-3 px-4 text-left text-sm font-semibold neon-text-purple uppercase tracking-wider">Matches Played</th>
+                            </tr>
+                        </thead>
+                        <tbody id="leaderboard-body" class="divide-y divide-gray-700">
+                            <!-- Leaderboard data will be populated by JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- Merch Section -->
+        <section id="merch" class="section flex-col py-16">
+            <h2 class="text-5xl font-bold mb-12 text-center neon-text">Official Fusion TT Merch</h2>
+            <p class="text-xl text-gray-300 max-w-3xl mb-12 text-center animated-card">
+                Rep the club in style! Check out our exclusive range of Fusion TT Club merchandise.
+            </p>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl w-full">
+                <!-- Match Shirts -->
+                <div class="p-8 rounded-xl neon-border bg-gradient-to-br from-gray-900 to-black shadow-lg animated-card panel-hover-effect merch-item-hover-effect animate-border-glow">
+                    <div id="merch-image-match-shirts" class="merch-image-placeholder mb-4 rounded-md neon-border">
+                        <div class="merch-image-spinner"></div>
+                        <span class="mt-2">Generating image...</span>
+                        <img src="" alt="Match Shirts" class="w-full h-full object-contain">
+                    </div>
+                    <h3 class="text-3xl font-semibold mb-2 neon-text-purple">Match Shirts</h3>
+                    <p class="text-lg text-gray-300 mb-2">For tournament players representing Fusion and other sponsors.</p>
+                    <p class="text-xl font-bold neon-text mb-4">R280 - R350</p>
+                    <button class="w-full py-3 px-6 rounded-md button-hover-glow ripple-container" onclick="showModal('You are interested in Match Shirts! Please contact us at merch@fusiontt.club to order.')">
+                        <span class="neon-text">Order Now!</span>
+                    </button>
+                </div>
+
+                <!-- Shorts -->
+                <div class="p-8 rounded-xl neon-border bg-gradient-to-br from-gray-900 to-black shadow-lg animated-card panel-hover-effect merch-item-hover-effect animate-border-glow">
+                    <div id="merch-image-shorts" class="merch-image-placeholder mb-4 rounded-md neon-border">
+                        <div class="merch-image-spinner"></div>
+                        <span class="mt-2">Generating image...</span>
+                        <img src="" alt="Shorts" class="w-full h-full object-contain">
+                    </div>
+                    <h3 class="text-3xl font-semibold mb-2 neon-text-purple">Shorts</h3>
+                    <p class="text-lg text-gray-300 mb-2">Perfect for match and practice sessions.</p>
+                    <p class="text-xl font-bold neon-text mb-4">R250 - R290</p>
+                    <button class="w-full py-3 px-6 rounded-md button-hover-glow ripple-container" onclick="showModal('You are interested in Shorts! Please contact us at merch@fusiontt.club to order.')">
+                        <span class="neon-text">Order Now!</span>
+                    </button>
+                </div>
+
+                <!-- Practice Shirts -->
+                <div class="p-8 rounded-xl neon-border bg-gradient-to-br from-gray-900 to-black shadow-lg animated-card panel-hover-effect merch-item-hover-effect animate-border-glow">
+                    <div id="merch-image-practice-shirts" class="merch-image-placeholder mb-4 rounded-md neon-border">
+                        <div class="merch-image-spinner"></div>
+                        <span class="mt-2">Generating image...</span>
+                        <img src="" alt="Practice Shirts" class="w-full h-full object-contain">
+                    </div>
+                    <h3 class="text-3xl font-semibold mb-2 neon-text-purple">Practice Shirts</h3>
+                    <p class="text-lg text-gray-300 mb-2">Ideal for training, social tournaments, or casual wear.</p>
+                    <p class="text-xl font-bold neon-text mb-4">R150 - R190</p>
+                    <button class="w-full py-3 px-6 rounded-md button-hover-glow ripple-container" onclick="showModal('You are interested in Practice Shirts! Please contact us at merch@fusiontt.club to order.')">
+                        <span class="neon-text">Order Now!</span>
+                    </button>
+                </div>
+
+                <!-- Accessories -->
+                <div class="p-8 rounded-xl neon-border bg-gradient-to-br from-gray-900 to-black shadow-lg animated-card panel-hover-effect merch-item-hover-effect animate-border-glow">
+                    <div id="merch-image-accessories" class="merch-image-placeholder mb-4 rounded-md neon-border">
+                        <div class="merch-image-spinner"></div>
+                        <span class="mt-2">Generating image...</span>
+                        <img src="" alt="Accessories" class="w-full h-full object-contain">
+                    </div>
+                    <h3 class="text-3xl font-semibold mb-2 neon-text-purple">Accessories</h3>
+                    <p class="text-lg text-gray-300 mb-2">Water bottles, bat cases, bags, backpacks, cleaners, keychains.</p>
+                    <p class="text-xl font-bold neon-text mb-4">Coming in 2026</p>
+                    <button class="py-2 px-6 rounded-md button-hover-glow mx-auto block ripple-container" onclick="showAccessoriesModal()">
+                        <span class="neon-text">Enquire Now!</span>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section id="about" class="section flex-col py-16 relative">
+            <!-- About Page Doodles - REMOVED -->
+
+            <div class="about-section-content">
+                <h2 class="text-5xl font-bold mb-12 text-center neon-text animated-card">About Our Club</h2>
+                <div class="max-w-4xl mx-auto p-8 rounded-xl neon-border bg-gradient-to-br from-gray-900 to-black shadow-lg animated-card panel-hover-effect animate-border-glow">
+                    <h3 class="text-3xl font-semibold mb-4 neon-text">Our Story <i class="fas fa-book-open ml-2 text-neon-purple"></i></h3>
+                    <p class="text-lg text-gray-300 leading-relaxed">
+                        The Fusion TT Club was founded in 2025 by a visionary coach who believed in the immense potential of table tennis in South Africa. Driven by a deep passion for the sport, our founder's primary goal was to elevate South Africa's reputation on the global table tennis stage and, more importantly, to spread the pure joy and accessibility of the sport to everyone.
+                    </p>
+                    <p class="text-lg text-gray-300 leading-relaxed mt-4">
+                        From humble beginnings, the club was built on the principle that table tennis is more than just a game; it's a community builder, a skill developer, and a source of endless fun. Our founder envisioned a place where aspiring athletes could hone their skills with top-tier coaching, where friends could gather for spirited social play, and where new enthusiasts could discover the thrill of the paddle. This dream of fostering both competitive excellence and widespread enjoyment is the beating heart of Fusion TT Club, ready to welcome you in 2026.
+                    </p>
+                </div>
+                <div class="max-w-4xl mx-auto p-8 rounded-xl neon-border bg-gradient-to-br from-gray-900 to-black shadow-lg animated-card panel-hover-effect animate-border-glow">
+                    <h3 class="text-3xl font-semibold mb-4 neon-text">Our Location <i class="fas fa-map-marker-alt ml-2 text-neon-orange"></i></h3>
+                    <p class="text-lg text-gray-300 leading-relaxed">
+                        Nestled in the heart of <span class="neon-text font-semibold">Montana, Pretoria</span>, our club is easily accessible and offers ample parking. We chose this location for its central convenience and its proximity to a thriving, active community, ensuring that everyone can join the fun.
+                    </p>
+                </div>
+                <div class="max-w-4xl mx-auto p-8 rounded-xl neon-border bg-gradient-to-br from-gray-900 to-black shadow-lg animated-card panel-hover-effect animate-border-glow">
+                    <h3 class="text-3xl font-semibold mb-4 neon-text">The Neon Lounge <i class="fas fa-couch ml-2 text-neon-blue"></i></h3>
+                    <p class="text-lg text-gray-300 leading-relaxed">
+                        Beyond the tables, our club boasts the exclusive <span class="neon-text font-semibold">Neon Lounge</span> – a chill zone designed for relaxation and camaraderie. Featuring comfortable seating, a refreshment bar serving energizing drinks and snacks, and large screens broadcasting live tournaments, it's the perfect spot to unwind after a intense match, strategize with teammates, or simply soak in the club's electric atmosphere. It's where the community truly comes alive, making friends and forging rivalries.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Global Modal for messages -->
+    <div id="global-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-button ripple-container" onclick="closeModal()">&times;</span>
+            <p id="modal-message" class="text-lg text-center neon-text"></p>
+            <div id="modal-actions" class="flex justify-center mt-6">
+                <button onclick="closeModal()" class="py-2 px-6 rounded-md button-hover-glow ripple-container">
+                    Got it!
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Three.js library from CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+    <script>
+        // --- Global State and Utility Functions ---
+        const sections = document.querySelectorAll('.section');
+        const navLinks = document.querySelectorAll('.nav-link');
+        const globalModal = document.getElementById('global-modal');
+        const modalMessage = document.getElementById('modal-message');
+        const modalActions = document.getElementById('modal-actions');
+
+        // Function to create ripple effect
+        function createRipple(event) {
+            const button = event.currentTarget;
+            const circle = document.createElement("span");
+            const diameter = Math.max(button.clientWidth, button.clientHeight);
+            const radius = diameter / 2;
+
+            circle.style.width = circle.style.height = `${diameter}px`;
+            circle.style.left = `${event.clientX - (button.getBoundingClientRect().left + radius)}px`;
+            circle.style.top = `${event.clientY - (button.getBoundingClientRect().top + radius)}px`;
+            circle.classList.add("ripple");
+
+            // Remove any existing ripple to prevent multiple animations stacking
+            const existingRipple = button.querySelector(".ripple");
+            if (existingRipple) {
+                existingRipple.remove();
+            }
+
+            button.appendChild(circle);
+        }
+
+        // Add ripple effect to all elements with 'ripple-container' class
+        document.querySelectorAll('.ripple-container').forEach(element => {
+            element.addEventListener('click', createRipple);
+        });
+
+
+        // Function to show custom modal
+        function showModal(message, customContent = '') {
+            modalMessage.innerHTML = message; // Use innerHTML to allow for custom content
+            modalActions.innerHTML = ''; // Clear previous actions
+
+            if (customContent) {
+                modalActions.innerHTML = customContent;
+            } else {
+                modalActions.innerHTML = `
+                    <button onclick="closeModal()" class="py-2 px-6 rounded-md button-hover-glow ripple-container">
+                        Got it!
+                    </button>
+                `;
+            }
+            globalModal.style.display = 'flex'; // Use flex to center content
+            document.body.style.overflow = 'hidden'; // Disable scrolling when modal is open
+        }
+
+        // Function to close custom modal
+        function closeModal() {
+            globalModal.style.display = 'none';
+            document.body.style.overflow = ''; // Re-enable scrolling
+        }
+
+
+        // --- Navigation and Section Activation for Multi-Page Effect ---
+        function activateSection(id) {
+            sections.forEach(section => {
+                if (section.id === id) {
+                    section.classList.add('active');
+                    window.scrollTo({ top: 0, behavior: 'smooth' }); // Scroll to top of the new "page"
+                } else {
+                    section.classList.remove('active');
+                }
+            });
+
+            // Update active class for all nav links in the mobile menu overlay and desktop navbar
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === `#${id}`) {
+                    link.classList.add('active');
+                }
+            });
+
+            // Close mobile menu if open
+            const mobileMenu = document.getElementById('mobile-menu-overlay');
+            if (mobileMenu.classList.contains('active')) {
+                mobileMenu.classList.remove('active');
+                document.body.style.overflow = ''; // Re-enable scrolling
+            }
+        }
+
+        // Handle navigation clicks for all nav links (now only in overlay)
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href').substring(1);
+                activateSection(targetId);
+            });
+        });
+
+
+        // Mobile Menu Toggle (now for all screen sizes)
+        document.getElementById('hamburger-button').addEventListener('click', () => {
+            const mobileMenu = document.getElementById('mobile-menu-overlay');
+            mobileMenu.classList.add('active');
+            document.body.style.overflow = 'hidden'; // Disable scrolling when menu is open
+        });
+
+        document.getElementById('mobile-menu-close-button').addEventListener('click', () => {
+            const mobileMenu = document.getElementById('mobile-menu-overlay');
+            mobileMenu.classList.remove('active');
+            document.body.style.overflow = ''; // Re-enable scrolling
+        });
+
+
+        // Intersection Observer for scroll animations
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('is-visible');
+                    // Optional: Unobserve after animation to save resources if elements don't need to re-animate
+                    // observer.unobserve(entry.target);
+                } else {
+                    // Optional: Remove 'is-visible' if you want elements to re-animate when scrolling back up
+                    // entry.target.classList.remove('is-visible');
+                }
+            });
+        }, {
+            threshold: 0.1, // Trigger when 10% of the item is visible
+            rootMargin: '0px 0px -50px 0px' // Start animation a bit before it fully enters viewport
+        });
+
+
+        // Activate section on page load based on hash or default to home
+        window.addEventListener('DOMContentLoaded', () => {
+            const initialHash = window.location.hash.substring(1);
+            if (initialHash && document.getElementById(initialHash)) {
+                activateSection(initialHash);
+            } else {
+                activateSection('home');
+            }
+
+            // Initialize calendars
+            renderCalendar('training', trainingBookings, trainingCurrentDate);
+            renderCalendar('table', tableBookings, tableCurrentDate);
+            renderCalendar('league', leagueGames, leagueCurrentDate);
+            renderCalendar('social', socialTournaments, socialCurrentDate); // Initialize social calendar
+
+            // Populate leaderboard
+            renderLeaderboard('seniors'); // Default to seniors
+
+            // Render bar chart on home page
+            renderBarChart();
+
+            // Observe animated cards for scroll animation
+            document.querySelectorAll('.animated-card').forEach(card => {
+                observer.observe(card);
+            });
+
+            // Generate merch images
+            generateMerchImage('merch-image-match-shirts', 'futuristic table tennis match shirt, neon blue and purple, e-sports style, dark background, high detail');
+            generateMerchImage('merch-image-shorts', 'futuristic table tennis shorts, black with neon blue and purple accents, e-sports style, dark background, high detail');
+            generateMerchImage('merch-image-practice-shirts', 'futuristic table tennis practice shirt, dark grey with neon orange and blue accents, casual e-sports style, dark background, high detail');
+            generateMerchImage('merch-image-accessories', 'futuristic table tennis accessories, including water bottle, bat case, and keychain, neon glowing elements, dark background, high detail');
+        });
+
+        // --- Bar Chart Logic ---
+        function renderBarChart() {
+            const barChartContainer = document.getElementById('bar-chart-container');
+            barChartContainer.innerHTML = ''; // Clear existing content
+
+            const monthlyIncreaseData = [
+                { month: 'Jan', value: 15 },
+                { month: 'Feb', value: 20 },
+                { month: 'Mar', value: 25 },
+                { month: 'Apr', value: 30 },
+                { month: 'May', value: 35 },
+                { month: 'Jun', value: 40 },
+                { month: 'Jul', value: 45 },
+                { month: 'Aug', value: 50 },
+                { month: 'Sep', value: 55 },
+                { month: 'Oct', value: 60 },
+                { month: 'Nov', value: 65 },
+                { month: 'Dec', value: 70 }
+            ];
+
+            const maxValue = Math.max(...monthlyIncreaseData.map(d => d.value));
+            const containerHeight = barChartContainer.clientHeight - 50; // Subtract space for value labels above bars
+
+            monthlyIncreaseData.forEach((dataPoint, index) => {
+                const bar = document.createElement('div');
+                bar.classList.add('bar-chart-bar');
+                const barHeight = (dataPoint.value / maxValue) * containerHeight;
+                bar.style.height = `${barHeight}px`;
+                bar.style.animationDelay = `${0.1 * index}s`; // Stagger animation
+
+                const valueLabel = document.createElement('span');
+                valueLabel.classList.add('absolute', 'top-0', 'left-1/2', 'transform', '-translate-x-1/2', '-translate-y-full', 'text-xs', 'font-semibold', 'neon-text-orange');
+                valueLabel.textContent = dataPoint.value;
+                bar.appendChild(valueLabel);
+
+                barChartContainer.appendChild(bar);
+            });
+        }
+
+
+        // --- Calendar Logic (Reusable) ---
+        let trainingBookings = [
+            { date: '2026-03-10', time: '18:00', coach: 'Coach Alex', details: 'Beginner Session', length: '1 hour' },
+            { date: '2026-03-15', time: '19:30', coach: 'Coach Ben', details: 'Advanced Drills', length: '1 hour 30 minutes' },
+            { date: '2026-04-02', time: '17:00', coach: 'Coach Danie', details: 'Serve Masterclass', length: '2 hours' },
+        ];
+
+        let tableBookings = [
+            { date: '2026-03-12', time: '10:00', activity: 'Social Playing', details: 'Table 3', length: '30 minutes' },
+            { date: '2026-03-18', time: '14:00', activity: 'Serve Training', details: 'Table 1', length: '1 hour' },
+            { date: '2026-04-05', time: '11:00', activity: 'Training with a Friend', details: 'Table 2', length: '1 hour 30 minutes' },
+        ];
+
+        let leagueGames = [
+            { date: '2026-03-12', time: '19:00', teams: 'Team A vs Team D' },
+            { date: '2026-03-15', time: '18:30', teams: 'Team B vs Team F' },
+            { date: '2026-03-19', time: '19:30', teams: 'Team C vs Team E' },
+            { date: '2026-03-22', time: '20:00', teams: 'Team G vs Team H' },
+            { date: '2026-04-01', time: '19:00', teams: 'Team I vs Team J' },
+        ];
+
+        let socialTournaments = [
+            { date: '2026-03-10', time: '18:00', name: 'Spring Open - Mixed Doubles' },
+            { date: '2026-04-05', time: '14:00', name: 'Rookie Rumble - Singles' },
+            { date: '2026-05-20', time: '19:00', name: 'Neon Night Challenge - Fast Paced Singles' },
+            { date: '2026-06-15', time: '10:00', name: 'Summer Smash - Team Event' },
+        ];
+
+        // Current month/year for each calendar
+        let trainingCurrentDate = new Date(2026, 2, 1); // March 2026
+        let tableCurrentDate = new Date(2026, 2, 1);    // March 2026
+        let leagueCurrentDate = new Date(2026, 2, 1);   // March 2026
+        let socialCurrentDate = new Date(2026, 2, 1);   // March 2026
+
+        function getCalendarState(type) {
+            if (type === 'training') return { bookings: trainingBookings, currentDate: trainingCurrentDate };
+            if (type === 'table') return { bookings: tableBookings, currentDate: tableCurrentDate };
+            if (type === 'league') return { bookings: leagueGames, currentDate: leagueCurrentDate };
+            if (type === 'social') return { bookings: socialTournaments, currentDate: socialCurrentDate };
+            return null;
+        }
+
+        function setCalendarState(type, newDate) {
+            if (type === 'training') trainingCurrentDate = newDate;
+            if (type === 'table') tableCurrentDate = newDate;
+            if (type === 'league') leagueCurrentDate = newDate;
+            if (type === 'social') socialCurrentDate = newDate;
+        }
+
+        function renderCalendar(type, bookings, currentMonthDate) {
+            const calendarEl = document.getElementById(`${type}-calendar`);
+            const currentMonthEl = document.getElementById(`current-month-${type}`);
+            const eventsListEl = document.getElementById(`${type}-events-list`);
+
+            if (!calendarEl || !currentMonthEl || !eventsListEl) return;
+
+            const year = currentMonthDate.getFullYear();
+            const month = currentMonthDate.getMonth(); // 0-indexed
+
+            currentMonthEl.textContent = currentMonthDate.toLocaleString('en-US', { month: 'long', year: 'numeric' });
+
+            // Clear previous calendar
+            calendarEl.innerHTML = '';
+            eventsListEl.innerHTML = '';
+
+            const firstDayOfMonth = new Date(year, month, 1);
+            const lastDayOfMonth = new Date(year, month + 1, 0);
+            const daysInMonth = lastDayOfMonth.getDate();
+            const startDayOfWeek = firstDayOfMonth.getDay(); // 0 = Sunday, 1 = Monday
+
+            const dayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+            dayNames.forEach(day => {
+                const header = document.createElement('div');
+                header.classList.add('calendar-header');
+                header.textContent = day;
+                calendarEl.appendChild(header);
+            });
+
+            // Add empty cells for days before the 1st of the month
+            for (let i = 0; i < startDayOfWeek; i++) {
+                const emptyDay = document.createElement('div');
+                emptyDay.classList.add('calendar-day', 'text-gray-600');
+                calendarEl.appendChild(emptyDay);
+            }
+
+            // Add days of the month
+            let daysWithEvents = {};
+            bookings.forEach(booking => {
+                const bookingDate = new Date(booking.date);
+                if (bookingDate.getFullYear() === year && bookingDate.getMonth() === month) {
+                    daysWithEvents[bookingDate.getDate()] = true;
+                }
+            });
+
+            for (let day = 1; day <= daysInMonth; day++) {
+                const dayEl = document.createElement('div');
+                dayEl.classList.add('calendar-day', 'current-month');
+                dayEl.textContent = day;
+
+                if (daysWithEvents[day]) {
+                    const eventDot = document.createElement('div');
+                    eventDot.classList.add('event-dot');
+                    dayEl.appendChild(eventDot);
+                }
+
+                dayEl.addEventListener('click', () => {
+                    displayEventsForDay(type, day, month, year, bookings, eventsListEl);
+                    // Remove 'selected' from previous and add to current
+                    document.querySelectorAll(`#${type}-calendar .calendar-day.selected`).forEach(d => d.classList.remove('selected'));
+                    dayEl.classList.add('selected');
+                });
+                calendarEl.appendChild(dayEl);
+            }
+
+            // Initially display events for the first day with an event or current day
+            const today = new Date();
+            const currentDay = today.getDate();
+            if (today.getFullYear() === year && today.getMonth() === month) {
+                displayEventsForDay(type, currentDay, month, year, bookings, eventsListEl);
+                const todayEl = calendarEl.querySelector(`.calendar-day.current-month:nth-child(${startDayOfWeek + currentDay + 7})`);
+                if (todayEl) todayEl.classList.add('selected');
+            } else {
+                // If not current month, display for the first day of the month
+                displayEventsForDay(type, 1, month, year, bookings, eventsListEl);
+                const firstDayEl = calendarEl.querySelector(`.calendar-day.current-month:nth-child(${startDayOfWeek + 1 + 7})`);
+                if (firstDayEl) firstDayEl.classList.add('selected');
+            }
+        }
+
+        function displayEventsForDay(type, day, month, year, bookings, eventsListEl) {
+            eventsListEl.innerHTML = '';
+            const selectedDateString = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+            const eventsOnDay = bookings.filter(booking => booking.date === selectedDateString);
+
+            if (eventsOnDay.length === 0) {
+                eventsListEl.innerHTML = `<p class="text-gray-400">No ${type} events for ${selectedDateString}.</p>`;
+                return;
+            }
+
+            eventsOnDay.forEach(event => {
+                const eventDiv = document.createElement('div');
+                eventDiv.classList.add('p-3', 'rounded-md', 'bg-gray-800', 'neon-border');
+                if (type === 'training') {
+                    eventDiv.innerHTML = `
+                        <p class="text-lg neon-text font-semibold">${event.coach}</p>
+                        <p class="text-gray-300">${event.time} (${event.length}) - ${event.details}</p>
+                    `;
+                } else if (type === 'table') {
+                    eventDiv.innerHTML = `
+                        <p class="text-lg neon-text font-semibold">${event.activity}</p>
+                        <p class="text-gray-300">${event.time} (${event.length}) - ${event.details}</p>
+                    `;
+                } else if (type === 'league') {
+                    eventDiv.innerHTML = `
+                        <p class="text-lg neon-text font-semibold">${event.teams}</p>
+                        <p class="text-gray-300">Time: ${event.time}</p>
+                    `;
+                } else if (type === 'social') {
+                    eventDiv.innerHTML = `
+                        <p class="text-lg neon-text font-semibold">${event.name}</p>
+                        <p class="text-gray-300">Time: ${event.time}</p>
+                    `;
+                }
+                eventsListEl.appendChild(eventDiv);
+            });
+        }
+
+        function setupCalendarNavigation(type) {
+            const prevBtn = document.getElementById(`prev-month-${type}`);
+            const nextBtn = document.getElementById(`next-month-${type}`);
+            const state = getCalendarState(type);
+
+            if (!prevBtn || !nextBtn || !state) return;
+
+            prevBtn.addEventListener('click', () => {
+                state.currentDate.setMonth(state.currentDate.getMonth() - 1);
+                setCalendarState(type, state.currentDate);
+                renderCalendar(type, state.bookings, state.currentDate);
+            });
+
+            nextBtn.addEventListener('click', () => {
+                state.currentDate.setMonth(state.currentDate.getMonth() + 1);
+                setCalendarState(type, state.currentDate);
+                renderCalendar(type, state.bookings, state.currentDate);
+            });
+        }
+
+        // Initialize calendar navigation for all calendars
+        setupCalendarNavigation('training');
+        setupCalendarNavigation('table');
+        setupCalendarNavigation('league');
+        setupCalendarNavigation('social');
+
+        // --- Booking Form Logic ---
+        document.getElementById('training-booking-form')?.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const coach = document.getElementById('coach-select').value;
+            const date = document.getElementById('training-date').value;
+            const time = document.getElementById('training-time').value;
+            const length = document.getElementById('training-length').value;
+
+            if (!date || !time || !length) {
+                showModal('Please select date, time, and session length for your training session.');
+                return;
+            }
+
+            const newBooking = {
+                date: date,
+                time: time,
+                coach: document.getElementById('coach-select').options[document.getElementById('coach-select').selectedIndex].text,
+                details: 'Coaching Session',
+                length: `${length} minutes`
+            };
+            trainingBookings.push(newBooking);
+            trainingBookings.sort((a, b) => new Date(a.date + ' ' + a.time) - new Date(b.date + ' ' + b.time));
+            renderCalendar('training', trainingBookings, trainingCurrentDate);
+            showModal('Training session booked successfully! See you on the court!');
+            this.reset();
+        });
+
+        document.getElementById('table-booking-form')?.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const activity = document.getElementById('table-activity').value;
+            const date = document.getElementById('table-date').value;
+            const time = document.getElementById('table-time').value;
+            const length = document.getElementById('table-length').value;
+
+            if (!date || !time || !length) {
+                showModal('Please select date, time, and session length for your table booking.');
+                return;
+            }
+
+            const newBooking = {
+                date: date,
+                time: time,
+                activity: document.getElementById('table-activity').options[document.getElementById('table-activity').selectedIndex].text,
+                details: `Table ${Math.floor(Math.random() * 5) + 1}`, // Random table number
+                length: `${length} minutes`
+            };
+            tableBookings.push(newBooking);
+            tableBookings.sort((a, b) => new Date(a.date + ' ' + a.time) - new Date(b.date + ' ' + b.time));
+            renderCalendar('table', tableBookings, tableCurrentDate);
+            showModal('Table booked successfully! Get ready to play!');
+            this.reset();
+        });
+
+        // Add click effect to all buttons with .button-hover-glow class
+        document.querySelectorAll('.button-hover-glow').forEach(button => {
+            button.addEventListener('click', function() {
+                this.classList.add('button-click-effect');
+                this.addEventListener('animationend', () => {
+                    this.classList.remove('button-click-effect');
+                }, { once: true });
+            });
+        });
+
+        // --- Leaderboard Logic ---
+        function generateRandomPlayers(count, category) {
+            const players = [];
+            const firstNames = ['Alex', 'Ben', 'Chloe', 'Daniel', 'Emily', 'Frank', 'Grace', 'Harry', 'Isla', 'Jack', 'Kate', 'Leo', 'Mia', 'Noah', 'Olivia', 'Peter', 'Quinn', 'Ruby', 'Sam', 'Tina', 'Zack', 'Yara', 'Xavier', 'Wendy', 'Victor', 'Uma', 'Tyler', 'Sophia', 'Ryan', 'Paige'];
+            const lastNames = ['Smith', 'Jones', 'Williams', 'Brown', 'Davis', 'Miller', 'Wilson', 'Moore', 'Taylor', 'Anderson', 'Thomas', 'Jackson', 'White', 'Harris', 'Martin', 'Thompson', 'Garcia', 'Martinez', 'Robinson', 'Clark', 'Lewis', 'King', 'Wright', 'Scott', 'Green', 'Baker', 'Adams', 'Nelson', 'Carter', 'Mitchell'];
+
+            for (let i = 0; i < count; i++) {
+                const firstName = firstNames[Math.floor(Math.random() * firstNames.length)];
+                const lastName = lastNames[Math.floor(Math.random() * lastNames.length)];
+                const name = `${firstName} ${lastName}`;
+                const points = Math.floor(Math.random() * 800) + 200;
+                const matchesPlayed = Math.floor(Math.random() * 50) + 10;
+                const gamesWon = Math.floor(Math.random() * matchesPlayed * 2) + Math.floor(matchesPlayed / 2);
+                const hoursPlayed = Math.floor(Math.random() * 100) + 5;
+                const sattbNumber = `SATTB${Math.floor(Math.random() * 9000) + 1000}`;
+                const yearsPlaying = Math.floor(Math.random() * 10) + 1;
+
+                players.push({
+                    rank: i + 1,
+                    name: name,
+                    points: points,
+                    matchesPlayed: matchesPlayed,
+                    gamesWon: gamesWon,
+                    hoursPlayed: hoursPlayed,
+                    sattbNumber: sattbNumber,
+                    yearsPlaying: yearsPlaying
+                });
+            }
+
+            // Specific player overrides
+            if (category === 'seniors') {
+                const danieIndex = players.findIndex(p => p.name === 'Danie Olivier');
+                if (danieIndex !== -1) {
+                    players[danieIndex].points = 1500;
+                    players[danieIndex].yearsPlaying = 12;
+                } else {
+                    players.unshift({ rank: 1, name: 'Danie Olivier', points: 1500, matchesPlayed: 60, gamesWon: 150, hoursPlayed: 200, sattbNumber: 'SATTB0001', yearsPlaying: 12 });
+                    if (players.length > count) players.pop();
+                }
+            } else if (category === 'u19') {
+                const luanIndex = players.findIndex(p => p.name === 'Luan Kruger');
+                if (luanIndex !== -1) {
+                    players[luanIndex].points = 1000;
+                    players[luanIndex].yearsPlaying = 5;
+                } else {
+                    players.unshift({ rank: 1, name: 'Luan Kruger', points: 1000, matchesPlayed: 30, gamesWon: 70, hoursPlayed: 50, sattbNumber: 'SATTB0002', yearsPlaying: 5 });
+                    if (players.length > count) players.pop();
+                }
+            }
+
+            // Sort by points for ranking
+            players.sort((a, b) => b.points - a.points);
+            // Reassign rank after sorting
+            players.forEach((player, index) => player.rank = index + 1);
+            return players;
+        }
+
+        const playersData = {
+            seniors: generateRandomPlayers(20, 'seniors'),
+            vets: generateRandomPlayers(20, 'vets'),
+            u19: generateRandomPlayers(20, 'u19'),
+            u15: generateRandomPlayers(20, 'u15'),
+            u13: generateRandomPlayers(20, 'u13'),
+            u11: generateRandomPlayers(20, 'u11'),
+        };
+
+        const leagueTeamsData = {
+            'team-a': { name: 'The Aces', players: ['Alice Smith', 'Bob Johnson', 'Charlie Brown'] },
+            'team-b': { name: 'Blue Blasters', players: ['Diana Miller', 'Eve Davis', 'Frank White'] },
+            'team-c': { name: 'Comet Crushers', players: ['Grace Taylor', 'Henry Wilson', 'Ivy Moore'] },
+            'team-d': { name: 'Dynamo Drifters', players: ['Jack Green', 'Karen Hall', 'Liam King'] },
+            'team-e': { name: 'Elite Eagles', players: ['Mia Wright', 'Noah Scott', 'Olivia Adams'] },
+            'team-f': { name: 'Furious Flames', players: ['Peter Baker', 'Quinn Nelson', 'Ruby Carter'] },
+            'team-g': { name: 'Galactic Gliders', players: ['Sam Mitchell', 'Tina Roberts', 'Uma Phillips'] },
+            'team-h': { name: 'Hurricane Hitters', players: ['Victor Campbell', 'Wendy Parker', 'Xavier Evans'] },
+            'team-i': { name: 'Inferno Invaders', players: ['Yara Edwards', 'Zack Collins', 'Abby Stewart'] },
+            'team-j': { name: 'Jolt Jaguars', players: ['Ben Foster', 'Chloe Gray', 'David Bell'] },
+            'team-k': { name: 'Kinetic Knights', players: ['Emma Cox', 'Fred Rogers', 'Georgia Price'] },
+            'team-l': { name: 'Lightning Legends', players: ['Hannah Long', 'Ian Perez', 'Julia Flores'] },
+        };
+
+        let currentLeaderboardCategory = 'seniors';
+
+        function renderLeaderboard(category, searchTerm = '') {
+            currentLeaderboardCategory = category;
+            const leaderboardBody = document.getElementById('leaderboard-body');
+            leaderboardBody.innerHTML = '';
+
+            let players = playersData[category];
+            if (!players) {
+                leaderboardBody.innerHTML = `<tr><td colspan="4" class="py-4 text-center text-gray-400">No data for this category.</td></tr>`;
+                return;
+            }
+
+            const lowerCaseSearchTerm = searchTerm.toLowerCase();
+            players = players.filter(player => player.name.toLowerCase().includes(lowerCaseSearchTerm));
+
+            if (players.length === 0) {
+                leaderboardBody.innerHTML = `<tr><td colspan="4" class="py-4 text-center text-gray-400">No players found matching "${searchTerm}".</td></tr>`;
+                return;
+            }
+
+
+            players.forEach((player, index) => {
+                const row = document.createElement('tr');
+                row.classList.add('hover:bg-gray-800', 'transition-colors', 'duration-200', 'animated-card'); // Ensure animated-card is here
+                row.innerHTML = `
+                    <td class="py-3 px-4 whitespace-nowrap text-lg font-semibold neon-text-purple">${player.rank}</td>
+                    <td class="py-3 px-4 whitespace-nowrap text-gray-200 cursor-pointer player-name-clickable" data-player-name="${player.name}">${player.name}</td>
+                    <td class="py-3 px-4 whitespace-nowrap text-gray-200">${player.points}</td>
+                    <td class="py-3 px-4 whitespace-nowrap text-gray-200">${player.matchesPlayed}</td>
+                `;
+                leaderboardBody.appendChild(row);
+                // OBSERVE THE NEWLY CREATED ROW
+                observer.observe(row); // <--- THIS IS THE FIX
+            });
+
+            // Add click listeners to player names for pop-up
+            document.querySelectorAll('.player-name-clickable').forEach(nameElement => {
+                nameElement.addEventListener('click', function() {
+                    const playerName = this.dataset.playerName;
+                    const player = playersData[currentLeaderboardCategory].find(p => p.name === playerName);
+                    if (player) {
+                        showPlayerDetailsModal(player);
+                    }
+                });
+            });
+
+
+            // Update active tab styling
+            document.querySelectorAll('.leaderboard-tab').forEach(tab => {
+                tab.classList.remove('active-tab', 'bg-neon-purple', 'text-black');
+                tab.classList.add('bg-gray-800', 'text-gray-300');
+            });
+            document.querySelector(`.leaderboard-tab[data-category="${category}"]`).classList.add('active-tab', 'bg-neon-purple', 'text-black');
+            document.querySelector(`.leaderboard-tab[data-category="${category}"]`).classList.remove('bg-gray-800', 'text-gray-300');
+        }
+
+        // Add event listeners for leaderboard tabs
+        document.querySelectorAll('.leaderboard-tab').forEach(tab => {
+            tab.addEventListener('click', function() {
+                const category = this.dataset.category;
+                renderLeaderboard(category, document.getElementById('player-search').value);
+            });
+        });
+
+        // Search bar event listener
+        document.getElementById('player-search')?.addEventListener('input', function() {
+            renderLeaderboard(currentLeaderboardCategory, this.value);
+        });
+
+        // Function to show player details modal
+        function showPlayerDetailsModal(player) {
+            const playerDetailsHtml = `
+                <h3 class="text-3xl font-semibold mb-4 neon-text">Player Details: ${player.name}</h3>
+                <ul class="list-none text-left space-y-2 text-lg text-gray-300">
+                    <li><span class="neon-text-orange font-semibold">SATTB Number:</span> ${player.sattbNumber}</li>
+                    <li><span class="neon-text-orange font-semibold">Rank:</span> ${player.rank}</li>
+                    <li><span class="neon-text-orange font-semibold">Points:</span> ${player.points}</li>
+                    <li><span class="neon-text-orange font-semibold">Matches Played:</span> ${player.matchesPlayed}</li>
+                    <li><span class="neon-text-orange font-semibold">Games Won:</span> ${player.gamesWon}</li>
+                    <li><span class="neon-text-orange font-semibold">Hours at Club:</span> ${player.hoursPlayed}</li>
+                    <li><span class="neon-text-orange font-semibold">Years Playing:</span> ${player.yearsPlaying}</li>
+                </ul>
+            `; // Removed the Get Player Insight button and its div
+            showModal('', playerDetailsHtml);
+        }
+
+        // --- League Team Details Modal Logic ---
+        document.querySelectorAll('.team-name-clickable').forEach(teamNameElement => {
+            teamNameElement.addEventListener('click', function(e) {
+                e.preventDefault();
+                const teamId = this.dataset.teamId;
+                const team = leagueTeamsData[teamId];
+                if (team) {
+                    showTeamDetailsModal(team);
+                }
+            });
+        });
+
+        function showTeamDetailsModal(team) {
+            const playersListHtml = team.players.map(player => `<li><span class="neon-text-orange font-semibold">${player}</span></li>`).join('');
+            const teamDetailsHtml = `
+                <h3 class="text-3xl font-semibold mb-4 neon-text">Team: ${team.name}</h3>
+                <h4 class="text-2xl font-semibold mb-4 neon-text-purple">Players:</h4>
+                <ul class="list-disc list-inside text-left space-y-2 text-lg text-gray-300">
+                    ${playersListHtml}
+                </ul>
+            `;
+            showModal('', teamDetailsHtml);
+        }
+
+        // --- LLM Integration: Dynamic "Pro Tip" Logic ---
+        document.getElementById('quote-button')?.addEventListener('click', async () => {
+            const quoteDisplay = document.getElementById('quote-display');
+            const quoteText = document.getElementById('quote-text');
+            const quotePlayer = document.getElementById('quote-player');
+            const loadingSpinner = document.getElementById('quote-loading-spinner');
+
+            // Show loading state
+            quoteDisplay.style.display = 'block';
+            quoteText.textContent = ''; // Clear previous text
+            quotePlayer.textContent = ''; // Clear previous player
+            loadingSpinner.style.display = 'block';
+
+            try {
+                const prompt = "Generate a concise and motivational table tennis tip or strategy. Also provide the name of a famous or fictional table tennis player who might say it. Format the response as a JSON object with 'quote' (string) and 'player' (string) properties.";
+
+                let chatHistory = [];
+                chatHistory.push({ role: "user", parts: [{ text: prompt }] });
+                const payload = {
+                    contents: chatHistory,
+                    generationConfig: {
+                        responseMimeType: "application/json",
+                        responseSchema: {
+                            type: "OBJECT",
+                            properties: {
+                                "quote": { "type": "STRING" },
+                                "player": { "type": "STRING" }
+                            },
+                            "propertyOrdering": ["quote", "player"]
+                        }
+                    }
+                };
+                const apiKey = ""; // Canvas will automatically provide the API key
+                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                const result = await response.json();
+
+                if (result.candidates && result.candidates.length > 0 &&
+                    result.candidates[0].content && result.candidates[0].content.parts &&
+                    result.candidates[0].content.parts.length > 0) {
+                    const jsonString = result.candidates[0].content.parts[0].text;
+                    const tipData = JSON.parse(jsonString);
+
+                    quoteText.textContent = `"${tipData.quote}"`;
+                    quotePlayer.textContent = tipData.player;
+                    quoteDisplay.style.animation = 'none';
+                    void quoteDisplay.offsetWidth; // Trigger reflow for animation reset
+                    quoteDisplay.style.animation = 'fadeInSlideUp 0.8s ease-out forwards';
+                } else {
+                    quoteText.textContent = "Failed to get a pro tip. Please try again.";
+                    quotePlayer.textContent = "";
+                    console.error('Gemini API response structure unexpected for pro tip:', result);
+                }
+            } catch (error) {
+                console.error('Error calling Gemini API for pro tip:', error);
+                quoteText.textContent = "Error getting pro tip. Please try again later.";
+                quotePlayer.textContent = "";
+            } finally {
+                loadingSpinner.style.display = 'none'; // Hide spinner
+            }
+        });
+
+        // --- LLM Integration: Suggest Training Drills ---
+        document.getElementById('suggest-drills-button')?.addEventListener('click', async () => {
+            const coachSelect = document.getElementById('coach-select');
+            const selectedCoachText = coachSelect.options[coachSelect.selectedIndex].text;
+            const drillSuggestionsDiv = document.getElementById('drill-suggestions');
+            const drillSuggestionsMessage = document.getElementById('drill-suggestions-message');
+            const loadingSpinner = document.getElementById('drills-loading-spinner');
+
+            drillSuggestionsDiv.style.display = 'block';
+            drillSuggestionsMessage.innerHTML = ''; // Clear previous drills
+            loadingSpinner.style.display = 'block'; // Show spinner
+
+            const coachLevel = selectedCoachText.includes('Beginner/Intermediate') ? 'beginner to intermediate' :
+                               selectedCoachText.includes('Intermediate/Advanced') ? 'intermediate to advanced' :
+                               'all levels, focusing on strategy';
+
+            try {
+                const prompt = `Generate 3-4 distinct table tennis training drill suggestions for a coach specializing in ${coachLevel} players. For each drill, provide a concise name and a brief description of how to perform it. Format the response as a JSON array of objects, where each object has 'name' (string) and 'description' (string) properties.`;
+
+                let chatHistory = [];
+                chatHistory.push({ role: "user", parts: [{ text: prompt }] });
+                const payload = {
+                    contents: chatHistory,
+                    generationConfig: {
+                        responseMimeType: "application/json",
+                        responseSchema: {
+                            type: "ARRAY",
+                            items: {
+                                type: "OBJECT",
+                                properties: {
+                                    "name": { "type": "STRING" },
+                                    "description": { "type": "STRING" }
+                                },
+                                "propertyOrdering": ["name", "description"]
+                            }
+                        }
+                    }
+                };
+                const apiKey = ""; // Canvas will automatically provide the API key
+                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                const result = await response.json();
+
+                if (result.candidates && result.candidates.length > 0 &&
+                    result.candidates[0].content && result.candidates[0].content.parts &&
+                    result.candidates[0].content.parts.length > 0) {
+                    const jsonString = result.candidates[0].content.parts[0].text;
+                    const drills = JSON.parse(jsonString);
+
+                    let drillsHtml = '<h4 class="text-2xl font-semibold mb-4 neon-text-purple">Suggested Drills:</h4><ul class="list-disc list-inside space-y-3 text-left">';
+                    drills.forEach(drill => {
+                        drillsHtml += `<li><span class="neon-text-orange font-semibold">${drill.name}:</span> ${drill.description}</li>`;
+                    });
+                    drillsHtml += '</ul>';
+                    drillSuggestionsMessage.innerHTML = drillsHtml;
+                } else {
+                    drillSuggestionsMessage.innerHTML = '<p class="text-red-400">Failed to generate drills. Please try again.</p>';
+                    console.error('Gemini API response structure unexpected for drills:', result);
+                }
+            } catch (error) {
+                console.error('Error calling Gemini API for drills:', error);
+                drillSuggestionsMessage.innerHTML = '<p class="text-red-400">Error generating drills. Please try again later.</p>';
+            } finally {
+                loadingSpinner.style.display = 'none'; // Hide spinner
+            }
+        });
+
+        // --- Accessories Modal Logic ---
+        function showAccessoriesModal() {
+            const accessoriesOptions = [
+                { value: 'water-bottle', text: 'Water Bottle' },
+                { value: 'bat-case', text: 'Bat Case' },
+                { value: 'bag', text: 'Club Bag' },
+                { value: 'backpack', text: 'Backpack' },
+                { value: 'cleaner', text: 'Rubber Cleaner' },
+                { value: 'keychain', text: 'Keychain' }
+            ];
+
+            let dropdownHtml = `
+                <h3 class="text-3xl font-semibold mb-4 neon-text">Select Your Accessory</h3>
+                <div class="mb-6">
+                    <label for="accessory-select" class="block text-lg font-medium text-gray-300 mb-2">Choose Accessory:</label>
+                    <select id="accessory-select" class="w-full p-3 rounded-md bg-gray-800 border border-gray-700 focus:border-neon-blue focus:ring focus:ring-neon-blue focus:ring-opacity-50 transition-all duration-200">
+                        ${accessoriesOptions.map(option => `<option value="${option.value}">${option.text}</option>`).join('')}
+                    </select>
+                </div>
+                <button onclick="orderSelectedAccessory()" class="py-2 px-6 rounded-md button-hover-glow mx-auto block ripple-container">
+                    Order Selected Accessory
+                </button>
+            `;
+            showModal('', dropdownHtml);
+        }
+
+        function orderSelectedAccessory() {
+            const selectElement = document.getElementById('accessory-select');
+            const selectedAccessory = selectElement.options[selectElement.selectedIndex].text;
+            showModal(`Great choice! You want to order a <span class="neon-text-orange">${selectedAccessory}</span>. Please contact us at merch@fusiontt.club to finalize your order.`);
+        }
+
+        // --- Three.js Silk Animation Wallpaper Logic ---
+        let scene, camera, renderer, mesh, clock, particles;
+
+        const DEFAULT_PROPS_THREEJS = {
+            speed: 5,
+            scale: 1,
+            color1: "#00F0FF", // Turquoise
+            color2: "#8A2BE2", // Purple
+            color3: "#FF7F00", // Orange
+            noiseIntensity: 1.5,
+            rotation: 0,
+        };
+
+        const hexToNormalizedRGB = (hex) => {
+            hex = hex.replace("#", "");
+            return [
+                parseInt(hex.slice(0, 2), 16) / 255,
+                parseInt(hex.slice(2, 4), 16) / 255,
+                parseInt(hex.slice(4, 6), 16) / 255,
+            ];
+        };
+
+        const vertexShader = `
+            varying vec2 vUv;
+            varying vec3 vPosition;
+
+            void main() {
+                vPosition = position;
+                vUv = uv;
+                gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+            }
+        `;
+
+        const fragmentShader = `
+            varying vec2 vUv;
+            varying vec3 vPosition;
+
+            uniform float uTime;
+            uniform vec3  uColor1;
+            uniform vec3  uColor2;
+            uniform vec3  uColor3;
+            uniform float uSpeed;
+            uniform float uScale;
+            uniform float uRotation;
+            uniform float uNoiseIntensity;
+
+            const float e = 2.71828182845904523536; // Euler's number
+
+            float noise(vec2 texCoord) {
+                float G = e;
+                vec2  r = (G * sin(G * texCoord));
+                return fract(r.x * r.y * (1.0 + texCoord.x));
+            }
+
+            vec2 rotateUvs(vec2 uv, float angle) {
+                float c = cos(angle);
+                float s = sin(angle);
+                mat2  rot = mat2(c, -s, s, c);
+                return rot * uv;
+            }
+
+            void main() {
+                float rnd      = noise(gl_FragCoord.xy); // Random value for noise
+                vec2  uv       = rotateUvs(vUv * uScale, uRotation); // Rotated and scaled UVs
+                vec2  tex      = uv * uScale; // Further scaled texture coordinates
+                float tOffset  = uSpeed * uTime; // Time offset for animation
+
+                // Apply a wave effect to the Y-coordinate of the texture
+                tex.y += 0.03 * sin(8.0 * tex.x - tOffset);
+
+                // Create a dynamic gradient using the three colors
+                vec3 gradientColor = mix(uColor1, uColor2, uv.y + sin(uTime * 0.1 + uv.x * 0.5) * 0.1);
+                gradientColor = mix(gradientColor, uColor3, uv.x + cos(uTime * 0.05 + uv.y * 0.3) * 0.1);
+
+
+                // Create the main pattern using sine waves
+                float pattern = 0.6 +
+                                0.4 * sin(5.0 * (tex.x + tex.y +
+                                                 cos(3.0 * tex.x + 5.0 * tex.y) +
+                                                 0.02 * tOffset) +
+                                         sin(20.0 * (tex.x + tex.y - 0.1 * tOffset)));
+
+                // Calculate the final color, applying the pattern, base color, and noise
+                vec4 col = vec4(gradientColor, 1.0) * vec4(pattern) - rnd / 15.0 * uNoiseIntensity;
+                col.a = 1.0; // Ensure full opacity
+                gl_FragColor = col;
+            }
+        `;
+
+        function initThreeJS() {
+            const container = document.getElementById('threejs-container');
+            if (!container) {
+                console.error('Three.js container not found!');
+                return;
+            }
+
+            scene = new THREE.Scene();
+
+            camera = new THREE.OrthographicCamera(
+                window.innerWidth / -2,
+                window.innerWidth / 2,
+                window.innerHeight / 2,
+                window.innerHeight / -2,
+                1,
+                1000
+            );
+            camera.position.z = 1;
+
+            renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true }); // Enable alpha for transparency if needed
+            renderer.setPixelRatio(window.devicePixelRatio);
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            container.appendChild(renderer.domElement);
+
+            const geometry = new THREE.PlaneGeometry(1, 1);
+
+            // Updated Three.js colors to match the new blueish gradient
+            const uniforms = {
+                uSpeed: { value: DEFAULT_PROPS_THREEJS.speed },
+                uScale: { value: DEFAULT_PROPS_THREEJS.scale },
+                uNoiseIntensity: { value: DEFAULT_PROPS_THREEJS.noiseIntensity },
+                uColor1: { value: new THREE.Color(0x051020) }, /* Darkest blue from gradient */
+                uColor2: { value: new THREE.Color(0x0A1A30) }, /* Middle blue from gradient */
+                uColor3: { value: new THREE.Color(0x0F2040) }, /* Lightest blue from gradient */
+                uRotation: { value: DEFAULT_PROPS_THREEJS.rotation },
+                uTime: { value: 0 },
+            };
+
+            const material = new THREE.ShaderMaterial({
+                uniforms: uniforms,
+                vertexShader: vertexShader,
+                fragmentShader: fragmentShader,
+                transparent: true, // Set to true if you want background to show through
+            });
+
+            mesh = new THREE.Mesh(geometry, material);
+            scene.add(mesh);
+
+            // --- Particle System ---
+            const particleCount = 500;
+            const particleGeometry = new THREE.BufferGeometry();
+            const positions = new Float32Array(particleCount * 3);
+            const colors = new Float32Array(particleCount * 3);
+            const sizes = new Float32Array(particleCount);
+
+            const colorPalette = [
+                new THREE.Color(0x00F0FF), // Neon Blue
+                new THREE.Color(0x8A2BE2), // Neon Purple
+                new THREE.Color(0xFF7F00)  // Neon Orange
+            ];
+
+            for (let i = 0; i < particleCount; i++) {
+                // Position particles randomly across the screen dimensions
+                positions[i * 3 + 0] = (Math.random() - 0.5) * window.innerWidth;  // X
+                positions[i * 3 + 1] = (Math.random() - 0.5) * window.innerHeight; // Y
+                positions[i * 3 + 2] = (Math.random() - 0.5) * 200; // Z depth
+
+                // Assign random color from palette
+                const color = colorPalette[Math.floor(Math.random() * colorPalette.length)];
+                colors[i * 3 + 0] = color.r;
+                colors[i * 3 + 1] = color.g;
+                colors[i * 3 + 2] = color.b;
+
+                // Random size for particles
+                sizes[i] = Math.random() * 3 + 1; // Size between 1 and 4
+            }
+
+            particleGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+            particleGeometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+            particleGeometry.setAttribute('size', new THREE.BufferAttribute(sizes, 1));
+
+            const particleMaterial = new THREE.PointsMaterial({
+                size: 5, // Base size, will be multiplied by 'size' attribute
+                vertexColors: true, // Enable per-vertex colors
+                transparent: true,
+                opacity: 0.8,
+                blending: THREE.AdditiveBlending, // For glowing effect
+                sizeAttenuation: true // Particles closer to camera appear larger
+            });
+
+            particles = new THREE.Points(particleGeometry, particleMaterial);
+            scene.add(particles);
+
+            clock = new THREE.Clock();
+
+            onWindowResizeThreeJS();
+            window.addEventListener('resize', onWindowResizeThreeJS);
+
+            animateThreeJS();
+        }
+
+        function onWindowResizeThreeJS() {
+            camera.left = window.innerWidth / -2;
+            camera.right = window.innerWidth / 2;
+            camera.top = window.innerHeight / 2;
+            camera.bottom = window.innerHeight / -2;
+            camera.updateProjectionMatrix();
+
+            renderer.setSize(window.innerWidth, window.innerHeight);
+
+            if (mesh) {
+                mesh.scale.set(window.innerWidth, window.innerHeight, 1);
+            }
+
+            // Update particle positions on resize to fill new screen dimensions
+            if (particles) {
+                const positions = particles.geometry.attributes.position.array;
+                const particleCount = positions.length / 3;
+                for (let i = 0; i < particleCount; i++) {
+                    positions[i * 3 + 0] = (Math.random() - 0.5) * window.innerWidth;
+                    positions[i * 3 + 1] = (Math.random() - 0.5) * window.innerHeight;
+                }
+                particles.geometry.attributes.position.needsUpdate = true;
+            }
+        }
+
+        function animateThreeJS() {
+            requestAnimationFrame(animateThreeJS);
+
+            const delta = clock.getDelta();
+
+            if (mesh && mesh.material && mesh.material.uniforms && mesh.material.uniforms.uTime) {
+                mesh.material.uniforms.uTime.value += 0.1 * delta;
+            }
+
+            // Animate particles subtly
+            if (particles) {
+                const positions = particles.geometry.attributes.position.array;
+                const particleCount = positions.length / 3;
+                for (let i = 0; i < particleCount; i++) {
+                    // Subtle upward drift and horizontal sway
+                    positions[i * 3 + 1] += 0.5 * delta; // move up
+                    positions[i * 3 + 0] += Math.sin(positions[i * 3 + 1] * 0.01 + i) * 0.1 * delta; // sway horizontally
+
+                    // Wrap particles around if they go off screen
+                    if (positions[i * 3 + 1] > window.innerHeight / 2) {
+                        positions[i * 3 + 1] = -window.innerHeight / 2;
+                    }
+                }
+                particles.geometry.attributes.position.needsUpdate = true;
+            }
+
+            renderer.render(scene, camera);
+        }
+
+        // Initialize Three.js after the DOM is fully loaded
+        window.addEventListener('load', initThreeJS);
+
+    </script>
+</body>
+</html>
